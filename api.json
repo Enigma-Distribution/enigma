@@ -30,7 +30,7 @@
     }
 },
 {
-    "api":"/task/create-task",
+    "api":"/task/newtask",
     "method":"POST",
     "body":{
         "task_name":"text",
@@ -43,7 +43,7 @@
     }
 },
 {
-    "api":"/task/get-my-tasks",
+    "api":"/task/alltasks",
     "method":"POST",
     "body":{},
     "response":{
@@ -52,9 +52,11 @@
     }
 },
 {
-    "api":"/task/:id",
-    "method":"GET",
-    "body":{},
+    "api":"/task",
+    "method":"POST",
+    "body":{
+        "task_id": "task_id",
+    },
     "response":{
         "STATUS":"OK",
         "task": {}
