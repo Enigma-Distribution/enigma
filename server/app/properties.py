@@ -16,6 +16,7 @@ aws_access_key_id = os.getenv("aws_access_key_id")
 aws_secret_access_key = os.getenv("aws_secret_access_key")
 aws_session_token = os.getenv("aws_session_token")
 
+
 __PG_CONNECTION__ = None
 try:
     __PG_CONNECTION__ = psycopg2.connect(postgres_url)

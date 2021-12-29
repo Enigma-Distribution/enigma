@@ -1,9 +1,11 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Blueprint
 from app import app
 from app.interfaces import tasks as task_service
 from app.exceptions import EnigmaException
 from werkzeug.utils import secure_filename
 from app.constants import SERVER_ERROR
+
+app = Blueprint("task_service", __name__)
 
 @app.route('/alltasks', methods=['POST'])
 def alltasks(current_user):

@@ -1,12 +1,14 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Blueprint
 from app import app
 
 from app.interfaces import users as auth_service
-from app.middlewares import authentication_required
+from app.middlewares import user_required
 from app.exceptions import EnigmaException
 from app.utils import get_object_from_token, get_token_from_object
 from app.properties import get_site_secret_key
 from app.constants import SERVER_ERROR, INCOMPLETE_DATA
+
+app = Blueprint("auth_service", __name__)
 
 @app.route('/auth/verify', methods=['POST'])
 def authenticate_token():
@@ -29,12 +31,13 @@ def authenticate_user():
         data = request.get_json()
         email = data['email']
         password = data['password']
-        username = auth_service.get_username_from_email_password(email, password)
+        data = auth_service.get_username_from_email_password(email, password)
         token_contents = {
-            "USERNAME": username
+            "USER_ID": data[0]
         }
         token = get_token_from_object(token_contents, get_site_secret_key(), 7200)
-        return jsonify({"STATUS": "OK", "TOKEN": token})
+        username = data[1]
+        return jsonify({"STATUS": "OK", "TOKEN": token, "USERNAME": username})
     except KeyError as e:
         return jsonify({"STATUS": "FAIL", "MSG": INCOMPLETE_DATA + str(e)})
     except EnigmaException as e:
@@ -44,7 +47,7 @@ def authenticate_user():
 
 @app.route('/authentication/tokens/create', methods=['POST'])
 @user_required
-def create_access_token(username):
+def create_access_token(user_id):
     try:
         data = request.get_json()
         access_rights = data['access_rights']
@@ -53,7 +56,7 @@ def create_access_token(username):
         token_contents = {
             "ACCESS_RIGHTS": access_rights,
             "TASK_ID": task_id,
-            "USERNAME": username
+            "USER_ID": user_id
         }
         if valid_till == "-":
             valid_till = None
@@ -72,10 +75,10 @@ def create_user():
         data = request.get_json()
         email = data['email']
         password = data['password']
-        name = data['name']
-        user = auth_service.create_user(name, email, password)
+        username = data['username']
+        user = auth_service.create_user(username, email, password)
         token_contents = {
-                "USERNAME": user['organization_id']
+                "USER_ID": user['user_id']
             }
         token = get_token_from_object(token_contents, get_site_secret_key(), 7200)
         return jsonify({"STATUS": "OK", "TOKEN": token})
