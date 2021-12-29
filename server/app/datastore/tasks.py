@@ -1,15 +1,15 @@
 from app.properties import get_pg_connection
 
-QUERY_INSERT_TASK = "INSERT INTO tasks(task_id, user, date_created, name, mapfile_id, reducefile_id, data_source, status) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+QUERY_INSERT_TASK = "INSERT INTO tasks(task_id, user, task_name, task_description, task_created_ts, task_zip_file_id, datasource_size, task_status) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
 
-QUERY_GET_ALL_TASKS = "SELECT task_id, name, date_created, mapfile_id, reducefile_id, data_source, status FROM tasks WHERE user = %s ORDER BY created_ts DESC"
+QUERY_GET_ALL_TASKS = "SELECT task_id, task_name, task_description, task_created_ts, task_zip_file_id, datasource_size, task_status FROM tasks WHERE user = %s ORDER BY task_created_ts DESC"
 
-QUERY_GET_SPECIFIC_TASK = "SELECT task_id, name, date_created, mapfile_id, reducefile_id, data_source, status FROM tasks WHERE task_id = %s AND user = %s"
+QUERY_GET_SPECIFIC_TASK = "SELECT task_id, task_name, task_description, task_created_ts, task_zip_file_id, datasource_size, task_status FROM tasks WHERE task_id = %s AND user = %s"
 
 db = get_pg_connection()
 
 def insert_task(task, user):
-    values = (task['task_id'], user, task['date_created'], task['name'], task['mapfile_id'], task['reducefile_id'], task['data_source'], task['status'])
+    values = (task['task_id'], user, task['task_name'], task['task_description'], task['task_created_ts'], task['task_zip_file_id'], task['datasource_size'], task['task_status'])
     with db:
         with db.cursor() as cursor:
             cursor.execute(QUERY_INSERT_TASK, values)

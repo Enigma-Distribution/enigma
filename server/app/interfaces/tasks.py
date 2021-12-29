@@ -3,16 +3,16 @@ from uuid import uuid4
 from time import time
 from app.exceptions import TaskNotFoundException
 
-def create_task(user, name, mapfile_id, reducefile_id, data_source, status):
+def create_task(user, task_name, task_description, task_created_ts, task_zip_file_id, datasource_size, task_status):
     task = {
         "task_id": str(uuid4()),
-        "user": user,
-        "name": name,
-        "date_created": str(int(time())),
-        "mapfile_id": mapfile_id,
-        "reducefile_id": reducefile_id,
-        "data_source": data_source,
-        "status": status
+        "user_id": user.user_id,
+        "task_name": task_name,
+        "task_description": task_description,
+        "task_created_ts": str(int(time())),
+        "task_zip_file_id": task_zip_file_id,
+        "datasource_size": datasource_size,
+        "task_status": task_status,
     }
     tasks_db.insert_task(task, user)
     return task
@@ -23,12 +23,12 @@ def get_all_tasks(user):
     for task in taskdata:
         data.append({
             "task_id": task[0],
-            "name":  task[1],
-            "date_created": task[2],
-            "mapfile_id":  task[3],
-            "reducefile_id":  task[4],
-            "data_source":  task[5],
-            "status": task[6],
+            "task_name": task[1],
+            "task_description": task[2],
+            "task_created_ts": task[3],
+            "task_zip_file_id": task[4],
+            "datasource_size": task[5],
+            "task_status": task[6],
             })
     return data
 
@@ -37,12 +37,13 @@ def get_selected_task(task_id, user):
     if not task_details:
         raise TaskNotFoundException
     task = {
-            "task_id": task[0],
-            "name":  task[1],
-            "date_created": task[2],
-            "mapfile_id":  task[3],
-            "reducefile_id":  task[4],
-            "data_source":  task[5],
-            "status": task[6],
+            "task_id": task_details[0],
+            "task_name": task_details[1],
+            "task_description": task_details[2],
+            "task_created_ts": task_details[3],
+            "task_zip_file_id": task_details[4],
+            "datasource_size": task_details[5],
+            "task_status": task_details[6],
         }
+        #add task completion status in %
     return task
