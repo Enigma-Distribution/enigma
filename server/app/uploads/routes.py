@@ -1,36 +1,29 @@
 from flask import Blueprint
 from flask import Flask, request, jsonify
 from app import app
-from app.properties import get_aws_access_key_id, get_aws_secret_access_key, get_aws_session_token, get_s3_bucket_name
+from app.properties import get_s3_bucket
 from app.exceptions import EnigmaException
 from werkzeug.utils import secure_filename
-import boto3
 import uuid
 from app.constants import SERVER_ERROR
 
-s3 = boto3.client("s3",
-                    aws_access_key_id = get_aws_access_key_id(),
-                    aws_secret_access_key = get_aws_secret_access_key(),
-                    aws_session_token = get_aws_session_token()
-                     )
 uploads = Blueprint('uploads', __name__)
 
-@uploads.route("/upload-file")
+@uploads.route("/upload-file", methods=['POST'])
 def upload_file():
     try:
         file = request.files['file']
         if file:
-            filename = uuid.uuid4()
-            file.save(filename)
-            s3.upload_file(
-                Bucket = get_s3_bucket_name(),
-                Filename = filename,
-                Key = filename
+            file_id = uuid.uuid4()
+            s3_bucket_instance = get_s3_bucket()
+            s3_bucket_instance.put_object(
+                Key=file_id,
+                Body=file,
+                ACL='public-read'
             )
-        return jsonify({"STATUS": "OK", "file_id": filename})
+        return jsonify({"STATUS": "OK", "file_id": file_id})
     except Exception as e:
         return jsonify({"STATUS": "FAIL", "MSG": SERVER_ERROR}), 501
-
 
 # s3.meta.client.download_file('BUCKET_NAME', 'FILENAME.txt', '/TASKID/FILENAME.txt')
 

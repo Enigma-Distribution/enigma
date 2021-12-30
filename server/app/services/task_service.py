@@ -28,8 +28,8 @@ def newtask(current_user):
         task = task_service.create_task(current_user, task_name, task_description, task_zip_file_id, datasource_size, task_status)
         
         #Divide the Datasource file
-        #Create Steps
-        #Add Steps to Queue
+        #Create Steps -> Add to db
+        #Add Steps to Queue -> RabbitMQ
         
         return jsonify({"STATUS": "OK", "TASK": task})
     except Exception as e:

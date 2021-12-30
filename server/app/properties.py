@@ -2,6 +2,7 @@ import os
 import psycopg2
 import traceback
 from dotenv import load_dotenv
+import boto3
 
 if os.path.exists(".env"):
     load_dotenv()
@@ -16,6 +17,12 @@ aws_access_key_id = os.getenv("aws_access_key_id")
 aws_secret_access_key = os.getenv("aws_secret_access_key")
 aws_session_token = os.getenv("aws_session_token")
 
+__S3__ = boto3.resource('s3',
+                        aws_access_key_id=aws_access_key_id,
+                        aws_secret_access_key=aws_secret_access_key)
+
+__BUCKET_NAME__ = os.getenv("BUCKET_NAME")
+__BUCKET_INSTANCE__ = __S3__.Bucket(__BUCKET_NAME__)
 
 __PG_CONNECTION__ = None
 try:
@@ -43,3 +50,9 @@ def get_aws_secret_access_key():
 
 def get_aws_session_token():
     return aws_session_token
+
+def get_s3_bucket():
+    return __BUCKET_INSTANCE__
+
+def get_bucket_name():
+    return __BUCKET_NAME__
