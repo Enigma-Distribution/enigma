@@ -1,9 +1,9 @@
-
+from app.properties import get_site_secret_key
 import os
 from flask import Flask
 from flask_cors import CORS
-
 app = Flask(__name__)  # , template_folder=template_dir
+app.config['SECRET_KEY'] = get_site_secret_key()
 
 CORS(app)
 

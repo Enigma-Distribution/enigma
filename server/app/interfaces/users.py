@@ -15,7 +15,7 @@ def create_user(username, email, secret):
         user = {
             "user_id": str(uuid4()),
             "username": username,
-            "date_added": str(int(time())),
+            # "date_added": str(int(time())),
             "secret": sha256(secret.encode('utf-8')).hexdigest(),
             "email": email
         }
@@ -29,7 +29,7 @@ def create_user(username, email, secret):
 
 def get_username_from_email_password(email, secret):
     secret = sha256(secret.encode('utf-8')).hexdigest()
-    data = users_db.select_org_id_from_email_pass(email, secret)
+    data = users_db.select_user_id_from_email_pass(email, secret)
     if data and len(data) > 0:
         return data
     raise PasswordMismatchException

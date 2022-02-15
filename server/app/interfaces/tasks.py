@@ -3,13 +3,13 @@ from uuid import uuid4
 from time import time
 from app.exceptions import TaskNotFoundException
 
-def create_task(user, task_name, task_description, task_created_ts, task_zip_file_id, datasource_size, task_status):
+def create_task(user, task_name, task_description, task_zip_file_id, datasource_size, task_status):
     task = {
         "task_id": str(uuid4()),
-        "user_id": user.user_id,
+        "user_id": user,
         "task_name": task_name,
         "task_description": task_description,
-        "task_created_ts": str(int(time())),
+        # "task_created_ts": str(int(time())),
         "task_zip_file_id": task_zip_file_id,
         "datasource_size": datasource_size,
         "task_status": task_status,

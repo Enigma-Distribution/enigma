@@ -87,7 +87,7 @@ def create_user():
     except EnigmaException as e:
         return jsonify({"STATUS": "FAIL", "MSG": str(e)})
     except Exception as e:
-        return jsonify({"STATUS": "FAIL", "MSG": SERVER_ERROR}), 501
+        return jsonify({"STATUS": "FAIL", "MSG": str(e)}), 501
 
 # @app.route('/register', methods=['POST'])
 # def register():
