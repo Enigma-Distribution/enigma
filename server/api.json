@@ -1,15 +1,15 @@
 {
     "api":"/authenticate/user",
     "method":"POST",
-    "header":{
-        "token":"token"
-    },
     "body":{
         "email":"email",
         "password":"password"
     },
     "response":{
-        "STATUS":"OK"
+        "STATUS":"OK",
+        "TOKEN":"token",
+        "USERNAME":"username",
+        "EMAIL":"email"
     }
 },
 {
@@ -21,11 +21,14 @@
         "username":"username"
     },
     "response":{
-        "STATUS":"OK"
+        "STATUS":"OK",
+        "TOKEN":"token",
+        "USERNAME":"username",
+        "EMAIL":"email"
     }
 },
 {
-    "api":"/task/newtask",
+    "api":"/newtask",
     "method":"POST",
     "header":{
         "token":"token"
@@ -33,11 +36,11 @@
     "body":{
         "task_name":"text",
         "task_description":"text",
-        "task_zip_file_id":"id",
-        "datasource_file":"file",
-    },
-    "files":{
-        "datasource":"txt file",
+        "task_zip_file_id":"id", // Get this id by uploading the zip file to s3 using api - "/upload-file"
+        "datasource_size":"datasource_size", // size of datasource file
+        "files":{
+            "datasource":"txt file",
+        },
     },
     "response":{
         "STATUS":"OK",
@@ -47,7 +50,7 @@
     }
 },
 {
-    "api":"/task/alltasks",
+    "api":"/alltasks",
     "method":"POST",
     "header":{
         "token":"token"
@@ -55,7 +58,7 @@
     "body":{},
     "response":{
         "STATUS":"OK",
-        "myTasks": [{},{}],
+        "DATA": [{},{}],
         "STATUS":"FAIL",
         "MSG": "Server Error Message"
     }
@@ -68,7 +71,7 @@
     },
     "response":{
         "STATUS":"OK",
-        "task": {},
+        "TASK": "Get Task details dictionary",
         "STATUS":"FAIL",
         "MSG": "Server Error Message"
     }

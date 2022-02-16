@@ -37,7 +37,7 @@ def authenticate_user():
         }
         token = get_token_from_object(token_contents, get_site_secret_key(), 7200)
         username = data[1]
-        return jsonify({"STATUS": "OK", "TOKEN": token, "USERNAME": username})
+        return jsonify({"STATUS": "OK", "TOKEN": token, "USERNAME": username, "EMAIL": email})
     except KeyError as e:
         return jsonify({"STATUS": "FAIL", "MSG": INCOMPLETE_DATA + str(e)})
     except EnigmaException as e:
@@ -81,7 +81,8 @@ def create_user():
                 "USER_ID": user['user_id']
             }
         token = get_token_from_object(token_contents, get_site_secret_key(), 7200)
-        return jsonify({"STATUS": "OK", "TOKEN": token})
+        username = user['username']
+        return jsonify({"STATUS": "OK", "TOKEN": token, "USERNAME": username, "EMAIL": email})
     except KeyError as e:
         return jsonify({"STATUS": "FAIL", "MSG": INCOMPLETE_DATA + str(e)})
     except EnigmaException as e:
