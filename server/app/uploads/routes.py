@@ -16,8 +16,8 @@ def upload_file():
         file = request.files['file']
         task_file = request.form.get("task_file")
         if file:
-            file_id = uuid.uuid4()
-            if task_file:
+            file_id = str(uuid.uuid4())
+            if task_file == True:
                 file_id = "Task-" + str(file_id)
             filename = secure_filename(file_id)
             s3_bucket_instance = get_s3_bucket()
