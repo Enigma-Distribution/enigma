@@ -33,7 +33,7 @@
     "header":{
         "token":"token"
     },
-    "body":{
+    "form-data":{
         "task_name":"text",
         "task_description":"text",
         "task_zip_file_id":"id", // Get this id by uploading the zip file to s3 using api - "/upload-file"
@@ -66,9 +66,10 @@
 {
     "api":"/task",
     "method":"POST",
-    "body":{
+    "parameters":{
         "task_id": "task_id",
     },
+    "body":{},
     "response":{
         "STATUS":"OK",
         "TASK": "Get Task details dictionary",
@@ -79,8 +80,9 @@
 {
     "api":"/upload-file",
     "method":"POST",
-    "body":{
-        "file":"file",
+    "form-data":{
+        "file":"file",  
+        "task_file":"boolean" 
     },
     "response":{
         "STATUS":"OK",
