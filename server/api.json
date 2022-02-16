@@ -1,21 +1,76 @@
 {
-    "api":"/auth/login",
+    "api":"/authenticate/user",
     "method":"POST",
+    "header":{
+        "token":"token"
+    },
     "body":{
-
+        "email":"email",
+        "password":"password"
     },
     "response":{
         "STATUS":"OK"
     }
 },
 {
-    "api":"/auth/register",
+    "api":"authenticate/user/new",
     "method":"POST",
     "body":{
-        
+        "email":"email",
+        "password":"password",
+        "username":"username"
     },
     "response":{
         "STATUS":"OK"
+    }
+},
+{
+    "api":"/task/newtask",
+    "method":"POST",
+    "header":{
+        "token":"token"
+    },
+    "body":{
+        "task_name":"text",
+        "task_description":"text",
+        "task_zip_file_id":"id",
+        "datasource_file":"file",
+    },
+    "files":{
+        "datasource":"txt file",
+    },
+    "response":{
+        "STATUS":"OK",
+        "TASK": "Task Dictionary with all details",
+        "STATUS":"FAIL",
+        "MSG": "Server Error"
+    }
+},
+{
+    "api":"/task/alltasks",
+    "method":"POST",
+    "header":{
+        "token":"token"
+    },
+    "body":{},
+    "response":{
+        "STATUS":"OK",
+        "myTasks": [{},{}],
+        "STATUS":"FAIL",
+        "MSG": "Server Error Message"
+    }
+},
+{
+    "api":"/task",
+    "method":"POST",
+    "body":{
+        "task_id": "task_id",
+    },
+    "response":{
+        "STATUS":"OK",
+        "task": {},
+        "STATUS":"FAIL",
+        "MSG": "Server Error Message"
     }
 },
 {
@@ -27,39 +82,6 @@
     "response":{
         "STATUS":"OK",
         "file_id":"id"
-    }
-},
-{
-    "api":"/task/newtask",
-    "method":"POST",
-    "body":{
-        "task_name":"text",
-        "task_description":"text",
-        "task_zip_file_id":"id",
-        "datasource_file":"file",
-    },
-    "response":{
-        "STATUS":"OK"
-    }
-},
-{
-    "api":"/task/alltasks",
-    "method":"POST",
-    "body":{},
-    "response":{
-        "STATUS":"OK",
-        "myTasks": [{},{}]
-    }
-},
-{
-    "api":"/task",
-    "method":"POST",
-    "body":{
-        "task_id": "task_id",
-    },
-    "response":{
-        "STATUS":"OK",
-        "task": {}
     }
 },
 {
