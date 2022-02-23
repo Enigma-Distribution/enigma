@@ -90,6 +90,27 @@
     }
 },
 {
+    "api":"/task/create_step",
+    "method":"POST",
+    "header":{
+        "token":"token"
+    },
+    "form-data":{
+        "task_id": "task_id",
+        "datasource_id": "datasource_id",
+        "phase": "phase",
+        "assigned_to": "assigned_to",
+        "is_completed": "is_completed",
+        "result_file_id": "result_file_id"
+    },
+    "response":{
+        "STATUS":"OK",
+        "TASK": "Step Dictionary with all details",
+        "STATUS":"FAIL",
+        "MSG": "Server Error"
+    }
+},
+{
     "api":"/worker/allot-me",
     "method":"POST",
     "body":{},
