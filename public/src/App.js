@@ -17,9 +17,11 @@ import RoutesTemporary from './screens/RoutesTemporary';
 import NavbarComponent from './components/NavbarComponent';
 
 function App() {
+  const [user, setUser] = React.useState()
+  
   return (
     <div>
-     <NavbarComponent />
+     <NavbarComponent user={user} setUser={setUser} />
       <Router>
         <div>
           <Switch>
@@ -32,7 +34,7 @@ function App() {
             <Route exact path="/main">
               <Main />
             </Route>
-            <Route exact path="/SingleTask">
+            <Route exact path="/task/:id">
               <SingleTask />
             </Route>
             <Route exact path="/TaskForm">
