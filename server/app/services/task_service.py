@@ -37,11 +37,7 @@ def newtask(current_user):
 
         #Create Steps -> Add to db
         for step_instance in all_steps:
-            # step_instance = json.loads(step_instance)
-            print(step_instance)
-            print(step_instance["step_cid"])
-            step = step_service.create_step(task.task_id, step_instance["step_cid"], "map", None, False, None, step_instance["step_size"])
-            print('step created')
+            step = step_service.create_step(task["task_id"], step_instance["step_cid"], "map", None, 0, None, step_instance["step_size"])
         
         #Add Steps to Queue -> RabbitMQ
         

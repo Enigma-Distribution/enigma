@@ -109,15 +109,19 @@ function TaskForm() {
       }
     })
 
+    const datasource_all_cids_only = respArrTxtFiles.map(d => {
+      return d.path
+    })
+
     
     const formData = new FormData();
     // formData.append("datasource", textFile);
     formData.append("task_name", taskName);
     formData.append("task_description", taskDescription);
     formData.append("task_zip_file_id", respArrZipFile[0].path); // Cid of zip file
-    formData.append("datasource_all_cids", datasource_all_cids);
+    formData.append("datasource_all_cids", JSON.stringify(datasource_all_cids));
     formData.append("datasource_size", textFile.size) // Total size of text file 
-
+    // formData.append("datasource_all_cids_only", datasource_all_cids_only)
     
     axios.post('http://127.0.0.1:5000/newtask', formData, {headers})
     .then(response => {
