@@ -6,6 +6,7 @@ from app.exceptions import EnigmaException
 from app.middlewares import user_required
 from werkzeug.utils import secure_filename
 from app.constants import SERVER_ERROR
+import json
 
 app = Blueprint("task_service", __name__)
 
@@ -28,21 +29,26 @@ def newtask(current_user):
         task_description = data.get('task_description')
         task_zip_file_id = data.get('task_zip_file_id') 
         datasource_size = data.get('datasource_size')
+        all_steps = data.get('datasource_all_cids')
         task_status = False
         task = task_service.create_task(current_user, task_name, task_description, task_zip_file_id, datasource_size, task_status)
         
-        # Array of step_cid, step_size 
-        all_steps = data.get["datasource_all_cids"]
+        all_steps = json.loads(all_steps)
+
         #Create Steps -> Add to db
         for step_instance in all_steps:
-            step = step_service.create_step(task.task_id, step_instance.step_cid, "map", None, False, None, step_instance.step_size)
+            # step_instance = json.loads(step_instance)
+            print(step_instance)
+            print(step_instance["step_cid"])
+            step = step_service.create_step(task.task_id, step_instance["step_cid"], "map", None, False, None, step_instance["step_size"])
+            print('step created')
         
         #Add Steps to Queue -> RabbitMQ
         
         return jsonify({"STATUS": "OK", "TASK": task})
     except Exception as e:
         # return jsonify({"alert": "Error!"})
-        return jsonify({"STATUS": "FAIL", "MSG": SERVER_ERROR}), 501
+        return jsonify({"STATUS": "FAIL", "MSG": str(e)}), 501
 
 @app.route('/task', methods=['POST'])
 @user_required

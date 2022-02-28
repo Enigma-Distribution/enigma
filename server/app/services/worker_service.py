@@ -6,7 +6,7 @@ from app.middlewares import user_required
 from werkzeug.utils import secure_filename
 from app.constants import SERVER_ERROR
 
-app = Blueprint("step_service", __name__)
+app = Blueprint("worker_service", __name__)
 
 @app.route('/worker/allot-me', methods=['POST'])
 @user_required
