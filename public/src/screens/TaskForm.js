@@ -3,6 +3,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { create, globSource } from 'ipfs-http-client'
+import Loading from '../components/Loading';
 
 
 const client = create("https://ipfs.infura.io:5001/api/v0");
@@ -17,6 +18,7 @@ function TaskForm() {
   const [taskDescription, setTaskDescription] = useState("")
   const [zipFile, setZipFile] = useState()
   const [textFile, setTextFile] = useState()
+  const[loading, setLoading] = useState(false)
   
   let history = useHistory();
 
@@ -70,53 +72,52 @@ function TaskForm() {
     // const respArr = await client.addAll(fileArr, { progress: (prog) => console.log(`received: ${prog}`) })
     
     let base = 0
-    for await (const file of client.addAll(fileArr.slice(base,base+50))) {
+    // fileArr.slice(base,base+50)
+    for await (const file of client.addAll(fileArr)) {
       // console.log(file)
       respArr.push(file)
     }  
-    console.log(respArr)
-
-    // let client2 = create("https://ipfs.infura.io:5001/api/v0");
-    // console.log("above is 101-150, below is 151-200")
-    // for await (const file of client2.addAll(fileArr.splice(base+50,base+100))) {
-    //   // console.log(file)
-    //   respArr.push(file)
-    // }  
     // console.log(respArr)
-    // console.log("above is 151-200, below is 201,250")
-    // let client3 = create("https://ipfs.infura.io:5001/api/v0");
-    // for await (const file of client3.addAll(fileArr.splice(base+100,base+150))) {
-    //   // console.log(file)
-    //   respArr.push(file)
-    // }  
-    console.log(respArr)
 
     return respArr
   }
 
   const submitForm = async (e) => {
-    // const files = createMiniFiles(textFile)
-    // const respArrTxtFiles = await uploadFile(files)
+    setLoading(true)
+    const files = createMiniFiles(textFile)
+
+    // console.log(files)
+    // return
+
+    const respArrTxtFiles = await uploadFile(files)
     const respArrZipFile = await uploadFile([zipFile], true)
 
-    // console.log("respArrTxtFiles")
-    // console.log(respArrTxtFiles)
+    console.log("respArrTxtFiles")
+    console.log(respArrTxtFiles)
     console.log("respArrZipFile")
     console.log(respArrZipFile)
 
-    return
 
+    // const task_zip_file_id = await getZipFileId(zipFile)
+    // console.log(task_zip_file_id)
+    // task_zip_file_id -> pass cid of zip file
 
-    const task_zip_file_id = await getZipFileId(zipFile)
-    console.log(task_zip_file_id)
+    const datasource_all_cids = respArrTxtFiles.map(d => {
+      return {
+        step_cid: d.path,
+        step_size: d.size
+      }
+    })
 
     
     const formData = new FormData();
-    formData.append("datasource", textFile);
+    // formData.append("datasource", textFile);
     formData.append("task_name", taskName);
     formData.append("task_description", taskDescription);
-    formData.append("task_zip_file_id", task_zip_file_id);
-    formData.append("datasource_size", 20)
+    formData.append("task_zip_file_id", respArrZipFile[0].path); // Cid of zip file
+    formData.append("datasource_all_cids", datasource_all_cids);
+    formData.append("datasource_size", textFile.size) // Total size of text file 
+
     
     axios.post('http://127.0.0.1:5000/newtask', formData, {headers})
     .then(response => {
@@ -147,6 +148,8 @@ function TaskForm() {
       console.log(e.target.files[0])
       setZipFile(e.target.files[0])
     }
+
+  if(loading) return <Loading />
 
   return (
     <div style={{
