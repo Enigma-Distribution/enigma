@@ -78,6 +78,20 @@
     }
 },
 {
+    "api":"/task/get_task_meta_data",
+    "method":"POST",
+    "parameters":{
+        "task_id": "task_id",
+    },
+    "body":{},
+    "response":{
+        "STATUS":"OK",
+        "TASK_META_DATA": "Get Task meta data dictionary",
+        "STATUS":"FAIL",
+        "MSG": "Server Error Message"
+    }
+},
+{
     "api":"/upload-file",
     "method":"POST",
     "form-data":{
@@ -116,7 +130,7 @@
     "body":{},
     "response":{
         "STATUS":"OK",
-        "data": {
+        "STEP": {
             "step_id":"id",
             "phase":"phase",
             "zip_file_url":"url",
@@ -128,13 +142,13 @@
     "api":"/worker/submit-result",
     "method":"POST",
     "body":{},
+    "form_data":{
+        "step_id":"id",
+        "phase":"phase",
+        "result_file_id":"id"
+    },
     "response":{
         "STATUS":"OK",
-        "data": {
-            "step_id":"id",
-            "phase":"phase",
-            "result_file_id":"id"
-        }
     }
 },
 {

@@ -3,7 +3,7 @@ from uuid import uuid4
 from time import time
 from app.exceptions import TaskNotFoundException
 
-def create_step(task_id, datasource_id, phase, assigned_to, is_completed, result_file_id):
+def create_step(task_id, datasource_id, phase, assigned_to, is_completed, result_file_id, step_size):
     step = {
         "step_id": str(uuid4()),
         "task_id": task_id,
@@ -12,6 +12,7 @@ def create_step(task_id, datasource_id, phase, assigned_to, is_completed, result
         "assigned_to": assigned_to,
         "is_completed": is_completed,
         "result_file_id": result_file_id,
+        "step_size": step_size,
     }
     steps_db.insert_step(step)
     return step

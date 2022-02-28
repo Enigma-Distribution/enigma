@@ -19,7 +19,8 @@ def newtask(current_user):
         assigned_to = data.get('assigned_to')
         is_completed = data.get('is_completed')
         result_file_id = data.get('result_file_id')
-        step = step_service.create_step(task_id, datasource_id, phase, assigned_to, is_completed, result_file_id)
+        step_size = data.get('step_size')
+        step = step_service.create_step(task_id, datasource_id, phase, assigned_to, is_completed, result_file_id, step_size)
 
         return jsonify({"STATUS": "OK", "STEP": step})
     except Exception as e:

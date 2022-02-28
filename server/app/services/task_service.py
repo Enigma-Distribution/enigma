@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, Blueprint
 from app import app
 from app.interfaces import tasks as task_service
+from app.interfaces import steps as step_service
 from app.exceptions import EnigmaException
 from app.middlewares import user_required
 from werkzeug.utils import secure_filename
@@ -25,14 +26,17 @@ def newtask(current_user):
         # user_id = current_user.user_id
         task_name = data.get('task_name')
         task_description = data.get('task_description')
-        task_zip_file_id = data.get('task_zip_file_id')
+        task_zip_file_id = data.get('task_zip_file_id') 
         datasource_size = data.get('datasource_size')
         task_status = False
         task = task_service.create_task(current_user, task_name, task_description, task_zip_file_id, datasource_size, task_status)
         
-        #Divide the Datasource file
-        datasource_file = request.files["datasource"]
+        # Array of step_cid, step_size 
+        all_steps = data.get["datasource_all_cids"]
         #Create Steps -> Add to db
+        for step_instance in all_steps:
+            step = step_service.create_step(task.task_id, step_instance.step_cid, "map", None, False, None, step_instance.step_size)
+        
         #Add Steps to Queue -> RabbitMQ
         
         return jsonify({"STATUS": "OK", "TASK": task})
