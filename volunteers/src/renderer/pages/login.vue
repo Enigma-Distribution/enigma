@@ -15,7 +15,12 @@
         </div>
         <div class="field">
         <div class="control">
-            <button class="button" v-on:click="authenticate">Login</button>
+            <button class="button is-success" v-on:click="authenticate">Login</button>
+        </div>
+        </div>
+        <div class="field">
+        <div class="control">
+            <nuxt-link class="button" :to="'/register'">Sign Up</nuxt-link>
         </div>
         </div>
 
