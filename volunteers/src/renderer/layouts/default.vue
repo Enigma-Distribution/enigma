@@ -24,9 +24,9 @@
         <template #end>
             <b-navbar-item tag="div">
                 <div class="buttons">
-                    <a class="button is-primary">
+                    <nuxt-link :to="'/register'" class="button is-primary">
                         <strong>Sign up</strong>
-                    </a>
+                    </nuxt-link>
                     <nuxt-link :to="'/login'" class="button is-light">
                         Log in
                     </nuxt-link>
