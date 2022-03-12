@@ -1,3 +1,5 @@
+import { container } from 'webpack';
+
 const Docker = require('dockerode');
 
 const docker = new Docker();
@@ -49,14 +51,21 @@ const fetchAndRun = function (containerId, {fileAccessLink, phase, step}) {
     })
 }
 
-const getTotalTasks = function(){
+const getAllTasks = function(){
     return new Promise((resolve, reject)=> {
         docker.listContainers(function (err, containers){
             if(err) {
                 reject(err)
                 return
             }
-            resolve(containers.length)
+            const data = []
+            for(var i=0; i<containers.length; i++){
+                data.push({
+                    "name" : containers[i].Names[0].replace("/", "").replace("_", " "),
+                    "status" : containers[i].Status,
+                })
+            }
+            resolve(data)
         })
     })
 }
@@ -68,5 +77,5 @@ export {
     spinupNewContainer,
     runPreprocessSetup,
     fetchAndRun,
-    getTotalTasks
+    getAllTasks
 }
