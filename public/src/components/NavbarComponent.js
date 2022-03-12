@@ -4,32 +4,38 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 function NavbarComponent() {
     let history = useHistory();
+
+    const userInfo = useSelector((state) => state.user);
+    const { user } = userInfo 
+    const dispatch = useDispatch()
+
     const sections = [
         {
             title: "Login",
             url: "/login",
-            show: localStorage.getItem("TOKEN") ? false : true,
+            show: user ? false : true,
             position: "right"
         },
         {
             title: "register",
             url: "/register",
-            show: localStorage.getItem("TOKEN") ? false : true,
+            show: user ? false : true,
             position: "right"
         },
         {
             title: "Home",
             url: "/main",
-            show: true,
+            show: user ? true : false,
             position: "left"
         },
         {
             title: "Create Task",
             url: "/TaskForm",
-            show: localStorage.getItem("TOKEN") ? true : false,
+            show: user ? true : false,
             position: "left"
         },
         {
@@ -47,7 +53,7 @@ function NavbarComponent() {
         {
             title: "Logout",
             url: "/logout",
-            show: localStorage.getItem("TOKEN") ? true : false,
+            show: user ? true : false,
             position: "right"
         }
         
@@ -107,8 +113,9 @@ function NavbarComponent() {
                         sx={{ p: 1, flexShrink: 0 }}
                         onClick={() => {
                             if(section.title === "Logout"){
-                                localStorage.removeItem("TOKEN")
-                                history.push("/login")
+                                dispatch({type: "SET_USER", payload: null})
+                                localStorage.removeItem("USER")
+                                // history.push("/login")
                             }
                         }}
                     >

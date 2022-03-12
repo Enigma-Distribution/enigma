@@ -15,34 +15,57 @@ import TaskForm from './screens/TaskForm'
 import SingleTask from './screens/SingleTask'
 import RoutesTemporary from './screens/RoutesTemporary';
 import NavbarComponent from './components/NavbarComponent';
+import PrivateRoute from './components/PrivateRoute';
+import { useDispatch, useSelector } from 'react-redux';
 
 function App() {
-  const [user, setUser] = React.useState()
   
+  const dispatch = useDispatch()
+  // const userInfo = useSelector((state) => state.user);
+  // const { user } = userInfo 
+
   return (
     <div>
-     <NavbarComponent user={user} setUser={setUser} />
+      {/* <button onClick={() => dispatch({type: "SET_USER", payload: { username: "dummyun" }})}></button> */}
+     <NavbarComponent />
+     {/* {JSON.stringify(user)} */}
       <Router>
         <div>
           <Switch>
             <Route exact path="/login">
-              <Login />
+              <Login  />
             </Route>
             <Route exact path="/register">
               <Register />
             </Route>
-            <Route exact path="/main">
+            <PrivateRoute
+              path="/main"
+              component={Main}
+              
+            ></PrivateRoute>
+            {/* <Route exact path="/main">
               <Main />
-            </Route>
-            <Route exact path="/task/:id">
+            </Route> */}
+            <PrivateRoute
+              path="/task/:id"
+              component={SingleTask}
+            ></PrivateRoute>
+            {/* <Route exact path="/task/:id">
               <SingleTask />
-            </Route>
-            <Route exact path="/TaskForm">
+            </Route> */}
+            <PrivateRoute
+              path="/TaskForm"
+              component={TaskForm}
+            ></PrivateRoute>
+            {/* <Route exact path="/TaskForm">
               <TaskForm />
-            </Route>
-            <Route exact path="/">
-              <RoutesTemporary />
-            </Route>
+            </Route> */}
+            
+            <PrivateRoute
+              path="/"
+              component={Main}
+              
+            ></PrivateRoute>
             
           </Switch>
         </div>
