@@ -1,9 +1,9 @@
 <template>
   <section style="{ 'padding' : 5pxs }">
       <div class="field">
-        <label class="label">Name</label>
+        <label class="label">Username</label>
         <div class="control">
-            <input class="input" type="text" placeholder="Name" v-model="Name">
+            <input class="input" type="text" placeholder="Name" v-model="Username">
         </div>
         </div>
       <div class="field">
@@ -37,7 +37,7 @@ import register from '../functions/register'
 export default {
     data() {
         return {
-            Name : "",
+            Username : "",
             Email : "",
             Password : ""
         }

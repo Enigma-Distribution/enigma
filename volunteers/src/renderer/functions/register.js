@@ -4,11 +4,11 @@ export default async function(email, password, name, context) {
     return [true, undefined]
     context.$axios.setHeader('Content-Type', 'application/json')
     const response = await context.$axios.$post(
-        `${baseURL}/authenticate/organization/new`,
+        `${baseURL}/authenticate/user/new`,
         {
-            email: email,
+            email: email,   
             password: password,
-            name: name
+            usename: name
         }
     );
     if (response.STATUS == "OK") {
