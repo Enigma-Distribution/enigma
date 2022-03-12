@@ -8,7 +8,7 @@ import { Box } from '@mui/system';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 
-function Main() {
+function Main(props) {
 
   const [tasks, setTasks] = useState([])
   const history = useHistory()
@@ -18,7 +18,7 @@ function Main() {
     const dataForApi = {}
   
     const headers = {
-      token: localStorage.getItem("TOKEN")
+      token: props.user.TOKEN || localStorage.getItem("TOKEN") 
     }
     axios.post('http://127.0.0.1:5000/alltasks', dataForApi, {headers})
     .then(response => {
@@ -36,20 +36,16 @@ function Main() {
     });
   },[])
 
-  if(!localStorage.getItem("TOKEN")) {
-    history.pushState("/login")
-    return <div>
-      Loading...
-    </div>
-  }
+  // if(!localStorage.getItem("TOKEN")) {
+  //   history.pushState("/login")
+  //   return <div>
+  //     Loading...
+  //   </div>
+  // }
 
   return (
     <div>
       
-
-
-
-
       <Box sx={{ flexGrow: 1 }}>
       
       <CreateTaskBlock />
