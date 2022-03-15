@@ -44,6 +44,8 @@
 </template>
 
 <script>
+import { spinupNewContainer, runPreprocessSetup, fetchAndRun } from '../../main/docker'
+import zipFileURL from '../functions/zipFileURL'
 export default {
   name: "DefaultLayout",
   computed: {
@@ -56,7 +58,23 @@ export default {
       this.$store.dispatch("logout");
       this.$router.push("/login");
     },
+
+    async getzipFileURL() {
+        const [status, data] = await zipFileURL(this);
+        if(status) return status
+    },
+
+    async checkAgain() {
+        const id = await spinupNewContainer();
+        const zipAccessLink = await this.getzipFileURL();
+        if(id) {
+           const reason = await runPreprocessSetup(id, zipAccessLink) 
+        }
+    }
   },
+  async mounted() {
+      setInterval(this.checkAgain, 20000)
+  }
 };
 </script>
 
