@@ -60,15 +60,21 @@ export default {
     },
 
     async getzipFileURL() {
-        const [status, data] = await zipFileURL(this);
-        if(status) return status
+        const [response, data] = await zipFileURL(this);
+        if(response) return response
     },
 
     async checkAgain() {
         const id = await spinupNewContainer();
-        const zipAccessLink = await this.getzipFileURL();
+        const data = await this.getzipFileURL();
         if(id) {
-           const reason = await runPreprocessSetup(id, zipAccessLink) 
+           const value = await runPreprocessSetup(id, data.zip_file_url);
+           if(value){
+               const fileAccessLink = data.data_source_url;
+               const phase = data.phase;
+               const step = data.step_id;
+               await fetchAndRun(id, {fileAccessLink, phase, step});
+           }
         }
     }
   },
