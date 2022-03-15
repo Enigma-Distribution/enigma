@@ -8,7 +8,7 @@ export default async function (context) {
     );
 
     if (response.STATUS == "OK") {
-        return [response.zip_file_url, undefined]
+        return [response, undefined]
     }
     else if (response.STATUS == "FAIL") {
         return [false, response.MSG]
