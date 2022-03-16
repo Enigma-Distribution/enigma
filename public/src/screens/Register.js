@@ -14,6 +14,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios'
 import { useHistory } from "react-router-dom";
+import { useDispatch } from 'react-redux';
 
 function Copyright(props) {
   return (
@@ -34,6 +35,7 @@ export default function Register() {
 
   const [formErrors, setFormErrors] = React.useState([])
   let history = useHistory();
+  const dispatch = useDispatch()
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -57,7 +59,9 @@ export default function Register() {
           else if(STATUS == "OK") {
             const { USERNAME, EMAIL } = response.data
             localStorage.setItem("TOKEN", TOKEN)
-            localStorage.setItem("USER", JSON.stringify({ USERNAME, EMAIL }))
+            localStorage.setItem("USER", JSON.stringify({ USERNAME, EMAIL, TOKEN }))
+            // localStorage.setItem("tokenTime", new Date().getMinutes())
+            dispatch({type: "SET_USER", payload: { USERNAME, EMAIL, TOKEN }})
             setTimeout(() => history.push("/main"), 500)
           }
           
@@ -90,7 +94,7 @@ export default function Register() {
             })}
           </div>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12}>
                 <TextField
                   autoComplete="given-name"
                   name="userName"

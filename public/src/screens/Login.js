@@ -14,6 +14,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
 
 function Copyright(props) {
   return (
@@ -30,9 +31,10 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function Login() {
+export default function Login(props) {
   const [errors, setErrors] = React.useState([])
   let history = useHistory();
+  const dispatch = useDispatch()
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -59,7 +61,10 @@ export default function Login() {
           else if(STATUS == "OK") {
             const { USERNAME, EMAIL } = response.data
             localStorage.setItem("TOKEN", TOKEN)
-            localStorage.setItem("USER", JSON.stringify({ USERNAME, EMAIL }))
+            localStorage.setItem("USER", JSON.stringify({ USERNAME, EMAIL, TOKEN }))
+            localStorage.setItem("tokenTime", new Date().getMinutes())
+            // props.setUser({ USERNAME, EMAIL, TOKEN })
+            dispatch({type: "SET_USER", payload: { USERNAME, EMAIL, TOKEN }})
             setTimeout(() => history.push("/main"), 500)
             
           }

@@ -20,8 +20,10 @@ function LinearProgressWithLabel(props) {
   );
 }
 
-function SingleTask() {
-  const { id } = useParams();
+function SingleTask(props) {
+  // const { id } = useParams();
+  //http://localhost:3001/task/2c8635c8-e0e9-4a2f-be12-d1d8de4e7f1e
+  const id = window.location.href.split("/task/")[1]
   console.log(id);
 
   const [task, setTask] = React.useState()
@@ -29,7 +31,7 @@ function SingleTask() {
   useEffect(() => {
   
     const headers = {
-      token: localStorage.getItem("TOKEN")
+      token: props.user.TOKEN || localStorage.getItem("TOKEN")
     }
     axios.post(`http://127.0.0.1:5000/task?task_id=${id}`, {}, {headers})
     .then(response => {
