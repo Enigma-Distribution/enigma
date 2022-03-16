@@ -13,26 +13,30 @@
   "author": "amandesai01 <amandesai01@gmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/michalzaq12/electron-nuxt/blob/master/README.md",
-  "engines" : {
-    "node" : ">=14.14.9"
+  "engines": {
+    "node": ">=14.14.9"
   },
   "resolutions": {
     "@types/node": "14.14.9"
   },
   "devDependencies": {
-    "@xpda-dev/core": "^0.1.6",
-    "@xpda-dev/electron-launcher": "^0.3.0",
-    "@xpda-dev/electron-builder": "^0.2.1",
-    "@xpda-dev/webpack-step": "^0.1.6",
-    "deepmerge": "^4.2.2",
     "@fortawesome/fontawesome-free": "5.15.3",
+    "@xpda-dev/core": "^0.1.6",
+    "@xpda-dev/electron-builder": "^0.2.1",
+    "@xpda-dev/electron-launcher": "^0.3.0",
+    "@xpda-dev/webpack-step": "^0.1.6",
     "buefy": "0.9.7",
     "cross-env": "^7.0.3",
+    "deepmerge": "^4.2.2",
     "electron": "^15.2.0",
     "electron-builder": "^22.14.5",
-    "nuxt": "^2.15.8",
     "electron-devtools-installer": "^3.2.0",
+    "nuxt": "^2.15.8",
     "webpack": "^4.46.0",
-    "webpack-node-externals": "^3.0.0"
+    "webpack-node-externals": "^3.0.0",
+    "@nuxtjs/axios": "^5.13.6"
+  },
+  "dependencies": {
+    "@nuxtjs/auth": "^4.9.1"
   }
 }
