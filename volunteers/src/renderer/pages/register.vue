@@ -46,7 +46,8 @@ export default {
 
     methods : {
         async authenticate() {
-            const [status, data ] = await register(this.Email, this.Password, this.Name, this)
+            console.log(this)
+            const [status, data ] = await register(this.Email, this.Password, this.Username, this)
             if(status){
                 this.$router.push('/')
             }
