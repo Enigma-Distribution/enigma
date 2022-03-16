@@ -1,4 +1,4 @@
-from app.datastore import step as steps_db
+from app.datastore import steps as steps_db
 from uuid import uuid4
 from time import time
 from app.exceptions import TaskNotFoundException

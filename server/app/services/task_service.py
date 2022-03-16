@@ -32,7 +32,7 @@ def newtask(current_user):
         task = task_service.create_task(current_user, task_name, task_description, task_zip_file_id, datasource_size, task_status)
         
         # Array of step_cid, step_size 
-        all_steps = data.get["datasource_all_cids"]
+        all_steps = data.get('datasource_all_cids')
         #Create Steps -> Add to db
         for step_instance in all_steps:
             step = step_service.create_step(task.task_id, step_instance.step_cid, "map", None, False, None, step_instance.step_size)
