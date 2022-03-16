@@ -146,10 +146,24 @@ function TaskForm() {
   
     const onTextFileChange = (e) => {
       console.log(e.target.files[0])
+      let extension = e.target.files[0].name.split('.').pop()
+      console.log(extension)
+      if(extension !== "txt"){
+        alert("File type should be .txt")
+        setTextFile(null)  
+        return
+      }
       setTextFile(e.target.files[0])
     }
     const onZipFileChange = (e) => {
       console.log(e.target.files[0])
+      let extension = e.target.files[0].name.split('.').pop()
+      console.log(extension)
+      if(extension !== "zip"){
+        alert("File type should be zip")
+        setZipFile(null) 
+        return 
+      }
       setZipFile(e.target.files[0])
     }
 
