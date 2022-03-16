@@ -1,13 +1,17 @@
 import baseURL from "./baseURL.js";
+import axios from "axios";
 
 export default async function(email, password, context) {
-    return [true, undefined]
-    context.$axios.setHeader('Content-Type', 'application/json')
-    const response = await context.$axios.$post(
+    //return [true, undefined]
+    //context.$axios.setHeader('Content-Type', 'application/json')
+    const response = await axios.post(
         `${baseURL}/authenticate/user`,
         {
             email: email,
             password: password
+        },
+        {
+            headers: {'Content-Type' : 'application/json'}
         }
     );
     if (response.STATUS == "OK") {
