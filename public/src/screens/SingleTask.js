@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios'
 import CardComponent from '../components/CardComponent';
+import { useDispatch } from 'react-redux';
 
 function LinearProgressWithLabel(props) {
   return (
@@ -27,6 +28,7 @@ function SingleTask(props) {
   console.log(id);
 
   const [task, setTask] = React.useState()
+  const dispatch = useDispatch()
 
   useEffect(() => {
   
@@ -44,6 +46,9 @@ function SingleTask(props) {
         setTask(TASK)
       }
       
+    }).catch(() => {
+      dispatch({ type: "SET_USER", payload: null });
+      localStorage.removeItem("USER")
     });
   },[])
 
@@ -74,7 +79,7 @@ function SingleTask(props) {
 
       <br></br>
       <h2>Zip file link</h2>
-      <a href="https://www.gyaanibuddy.com/">https://www.gyaanibuddy.com/</a>
+      <a href={`https://ipfs.infura.io/ipfs/${task.task_zip_file_id}`}>{`https://ipfs.infura.io/ipfs/${task.task_zip_file_id}`}</a>
 
       <br></br><br></br>
       <h2>Tasks alloted</h2>
