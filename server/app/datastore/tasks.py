@@ -6,6 +6,8 @@ QUERY_GET_ALL_TASKS = "SELECT task_id, task_name, task_description, task_created
 
 QUERY_GET_SPECIFIC_TASK = "SELECT task_id, task_name, task_description, task_created_ts, task_zip_file_id, datasource_size, task_status FROM task WHERE task_id = %s AND user_id = %s"
 
+QUERY_UPDATE_COMPLETE_TASK = "UPDATE task SET task_status = %s WHERE task_id = %s"
+
 db = get_pg_connection()
 
 def insert_task(task, user):
@@ -26,4 +28,11 @@ def select_specific_task(task_id, user):
     with db:
         with db.cursor() as cursor:
             cursor.execute(QUERY_GET_SPECIFIC_TASK, values)
+            return cursor.fetchone()
+            
+def update_completed_task(task):
+    values = (True, task_id)
+    with db:
+        with db.cursor() as cursor:
+            cursor.execute(QUERY_UPDATE_COMPLETE_TASK, values)
             return cursor.fetchone()

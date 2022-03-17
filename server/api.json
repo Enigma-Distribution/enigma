@@ -142,7 +142,7 @@
     "api":"/worker/submit-result",
     "method":"POST",
     "body":{},
-    "form_data":{
+    "form-data":{
         "step_id":"id",
         "phase":"phase",
         "result_file_id":"id"
