@@ -81,8 +81,8 @@ export default function Register() {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            {"<LockOutlinedIcon />"}
+          <Avatar sx={{ m: 1}}>
+          <img src="/icon.png" style={{ width: "100%", height: "auto" }} />
           </Avatar>
           <Typography component="h1" variant="h5">
             Sign up
@@ -126,12 +126,12 @@ export default function Register() {
                   autoComplete="new-password"
                 />
               </Grid>
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <FormControlLabel
                   control={<Checkbox value="allowExtraEmails" color="primary" />}
                   label="I want to receive inspiration, marketing promotions and updates via email."
                 />
-              </Grid>
+              </Grid> */}
             </Grid>
             <Button
               type="submit"
@@ -143,7 +143,7 @@ export default function Register() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="login" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>

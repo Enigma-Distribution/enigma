@@ -20,7 +20,7 @@ function CreateTaskBlock() {
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
-        backgroundImage: `url('https://source.unsplash.com/random')`,
+        backgroundImage: `url('/bg-dashboard.jpg')`,
       }}
     >
       {/* Increase the priority of the hero background image */}
@@ -48,7 +48,7 @@ function CreateTaskBlock() {
               Doing task quickly and efficiently
             </Typography>
             <Typography variant="h5" color="inherit" paragraph>
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum
+            Using computational power of several computers to complete your task quickly
             </Typography>
             {/* <Link variant="subtitle1" href="#">
               Link for something

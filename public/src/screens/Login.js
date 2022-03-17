@@ -16,12 +16,13 @@ import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 
+
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link color="inherit" href="/">
+        Enigma
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -62,7 +63,6 @@ export default function Login(props) {
             const { USERNAME, EMAIL } = response.data
             localStorage.setItem("TOKEN", TOKEN)
             localStorage.setItem("USER", JSON.stringify({ USERNAME, EMAIL, TOKEN }))
-            localStorage.setItem("tokenTime", new Date().getMinutes())
             // props.setUser({ USERNAME, EMAIL, TOKEN })
             dispatch({type: "SET_USER", payload: { USERNAME, EMAIL, TOKEN }})
             setTimeout(() => history.push("/main"), 500)
@@ -84,8 +84,8 @@ export default function Login(props) {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            {"<LockIcon />"}
+          <Avatar sx={{ m: 1 }}>
+            <img src="/icon.png" style={{ width: "100%", height: "auto" }} />
           </Avatar>
           <Typography component="h1" variant="h5">
             Sign in
@@ -130,12 +130,12 @@ export default function Login(props) {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                {/* <Link href="#" variant="body2">
                   Forgot password?
-                </Link>
+                </Link> */}
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/register" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
