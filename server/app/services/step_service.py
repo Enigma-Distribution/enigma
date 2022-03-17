@@ -26,9 +26,9 @@ def newtask(current_user):
     except Exception as e:
         return jsonify({"STATUS": "FAIL", "MSG": SERVER_ERROR}), 501
 
-@app.route('/task/get_steps', methods=['POST'])
+@app.route('/task/get_task_meta_data', methods=['POST'])
 @user_required
-def get_steps(current_user):
+def get_task_meta_data(current_user):
     try:
         task_id = request.args['task_id']
         steps = step_service.get_all_steps(task_id)

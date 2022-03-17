@@ -7,22 +7,45 @@ from werkzeug.utils import secure_filename
 from app.constants import SERVER_ERROR
 
 app = Blueprint("worker_service", __name__)
+phase_identifier = 0
 
 @app.route('/worker/allot-me', methods=['POST'])
 @user_required
 def allot_step(current_user):
     try:
-        pass
-        # Allot a step to user with following details
+        counter = 0
+        while counter<3:
+            if phase_identifier == 0:
+                # allot map phase step
+                step = step_service.get_step_to_allot("map")
+                if step == None:
+                    phase_identifier+=1
+                else:
+                    break
 
-        # "STEP": {
-        #     "step_id":"id",
-        #     "phase":"phase",
-        #     "zip_file_url":"url",
-        #     "data_source_url":"url"
-        # }
+            if phase_identifier == 1:
+                # allot shuffle phase step
+                step = step_service.get_step_to_allot("shuffle")
+                if step == None:
+                    phase_identifier+=1
+                else:
+                    break
 
-        return jsonify({"STATUS": "OK", "STEP": step})
+            if phase_identifier == 2:
+                # allot reduce phase step
+                step = step_service.get_step_to_allot("reduce")             
+                if step:
+                    break
+
+            phase_identifier+=1
+            phase_identifier = phase_identifier%3
+            counter+=1
+        
+        available = True
+        if counter == 3:
+            available = False
+
+        return jsonify({"STATUS": "OK", "AVAILABLE": available, "STEP": step})
     except EnigmaException as e:
         return jsonify({"STATUS": "FAIL", "MSG": str(e)})
     except Exception as e:
@@ -49,6 +72,7 @@ def get_result(current_user):
             if task_status == True:
                 # api call to aggregate results 
                 pass
+
         return jsonify({"STATUS": "OK", "STEP": step})
     except EnigmaException as e:
         return jsonify({"STATUS": "FAIL", "MSG": str(e)})

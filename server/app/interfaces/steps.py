@@ -60,3 +60,7 @@ def get_all_steps(task_id):
             "step_size": step[7],
         })
     return data
+
+def get_step_to_allot(step_phase):
+    step = steps_db.get_step_to_allot(step_phase)
+    return step

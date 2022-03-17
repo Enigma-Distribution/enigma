@@ -12,6 +12,8 @@ QUERY_GET_STEPS_UNFINISHED = "SELECT step_id FROM step WHERE task_id = %s AND is
 
 QUERY_FETCH_STEPS = "SELECT * FROM step WHERE task_id = %s"
 
+QUERY_GET_STEP_TO_ALLOT_FROM_QUEUE = "SELECT step_id, phase, zip_file_url, data_source_url FROM step WHERE phase = %s LIMIT 1"
+
 db = get_pg_connection()
 
 def insert_step(step):
@@ -37,12 +39,14 @@ def get_task_id(step_id):
     with db:
         with db.cursor() as cursor:
             cursor.execute(QUERY_GET_TASK_ID, values)
+            return cursor.fetchone()
 
 def get_steps_unfinished_in_reduce_phase(task_id):
     values = (task_id, 0)
     with db:
         with db.cursor() as cursor:
             cursor.execute(QUERY_GET_STEPS_UNFINISHED, values)
+            return cursor.fetchall()
 
 def select_all_steps_for_task_id(task_id):
     values = (task_id,)
@@ -50,3 +54,10 @@ def select_all_steps_for_task_id(task_id):
         with db.cursor() as cursor:
             cursor.execute(QUERY_FETCH_STEPS, values)
             return cursor.fetchall()
+
+def get_step_to_allot(step_phase):
+    values = (step_phase,)
+    with db:
+        with db.cursor() as cursor:
+            cursor.execute(QUERY_GET_STEP_TO_ALLOT_FROM_QUEUE, values)
+            return cursor.fetchone()
