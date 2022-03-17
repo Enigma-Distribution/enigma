@@ -4,6 +4,8 @@ QUERY_INSERT_STEP = "INSERT INTO step(step_id, task_id, datasource_id, phase, as
 
 QUERY_UPDATE_STEP = ""
 
+QUERY_FETCH_STEPS = "SELECT * FROM step WHERE task_id = %s"
+
 db = get_pg_connection()
 
 def insert_step(step):
@@ -11,3 +13,10 @@ def insert_step(step):
     with db:
         with db.cursor() as cursor:
             cursor.execute(QUERY_INSERT_STEP, values)
+
+def select_all_steps_for_task_id(task_id):
+    values = (task_id,)
+    with db:
+        with db.cursor() as cursor:
+            cursor.execute(QUERY_FETCH_STEPS, values)
+            return cursor.fetchall()
