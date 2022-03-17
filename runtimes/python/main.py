@@ -4,6 +4,7 @@ from random import shuffle
 from modules.unzipper import unzip
 from modules.utils import run_if_setup_file_exists
 import ipfsUpload
+import requests
 
 path_to_zip = os.getenv("PATH_TO_ZIP")
 unzip(path_to_zip)
@@ -27,5 +28,8 @@ if os.getenv("PHASE") == "ENIGMA.SHUFFLE":
     shuffle_data = app.run_shuffler()
     hash = ipfsUpload(shuffle_data)
 
-def sendHash():
-    return hash
+phase = os.getenv("PHASE")
+step_id = ""
+url = 'http://127.0.0.1:5000/worker/submit-result'
+params = {"phase" : phase, "step_id": step_id, "result_file_id": hash}
+r = requests.post(url, params=params)
