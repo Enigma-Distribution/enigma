@@ -1,0 +1,14 @@
+__pycache__
+env/
+venv
+.env
+.flaskenv
+.ds_store
+
+node_modules
+
+.nuxt
+dist
+build/*
+!build/icons
+node_modules
