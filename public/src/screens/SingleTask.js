@@ -4,6 +4,8 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios'
 import CardComponent from '../components/CardComponent';
+import { useDispatch } from 'react-redux';
+import Loading from '../components/Loading';
 
 function LinearProgressWithLabel(props) {
   return (
@@ -27,12 +29,15 @@ function SingleTask(props) {
   console.log(id);
 
   const [task, setTask] = React.useState()
+  const [steps, setSteps] = React.useState([])
+  const dispatch = useDispatch()
 
   useEffect(() => {
   
     const headers = {
       token: props.user.TOKEN || localStorage.getItem("TOKEN")
     }
+    // Request 1
     axios.post(`http://127.0.0.1:5000/task?task_id=${id}`, {}, {headers})
     .then(response => {
       const { STATUS, MSG, TASK } = response.data
@@ -44,13 +49,35 @@ function SingleTask(props) {
         setTask(TASK)
       }
       
+    }).catch(() => {
+      dispatch({ type: "SET_USER", payload: null });
+      localStorage.removeItem("USER")
     });
+
+    // Parallel request 2
+    axios.post(`http://127.0.0.1:5000/task/get_steps?task_id=${id}`, {}, {headers})
+    .then(response => {
+      const { STATUS, MSG, STEPS } = response.data
+      console.log(response)
+      if(STATUS == "FAIL") {
+        alert(MSG)
+      }
+      else if(STATUS == "OK") {
+        setSteps(STEPS)
+        console.log("STATUS:OK")
+      }
+      
+    }).catch((e) => {
+      console.log(e)
+      dispatch({ type: "SET_USER", payload: null });
+      localStorage.removeItem("USER")
+    });
+
+
   },[])
 
   if(!task){
-    return <div>
-      Loading...
-    </div>
+    return <Loading />
   }
 
   return (
@@ -74,32 +101,30 @@ function SingleTask(props) {
 
       <br></br>
       <h2>Zip file link</h2>
-      <a href="https://www.gyaanibuddy.com/">https://www.gyaanibuddy.com/</a>
+      <a href={`https://ipfs.infura.io/ipfs/${task.task_zip_file_id}`}>{`https://ipfs.infura.io/ipfs/${task.task_zip_file_id}`}</a>
 
       <br></br><br></br>
-      <h2>Tasks alloted</h2>
-      {[1,2,3,4,5,6,7].map((k) => {
+      <h2>Sub Tasks</h2>
+      {steps.map((s) => {
         return (
-          <div style={{ margin:"20px" }}>
+          <div id={s.step_id} style={{ margin:"20px" }}>
             <Card>
               <CardContent>
                 <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                  Word of the Day
+                  {s.is_completed == 0 ? "Not Completed" : "Completed"}
                 </Typography>
                 <Typography variant="h5" component="div">
-                  be nev o lent
+                  {s.step_id}
                 </Typography>
                 <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                  adjective
+                  {s.phase}
                 </Typography>
                 <Typography variant="body2">
-                  well meaning and kindly.
-                  <br />
-                  {'"a benevolent smile"'}
+                  Assigned to: {s.assigned_to ? s.assigned_to : "None"} 
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button size="small">Learn More</Button>
+                <Button size="small" disabled={s.is_completed == 1 ? false : true} href={`https://ipfs.infura.io/ipfs/${s.result_file_id}`} >Check Result</Button>
               </CardActions>
             </Card>
 

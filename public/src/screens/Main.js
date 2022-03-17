@@ -7,11 +7,13 @@ import Container from '@mui/material/Container';
 import { Box } from '@mui/system';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 function Main(props) {
 
   const [tasks, setTasks] = useState([])
   const history = useHistory()
+  const dispatch = useDispatch()
 
   
   useEffect(() => {
@@ -33,6 +35,9 @@ function Main(props) {
         setTasks(DATA)
       }
       
+    }).catch(() => {
+      dispatch({ type: "SET_USER", payload: null });
+      localStorage.removeItem("USER")
     });
   },[])
 

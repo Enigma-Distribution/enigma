@@ -43,3 +43,20 @@ def is_task_completed():
     else:
         task_service.update_completed_task(task_id)
         return True
+
+def get_all_steps(task_id):
+    stepdata = steps_db.select_all_steps_for_task_id(task_id)
+    data = []
+    for step in stepdata:
+        print(step)
+        data.append({
+            "step_id": step[0],
+            "task_id": step[1],
+            "datasource_id": step[2],
+            "phase": step[3],
+            "assigned_to": step[4],
+            "is_completed": step[5],
+            "result_file_id": step[6],
+            "step_size": step[7],
+        })
+    return data

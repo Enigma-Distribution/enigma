@@ -10,6 +10,8 @@ QUERY_GET_TASK_ID = "SELECT task_id FROM step WHERE step_id = %s"
 
 QUERY_GET_STEPS_UNFINISHED = "SELECT step_id FROM step WHERE task_id = %s AND is_completed = %s"
 
+QUERY_FETCH_STEPS = "SELECT * FROM step WHERE task_id = %s"
+
 db = get_pg_connection()
 
 def insert_step(step):
@@ -41,3 +43,9 @@ def get_steps_unfinished_in_reduce_phase(task_id):
     with db:
         with db.cursor() as cursor:
             cursor.execute(QUERY_GET_STEPS_UNFINISHED, values)
+def select_all_steps_for_task_id(task_id):
+    values = (task_id,)
+    with db:
+        with db.cursor() as cursor:
+            cursor.execute(QUERY_FETCH_STEPS, values)
+            return cursor.fetchall()

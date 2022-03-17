@@ -83,6 +83,26 @@ function TaskForm() {
   }
 
   const submitForm = async (e) => {
+    // Validation start
+    if(taskName.trim() === ""){
+      alert("Task name field cannot be empty")
+      return
+    }
+    if(taskDescription.trim() === ""){
+      alert("Task description field cannot be empty")
+      return
+    }
+    if(!zipFile){
+      alert("Zip file field cannot be empty")
+      return
+    }
+    if(!textFile){
+      alert("Text file field cannot be empty")
+      return
+    }
+    
+    // Validation end
+
     setLoading(true)
     const files = createMiniFiles(textFile)
 
@@ -108,11 +128,6 @@ function TaskForm() {
         step_size: d.size
       }
     })
-
-    const datasource_all_cids_only = respArrTxtFiles.map(d => {
-      return d.path
-    })
-
     
     const formData = new FormData();
     // formData.append("datasource", textFile);
@@ -146,10 +161,24 @@ function TaskForm() {
   
     const onTextFileChange = (e) => {
       console.log(e.target.files[0])
+      let extension = e.target.files[0].name.split('.').pop()
+      console.log(extension)
+      if(extension !== "txt"){
+        alert("File type should be .txt")
+        setTextFile(null)  
+        return
+      }
       setTextFile(e.target.files[0])
     }
     const onZipFileChange = (e) => {
       console.log(e.target.files[0])
+      let extension = e.target.files[0].name.split('.').pop()
+      console.log(extension)
+      if(extension !== "zip"){
+        alert("File type should be zip")
+        setZipFile(null) 
+        return 
+      }
       setZipFile(e.target.files[0])
     }
 
