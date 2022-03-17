@@ -1,10 +1,14 @@
 import baseURL from "./baseURL";
+import axios from "axios";
 
 export default async function (context) {
-    context.$axios.setHeader('Content-Type', 'application/json')
-    const response = await context.$axios.$post(
+    //context.$axios.setHeader('Content-Type', 'application/json')
+    const response = await axios.post(
         `${baseURL}/worker/allot-me`,
-        {}
+        {},
+        {
+            headers: {'Content-Type' : 'application/json'}
+        }
     );
 
     if (response.STATUS == "OK") {
