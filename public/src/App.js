@@ -17,6 +17,7 @@ import RoutesTemporary from './screens/RoutesTemporary';
 import NavbarComponent from './components/NavbarComponent';
 import PrivateRoute from './components/PrivateRoute';
 import { useDispatch, useSelector } from 'react-redux';
+import About from './screens/About';
 
 function App() {
   
@@ -57,9 +58,11 @@ function App() {
               path="/TaskForm"
               component={TaskForm}
             ></PrivateRoute>
-            {/* <Route exact path="/TaskForm">
-              <TaskForm />
-            </Route> */}
+            
+            <Route exact path="/about">
+              <About />
+            </Route>
+            
             
             <PrivateRoute
               path="/"

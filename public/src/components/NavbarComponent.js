@@ -40,7 +40,7 @@ function NavbarComponent() {
         },
         {
             title: "About Us",
-            url: "/about-us",
+            url: "/about",
             show: true,
             position: "left"
         },
