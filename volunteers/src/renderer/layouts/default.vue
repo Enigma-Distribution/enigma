@@ -45,7 +45,8 @@
 
 <script>
 import { spinupNewContainer, runPreprocessSetup, fetchAndRun } from '../../main/docker'
-import zipFileURL from '../functions/zipFileURL'
+import workerData from '../functions/workerData'
+
 export default {
   name: "DefaultLayout",
   computed: {
@@ -59,21 +60,23 @@ export default {
       this.$router.push("/login");
     },
 
-    async getzipFileURL() {
-        const [response, data] = await zipFileURL(this);
+    async getworkerData() {
+        const [response, data] = await workerData(this);
         if(response) return response
     },
 
     async checkAgain() {
         const id = await spinupNewContainer();
-        const data = await this.getzipFileURL();
+        const data = await this.getworkerData();
+        let phase;
+        let step_id;
         if(id) {
            const value = await runPreprocessSetup(id, data.zip_file_url);
            if(value){
                const fileAccessLink = data.data_source_url;
-               const phase = data.phase;
-               const step = data.step_id;
-               await fetchAndRun(id, {fileAccessLink, phase, step});
+               phase = data.phase;
+               step_id = data.step_id;
+               await fetchAndRun(id, {fileAccessLink, phase, step_id});
            }
         }
     }
