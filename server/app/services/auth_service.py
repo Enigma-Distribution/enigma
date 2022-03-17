@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, Blueprint
 from app import app
 
 from app.interfaces import users as auth_service
+from app.interfaces import workers as worker_auth_service
 from app.middlewares import user_required
 from app.exceptions import EnigmaException
 from app.utils import get_object_from_token, get_token_from_object
@@ -29,9 +30,15 @@ def authenticate_token():
 def authenticate_user():
     try:
         data = request.get_json()
+        user_type = data['user_type']
         email = data['email']
         password = data['password']
-        data = auth_service.get_username_from_email_password(email, password)
+        
+        if user_type == "user":
+            data = auth_service.get_username_from_email_password(email, password)
+        elif user_type == "worker":
+            data = worker_auth_service.get_username_from_email_password(email, password)
+
         token_contents = {
             "USER_ID": data[0]
         }
@@ -73,13 +80,21 @@ def create_access_token(user_id):
 def create_user():
     try:
         data = request.get_json()
+        user_type = data['user_type']
         email = data['email']
         password = data['password']
         username = data['username']
-        user = auth_service.create_user(username, email, password)
-        token_contents = {
-                "USER_ID": user['user_id']
-            }
+
+        if user_type == "user":
+            user = auth_service.create_user(username, email, password)
+            token_contents = {
+                    "USER_ID": user['user_id']
+                }
+        elif user_type == "worker":
+            user = worker_auth_service.create_worker(username, email, password, upi_id)
+            token_contents = {
+                    "USER_ID": user['worker_id']
+                }
         token = get_token_from_object(token_contents, get_site_secret_key(), 7200)
         username = user['username']
         return jsonify({"STATUS": "OK", "TOKEN": token, "USERNAME": username, "EMAIL": email})
