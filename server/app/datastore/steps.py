@@ -2,7 +2,7 @@ from app.properties import get_pg_connection
 
 QUERY_INSERT_STEP = "INSERT INTO step(step_id, task_id, datasource_id, phase, assigned_to, is_completed, result_file_id, step_size) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
 
-QUERY_UPDATE_COMPLETED_STEP = "UPDATE step SET phase = %s, datasource_id = %s WHERE step_id = %s"
+QUERY_UPDATE_COMPLETED_STEP = "UPDATE step SET phase = %s, datasource_id = %s assigned_to = %s WHERE step_id = %s"
 
 QUERY_UPDATE_COMPLETED_REDUCE_STEP = "UPDATE step SET is_completed = %s WHERE step_id = %s"
 
@@ -21,7 +21,7 @@ def insert_step(step):
             cursor.execute(QUERY_INSERT_STEP, values)
 
 def update_completed_step(step):
-    values = (step['phase'], step['datasource_id'], step['step_id'])
+    values = (step['phase'], step['datasource_id'], None, step['step_id'])
     with db:
         with db.cursor() as cursor:
             cursor.execute(QUERY_UPDATE_COMPLETED_STEP, values)
@@ -43,6 +43,7 @@ def get_steps_unfinished_in_reduce_phase(task_id):
     with db:
         with db.cursor() as cursor:
             cursor.execute(QUERY_GET_STEPS_UNFINISHED, values)
+
 def select_all_steps_for_task_id(task_id):
     values = (task_id,)
     with db:
