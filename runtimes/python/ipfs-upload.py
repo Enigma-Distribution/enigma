@@ -22,4 +22,6 @@ def uploadToIPFS(content):
     # remove file from local server
     os.remove(file_name)
 
-    return res.Hash
+    return res["Hash"]
+
+# uploadToIPFS("Hello this is file content which will be uploaded to ipfs")
