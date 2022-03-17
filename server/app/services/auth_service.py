@@ -89,24 +89,3 @@ def create_user():
         return jsonify({"STATUS": "FAIL", "MSG": str(e)})
     except Exception as e:
         return jsonify({"STATUS": "FAIL", "MSG": str(e)}), 501
-
-# @app.route('/register', methods=['POST'])
-# def register():
-#     try:
-#         data = request.get_json()
-#         print(data)
-#     except Exception as e:
-#         data['error'] = str(e)
-#         return data
-#     return jsonify({'message': 'New user created!'})
-
-
-# @app.route('/login', methods=['GET', 'POST'])
-# def login():
-#     error = None
-#     if request.method == 'POST':
-#         if request.form['username'] != 'admin' or request.form['password'] != 'admin':
-#             error = 'Invalid Credentials. Please try again.'
-#         else:
-#             return jsonify({"Msg": "Dandan"})
-#     return jsonify({"error": error})
