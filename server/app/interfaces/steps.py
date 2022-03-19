@@ -3,6 +3,8 @@ from app.interfaces import tasks as task_service
 from uuid import uuid4
 from time import time
 from app.exceptions import TaskNotFoundException
+from datetime import datetime    
+import pytz
 
 def create_step(task_id, datasource_id, phase, assigned_to, is_completed, result_file_id, step_size):
     step = {
@@ -19,18 +21,24 @@ def create_step(task_id, datasource_id, phase, assigned_to, is_completed, result
     return step
 
 def update_completed_step(phase, datasource_id, step_id):
+    tz_NY = pytz.timezone('Asia/Kolkata')   
+    datetime_NY = datetime.now(tz_NY)
     step = {
         "phase": phase,
         "datasource_id": datasource_id,
-        "step_id": step_id
+        "step_id": step_id,
+        "step_updated_ts": datetime_NY
     }
     steps_db.update_completed_step(step)
     return step
 
 def update_completed_reduce_step(step_id):
+    tz_NY = pytz.timezone('Asia/Kolkata')   
+    datetime_NY = datetime.now(tz_NY)
     step = {
         "is_completed": 1,
-        "step_id": step_id
+        "step_id": step_id,
+        "step_updated_ts": datetime_NY
     }
     steps_db.update_completed_reduce_step(step)
     return
@@ -65,5 +73,5 @@ def get_step_to_allot(step_phase):
     step = steps_db.get_step_to_allot(step_phase)
     task_id = step[1]
     zip_file_id = task_service.get_zip_file_id(task_id)
-    step.append({'zip_file_id': zip_file_id})
+    step['zip_file_id'] = zip_file_id
     return step
