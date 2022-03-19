@@ -18,9 +18,8 @@ app.register_blueprint(task_service)
 from app.services.step_service import app as step_service
 app.register_blueprint(step_service)
 
-# from app.services.worker_service import app as worker_service
-# app.register_blueprint(worker_service)
- 
+from app.services.worker_service import app as worker_service
+app.register_blueprint(worker_service)
 
 from app.uploads.routes import uploads
 app.register_blueprint(uploads)

@@ -16,7 +16,7 @@ def create_worker(username, email, secret, upi_id):
             "username": username,
             "secret": sha256(secret.encode('utf-8')).hexdigest(),
             "email": email,
-            "earning": 0,
+            "earnings": 0,
             "upi_id": upi_id
         }
         workers_db.insert_user(user)
