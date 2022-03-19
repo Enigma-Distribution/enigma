@@ -1,4 +1,5 @@
 import { container } from 'webpack';
+import baseURL from '../renderer/functions/baseURL';
 
 const Docker = require('dockerode');
 
@@ -39,7 +40,7 @@ const fetchAndRun = function (containerId, {fileAccessLink, phase, step}) {
     return new Promise((resolve, reject) => {
         const container = docker.getContainer(containerId);
         container.exec({
-            Env: [`ENIGMA_FAE="${fileAccessLink}"`, `PHASE=${phase}`, `STEP=${step}`],
+            Env: [`ENIGMA_FAE="${fileAccessLink}"`, `PHASE=${phase}`, `STEP=${step}`, `SERVER_URL=${baseURL}`],
             Cmd: ['python3 main.py']
         }).then((exec) => {
             exec.start().then((value) => {
