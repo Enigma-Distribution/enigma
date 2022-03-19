@@ -63,4 +63,7 @@ def get_all_steps(task_id):
 
 def get_step_to_allot(step_phase):
     step = steps_db.get_step_to_allot(step_phase)
+    task_id = step['task_id']
+    zip_file_id = task_service.get_zip_file_id(task_id)
+    step.append({'zip_file_id': zip_file_id})
     return step
