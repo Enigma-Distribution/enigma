@@ -1,7 +1,7 @@
 import baseURL from "./baseURL";
 import axios from "axios";
 
-export default async function(email, password, name, context) {
+export default async function(email, password, name, user_type, upi_id, context) {
     //return [true, undefined]
     
     //context.$axios.setHeader('Content-Type', 'application/json')
@@ -10,17 +10,20 @@ export default async function(email, password, name, context) {
         {
             email: email,   
             password: password,
-            username: name
+            username: name,
+            user_type: user_type,
+            upi_id: upi_id
         },
         {
             headers: {'Content-Type' : 'application/json'}
         }
     );
-    if (response.STATUS == "OK") {
-        context.$store.dispatch('setToken', response.TOKEN)
+    console.log(response)
+    if (response.data.STATUS == "OK") {
+        context.$store.dispatch('setToken', response.data.TOKEN)
         return [true, undefined]
     }
-    else if (response.STATUS == "FAIL") {
+    else if (response.data.STATUS == "FAIL") {
         return [false, response.MSG]
     }
     return [false, "Problem with API call. Contact Developers."]
