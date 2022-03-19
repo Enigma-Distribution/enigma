@@ -6,6 +6,7 @@ from modules.utils import run_if_setup_file_exists
 import ipfsUpload
 import requests
 
+
 path_to_zip = os.getenv("PATH_TO_ZIP")
 unzip(path_to_zip)
 run_if_setup_file_exists()
@@ -29,7 +30,7 @@ if os.getenv("PHASE") == "ENIGMA.SHUFFLE":
     hash = ipfsUpload(shuffle_data)
 
 phase = os.getenv("PHASE")
-step_id = ""
-url = 'http://127.0.0.1:5000/worker/submit-result'
+step_id = os.getenv("STEP")
+url = os.getenv("SERVER_URL") + "/worker/submit-result"
 params = {"phase" : phase, "step_id": step_id, "result_file_id": hash}
 r = requests.post(url, params=params)
