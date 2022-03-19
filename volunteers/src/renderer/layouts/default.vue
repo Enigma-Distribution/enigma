@@ -23,7 +23,7 @@
 
       <template #end>
         <b-navbar-item tag="div">
-          <div class="buttons" v-if="!isloggedin">
+          <div class="buttons" v-if="!isLoggedIn">
             <nuxt-link :to="'/register'" class="button is-primary">
               <strong>Sign up</strong>
             </nuxt-link>
@@ -62,21 +62,23 @@ export default {
 
     async getworkerData() {
         const [response, data] = await workerData(this);
-        if(response) return response
+        if(response) return data
     },
 
     async checkAgain() {
-        const id = await spinupNewContainer();
+        
         const data = await this.getworkerData();
+        
         let phase;
         let step_id;
-        if(id) {
+        if(data) {
+           const id = await spinupNewContainer();
            const value = await runPreprocessSetup(id, data.zip_file_url);
            if(value){
                const fileAccessLink = data.data_source_url;
                phase = data.phase;
-               step_id = data.step_id;
-               await fetchAndRun(id, {fileAccessLink, phase, step_id});
+               step = data.step_id;
+               await fetchAndRun(id, {fileAccessLink, phase, step});
            }
         }
     }

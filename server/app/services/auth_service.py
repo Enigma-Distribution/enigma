@@ -91,7 +91,11 @@ def create_user():
                     "USER_ID": user['user_id']
                 }
         elif user_type == "worker":
+<<<<<<< HEAD
             upi_id = data["upi_id"]
+=======
+            upi_id = data['upi_id']
+>>>>>>> 8d7baae2b126393b427a76e75989c6ca3242b983
             user = worker_auth_service.create_worker(username, email, password, upi_id)
             token_contents = {
                     "USER_ID": user['worker_id']
