@@ -2,6 +2,7 @@
     "api":"/authenticate/user",
     "method":"POST",
     "body":{
+        "type":"worker/user",
         "email":"email",
         "password":"password"
     },
@@ -16,6 +17,7 @@
     "api":"authenticate/user/new",
     "method":"POST",
     "body":{
+        "user_type":"worker/user",
         "email":"email",
         "password":"password",
         "username":"username"
@@ -142,7 +144,7 @@
     "api":"/worker/submit-result",
     "method":"POST",
     "body":{},
-    "form_data":{
+    "form-data":{
         "step_id":"id",
         "phase":"phase",
         "result_file_id":"id"

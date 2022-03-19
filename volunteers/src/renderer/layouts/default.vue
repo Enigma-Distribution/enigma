@@ -23,7 +23,7 @@
 
       <template #end>
         <b-navbar-item tag="div">
-          <div class="buttons" v-if="!isloggedin">
+          <div class="buttons" v-if="!isLoggedIn">
             <nuxt-link :to="'/register'" class="button is-primary">
               <strong>Sign up</strong>
             </nuxt-link>
@@ -45,7 +45,8 @@
 
 <script>
 import { spinupNewContainer, runPreprocessSetup, fetchAndRun } from '../../main/docker'
-import zipFileURL from '../functions/zipFileURL'
+import workerData from '../functions/workerData'
+
 export default {
   name: "DefaultLayout",
   computed: {
@@ -59,20 +60,24 @@ export default {
       this.$router.push("/login");
     },
 
-    async getzipFileURL() {
-        const [response, data] = await zipFileURL(this);
-        if(response) return response
+    async getworkerData() {
+        const [response, data] = await workerData(this);
+        if(response) return data
     },
 
     async checkAgain() {
-        const id = await spinupNewContainer();
-        const data = await this.getzipFileURL();
-        if(id) {
+        
+        const data = await this.getworkerData();
+        
+        let phase;
+        let step_id;
+        if(data) {
+           const id = await spinupNewContainer();
            const value = await runPreprocessSetup(id, data.zip_file_url);
            if(value){
                const fileAccessLink = data.data_source_url;
-               const phase = data.phase;
-               const step = data.step_id;
+               phase = data.phase;
+               step = data.step_id;
                await fetchAndRun(id, {fileAccessLink, phase, step});
            }
         }
