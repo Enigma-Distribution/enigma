@@ -12,6 +12,7 @@ phase_identifier = 0
 @app.route('/worker/allot-me', methods=['POST'])
 @user_required
 def allot_step(current_user):
+    global phase_identifier
     try:
         counter = 0
         while counter<3:
