@@ -12,7 +12,7 @@ QUERY_GET_STEPS_UNFINISHED = "SELECT step_id FROM step WHERE task_id = %s AND is
 
 QUERY_FETCH_STEPS = "SELECT * FROM step WHERE task_id = %s"
 
-QUERY_GET_STEP_TO_ALLOT_FROM_QUEUE = "SELECT step_id, task_id, phase, data_source_url FROM step WHERE phase = %s LIMIT 1"
+QUERY_GET_STEP_TO_ALLOT_FROM_QUEUE = "SELECT step_id, task_id, phase, datasource_id FROM step WHERE phase = %s LIMIT 1"
 
 db = get_pg_connection()
 

@@ -27,7 +27,7 @@ def update_completed_step(phase, datasource_id, step_id):
     steps_db.update_completed_step(step)
     return step
 
-def update_completed_reduce_step():
+def update_completed_reduce_step(step_id):
     step = {
         "is_completed": 1,
         "step_id": step_id
@@ -35,7 +35,7 @@ def update_completed_reduce_step():
     steps_db.update_completed_reduce_step(step)
     return
 
-def is_task_completed():
+def is_task_completed(step_id):
     task_id = steps_db.get_task_id(step_id)
     steps_unfinished_in_reduce_phase = steps_db.get_steps_unfinished_in_reduce_phase(task_id)
     if count(steps_unfinished_in_reduce_phase)>0:
@@ -63,7 +63,7 @@ def get_all_steps(task_id):
 
 def get_step_to_allot(step_phase):
     step = steps_db.get_step_to_allot(step_phase)
-    task_id = step['task_id']
+    task_id = step[1]
     zip_file_id = task_service.get_zip_file_id(task_id)
     step.append({'zip_file_id': zip_file_id})
     return step

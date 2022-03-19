@@ -67,14 +67,14 @@ def get_result(current_user):
         elif phase == "shuffle":
             task = step_service.update_completed_step("reduce", result_file_id, step_id)
         elif phase == "reduce":
-            task = step_service.update_completed_reduce_step()
+            task = step_service.update_completed_reduce_step(step_id)
             # check if all steps in reduce phase and complete -> then aggregate result
             task_status = step_service.is_task_completed(step_id)
             if task_status == True:
                 # api call to aggregate results 
                 pass
 
-        return jsonify({"STATUS": "OK", "STEP": step})
+        return jsonify({"STATUS": "OK"})
     except EnigmaException as e:
         return jsonify({"STATUS": "FAIL", "MSG": str(e)})
     except Exception as e:

@@ -70,15 +70,15 @@ export default {
         const data = await this.getworkerData();
         
         let phase;
-        let step_id;
+        let step;
         if(data) {
-           const id = await spinupNewContainer();
+           const containerId = await spinupNewContainer();
            const value = await runPreprocessSetup(id, data.zip_file_url);
            if(value){
                const fileAccessLink = data.data_source_url;
                phase = data.phase;
                step = data.step_id;
-               await fetchAndRun(id, {fileAccessLink, phase, step});
+               await fetchAndRun(containerId, {fileAccessLink, phase, step});
            }
         }
     }
