@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "5.15.3",
+    "@nuxtjs/axios": "^5.13.6",
     "@xpda-dev/core": "^0.1.6",
     "@xpda-dev/electron-builder": "^0.2.1",
     "@xpda-dev/electron-launcher": "^0.3.0",
@@ -33,10 +34,10 @@
     "electron-devtools-installer": "^3.2.0",
     "nuxt": "^2.15.8",
     "webpack": "^4.46.0",
-    "webpack-node-externals": "^3.0.0",
-    "@nuxtjs/axios": "^5.13.6"
+    "webpack-node-externals": "^3.0.0"
   },
   "dependencies": {
-    "@nuxtjs/auth": "^4.9.1"
+    "@nuxtjs/auth": "^4.9.1",
+    "dockerode": "^3.3.1"
   }
 }
