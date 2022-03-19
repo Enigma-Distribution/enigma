@@ -8,7 +8,7 @@ from app.datastore import workers as workers_db
 from app.validations import validate_secret
 from app.exceptions import UsernameAlreadyExistsException, EmailAlreadyExistsException, PasswordMismatchException
 
-def create_user(username, email, secret, upi_id):
+def create_worker(username, email, secret, upi_id):
     try:
         validate_secret(secret)
         user = {

@@ -84,7 +84,7 @@ def create_user():
         email = data['email']
         password = data['password']
         username = data['username']
-
+        token_contents = {}
         if user_type == "user":
             user = auth_service.create_user(username, email, password)
             token_contents = {
