@@ -20,10 +20,6 @@ app.register_blueprint(step_service)
 
 from app.services.worker_service import app as worker_service
 app.register_blueprint(worker_service)
-<<<<<<< HEAD
  
-=======
->>>>>>> 8d7baae2b126393b427a76e75989c6ca3242b983
-
 from app.uploads.routes import uploads
 app.register_blueprint(uploads)
