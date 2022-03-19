@@ -8,6 +8,8 @@ QUERY_GET_SPECIFIC_TASK = "SELECT task_id, task_name, task_description, task_cre
 
 QUERY_UPDATE_COMPLETE_TASK = "UPDATE task SET task_status = %s WHERE task_id = %s"
 
+QUERY_GET_ZIP_FILE_ID_FROM_TASK_ID = "SELECT task_zip_file_id FROM task WHERE task_id = %s"
+
 db = get_pg_connection()
 
 def insert_task(task, user):
@@ -35,4 +37,11 @@ def update_completed_task(task):
     with db:
         with db.cursor() as cursor:
             cursor.execute(QUERY_UPDATE_COMPLETE_TASK, values)
+            return cursor.fetchone()
+
+def get_zip_file_id(task_id):
+    values = (task_id,)
+    with db:
+        with db.cursor() as cursor:
+            cursor.execute(QUERY_GET_ZIP_FILE_ID_FROM_TASK_ID, values)
             return cursor.fetchone()
