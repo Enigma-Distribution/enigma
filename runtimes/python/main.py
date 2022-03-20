@@ -17,16 +17,19 @@ hash = ''
 
 if os.getenv("PHASE") == "ENIGMA.MAP":
     map_data = app.run_mapper()
+    print('map_data', map_data)
     hash = ipfsUpload(map_data)
 
 
 if os.getenv("PHASE") == "ENIGMA.REDUCE":
     reduce_data = app.run_reducer()
+    print('reduce_data', reduce_data)
     hash = ipfsUpload(reduce_data)
 
 
 if os.getenv("PHASE") == "ENIGMA.SHUFFLE":
     shuffle_data = app.run_shuffler()
+    print('shuffle_data', shuffle_data)
     hash = ipfsUpload(shuffle_data)
 
 phase = os.getenv("PHASE")

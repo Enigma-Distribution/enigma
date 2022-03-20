@@ -46,7 +46,7 @@ def update_completed_reduce_step(step_id):
 def is_task_completed(step_id):
     task_id = steps_db.get_task_id(step_id)
     steps_unfinished_in_reduce_phase = steps_db.get_steps_unfinished_in_reduce_phase(task_id)
-    if count(steps_unfinished_in_reduce_phase)>0:
+    if len(steps_unfinished_in_reduce_phase)>0:
         return False
     else:
         task_service.update_completed_task(task_id)
