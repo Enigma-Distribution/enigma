@@ -62,10 +62,12 @@ def get_all_steps(task_id):
             "task_id": step[1],
             "datasource_id": step[2],
             "phase": step[3],
-            "assigned_to": step[4],
-            "is_completed": step[5],
-            "result_file_id": step[6],
-            "step_size": step[7],
+            "step_created_ts": step[4],
+            "step_updated_ts": step[5],
+            "assigned_to": step[6],
+            "is_completed": step[7],
+            "result_file_id": step[8],
+            "step_size": step[9],
         })
     return data
 
