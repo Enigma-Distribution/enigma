@@ -20,7 +20,8 @@
         "user_type":"worker/user",
         "email":"email",
         "password":"password",
-        "username":"username"
+        "username":"username",
+        "upi_id": "ONLY IF USER IS WORKER"
     },
     "response":{
         "STATUS":"OK",
