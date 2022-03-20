@@ -13,7 +13,7 @@ export default async function (context) {
     );
 
     if (response.STATUS == "OK") {
-        return [true, response.STEP]
+        return [true, response]
     }
     else if (response.STATUS == "FAIL") {
         return [false, response.MSG]
