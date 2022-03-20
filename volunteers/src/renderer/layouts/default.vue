@@ -86,7 +86,7 @@ export default {
     }
   },
   async mounted() {
-      setInterval(this.checkAgain, 200000000000000)
+      setInterval(this.checkAgain, 20000)
   }
 };
 </script>
