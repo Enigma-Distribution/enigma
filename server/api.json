@@ -20,7 +20,8 @@
         "user_type":"worker/user",
         "email":"email",
         "password":"password",
-        "username":"username"
+        "username":"username",
+        "upi_id": "ONLY IF USER IS WORKER"
     },
     "response":{
         "STATUS":"OK",
@@ -131,13 +132,17 @@
     "method":"POST",
     "body":{},
     "response":{
-        "STATUS":"OK",
-        "STEP": {
-            "step_id":"id",
-            "phase":"phase",
-            "zip_file_url":"url",
-            "data_source_url":"url"
-        }
+        "AVAILABLE": true,
+        "STATUS": "OK",
+        "STEP": [
+            {
+                "datasource_id": "Qmc1si42P63FNLZX4KVczyjYMmdQDgLqKEDxAuM5tYbR4S",
+                "phase": "map",
+                "step_id": "f815df08-dd9f-4e73-ad1f-c974f39abbc1",
+                "task_id": "c09cb1b0-4db4-46b4-9179-a1c63a1d51bb",
+                "zip_file_id": "QmVxLUdNotkzG1o3UL39d9MztBV1u6KRLR14bdGM549GSz"
+            }
+        ]
     }
 },
 {
