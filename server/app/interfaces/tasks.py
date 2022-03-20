@@ -53,5 +53,5 @@ def update_completed_task(task_id):
     return task
 
 def get_zip_file_id(task_id):
-    tasks_db.get_zip_file_id(task_id)
+    zip_file_id = tasks_db.get_zip_file_id(task_id)
     return zip_file_id
