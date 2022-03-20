@@ -81,6 +81,6 @@ def get_step_to_allot(step_phase):
         "task_id": step[1],
         "datasource_id": step[2],
         "phase": step[3],
-        "zip_file_id": zip_file_id
+        "zip_file_id": zip_file_id[0]
     })
     return step_data
