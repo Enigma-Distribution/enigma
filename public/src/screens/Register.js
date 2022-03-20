@@ -47,7 +47,13 @@ export default function Register() {
       email: data.get('email'),
       password: data.get('password'),
       user_type: "user"
+      // user_type: "worker",
+      // upi_id:"rugved@upi"
     }
+
+// EMAIL: "rugvedworker@gmail.com"
+// TOKEN: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJVU0VSX0lEIjoiZjFkZjU2ZjYtYzQxOC00YTgxLTg1MDItNjE5Mjg5ZThlYzk3IiwiZXhwIjoxNjQ3Nzg5MzAxfQ.P_eNKNhYq8VLxEhXOke40QqSPI18_4cg7Y2XTyaEg7E"
+// USERNAME: "rugvedworker"
 
     axios.post('http://127.0.0.1:5000/authenticate/user/new', dataForApi)
         .then(response => {
