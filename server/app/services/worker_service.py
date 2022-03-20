@@ -74,7 +74,7 @@ def get_result(current_user):
                 # api call to aggregate results 
                 pass
 
-        return jsonify({"STATUS": "OK", "STEP": step})
+        return jsonify({"STATUS": "OK"})
     except EnigmaException as e:
         return jsonify({"STATUS": "FAIL", "MSG": str(e)})
     except Exception as e:

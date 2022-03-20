@@ -45,7 +45,7 @@ def get_task_meta_data(current_user):
                 count_steps_in_shuffle_phase+=1
             if step['phase'] == "reduce" and step['is_completed'] == 0:
                 count_steps_in_reduce_phase+=1
-        total_steps = count(steps)
+        total_steps = len(steps)
 
         counts = {
             "total_steps": total_steps,
