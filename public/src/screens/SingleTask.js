@@ -49,13 +49,14 @@ function SingleTask(props) {
         setTask(TASK)
       }
       
-    }).catch(() => {
-      dispatch({ type: "SET_USER", payload: null });
-      localStorage.removeItem("USER")
+    }).catch((e) => {
+      console.log(e)
+      // dispatch({ type: "SET_USER", payload: null });
+      // localStorage.removeItem("USER")
     });
 
     // Parallel request 2
-    axios.post(`http://127.0.0.1:5000/task/get_steps?task_id=${id}`, {}, {headers})
+    axios.post(`http://127.0.0.1:5000/task/get_task_meta_data?task_id=${id}`, {}, {headers})
     .then(response => {
       const { STATUS, MSG, STEPS } = response.data
       console.log(response)
