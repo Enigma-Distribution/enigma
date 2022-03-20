@@ -49,6 +49,7 @@ export default function Login(props) {
     const dataForApi = {
       email: data.get('email'),
       password: data.get('password'),
+      user_type: "user"
     }
 
     axios.post('http://127.0.0.1:5000/authenticate/user', dataForApi)

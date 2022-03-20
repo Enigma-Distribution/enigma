@@ -46,6 +46,7 @@ export default function Register() {
       username: data.get('userName'),
       email: data.get('email'),
       password: data.get('password'),
+      user_type: "user"
     }
 
     axios.post('http://127.0.0.1:5000/authenticate/user/new', dataForApi)
