@@ -75,5 +75,12 @@ def get_step_to_allot(step_phase):
     step = steps_db.get_step_to_allot(step_phase)
     task_id = step[1]
     zip_file_id = task_service.get_zip_file_id(task_id)
-    step['zip_file_id'] = zip_file_id
-    return step
+    step_data = []
+    step_data.append({
+        "step_id": step[0],
+        "task_id": step[1],
+        "datasource_id": step[2],
+        "phase": step[3],
+        "zip_file_id": zip_file_id
+    })
+    return step_data
