@@ -73,18 +73,20 @@ export default {
         let step;
         if(data.AVAILABLE) {
            const containerId = await spinupNewContainer();
-           const value = await runPreprocessSetup(id, data.STEP.zip_file_id);
+           const value = await runPreprocessSetup(containerId, data.STEP.zip_file_id);
+           console.log(value)
            if(value){
                const fileAccessLink = data.STEP.datasource_id;
                phase = data.STEP.phase;
                step = data.STEP.step_id;
+               console.log(fileAccessLink, phase, step)
                await fetchAndRun(containerId, {fileAccessLink, phase, step});
            }
         }
     }
   },
   async mounted() {
-      setInterval(this.checkAgain, 20000)
+      setInterval(this.checkAgain, 200000000000000)
   }
 };
 </script>
