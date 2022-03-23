@@ -52,6 +52,11 @@ def allot_step(current_user):
     except Exception as e:
         return jsonify({"STATUS": "FAIL", "MSG": e}), 501
 
+# {
+#     "step_id":"f815df08-dd9f-4e73-ad1f-c974f39abbc1",
+#     "phase":"map",
+#     "result_file_id":"rugved"
+# }
 
 @app.route('/worker/submit-result', methods=['POST'])
 @user_required
@@ -60,9 +65,11 @@ def get_result(current_user):
         data = request.form
         step_id = data.get("step_id")
         phase = data.get("phase")
+        print(phase)
         result_file_id = data.get("result_file_id")  
         # id completed phase is map update step with shuffle phase
         if phase == "map":
+            print("inside map phase")
             task = step_service.update_completed_step("shuffle", result_file_id, step_id)
         elif phase == "shuffle":
             task = step_service.update_completed_step("reduce", result_file_id, step_id)

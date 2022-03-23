@@ -23,13 +23,13 @@ def insert_step(step):
             cursor.execute(QUERY_INSERT_STEP, values)
 
 def update_completed_step(step):
-    values = (step['phase'], step['datasource_id'], None, step['step_id'], step['step_updated_ts'], )
+    values = (step['phase'], step['datasource_id'], None, step['step_updated_ts'], step['step_id'], )
     with db:
         with db.cursor() as cursor:
             cursor.execute(QUERY_UPDATE_COMPLETED_STEP, values)
 
 def update_completed_reduce_step(step):
-    values = (step['is_completed'], step['step_id'], step['step_updated_ts'], )
+    values = (step['is_completed'], step['step_updated_ts'], step['step_id'], )
     with db:
         with db.cursor() as cursor:
             cursor.execute(QUERY_UPDATE_COMPLETED_REDUCE_STEP, values)

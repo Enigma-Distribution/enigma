@@ -123,6 +123,12 @@ function SingleTask(props) {
                 <Typography variant="body2">
                   Assigned to: {s.assigned_to ? s.assigned_to : "None"} 
                 </Typography>
+                <Typography variant="body2">
+                step_created_ts: {s.step_created_ts ? s.step_created_ts : "NA"} 
+                </Typography>
+                <Typography variant="body2">
+                step_updated_ts: {s.step_updated_ts ? s.step_updated_ts : "NA"} 
+                </Typography>
               </CardContent>
               <CardActions>
                 <Button size="small" disabled={s.is_completed == 1 ? false : true} href={`https://ipfs.infura.io/ipfs/${s.result_file_id}`} >Check Result</Button>
