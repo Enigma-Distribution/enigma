@@ -8,9 +8,10 @@ const docker = new Docker();
 const spinupNewContainer = function () {
     return new Promise((resolve, reject) => {
         docker.createContainer({
-            Image: "pyruntime",
+            Image: "enigpy",
             Tty: true 
-        }).then((container) => {
+        }).then(async(container) => {
+            await container.start();
             resolve(container.id);
         }).catch((reason) => {
             reject(reason);

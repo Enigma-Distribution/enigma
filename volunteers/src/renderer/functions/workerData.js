@@ -11,12 +11,12 @@ export default async function (context) {
             headers: {'Content-Type' : 'application/json', 'token': token}
         }
     );
-
-    if (response.STATUS == "OK") {
-        return [true, response]
+    
+    if (response.data.STATUS == "OK") {
+        return [true, response.data]
     }
-    else if (response.STATUS == "FAIL") {
-        return [false, response.MSG]
+    else if (response.data.STATUS == "FAIL") {
+        return [false, response.data.MSG]
     }
     return [false, "Problem with API call. Contact Developers."]
 }

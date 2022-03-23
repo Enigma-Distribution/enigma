@@ -1,5 +1,8 @@
-from distutils.command.upload import upload
 import os
+
+os.mkdir("~/testenigma")
+
+from distutils.command.upload import upload
 from random import shuffle
 from modules.unzipper import unzip
 from modules.utils import run_if_setup_file_exists
