@@ -61,8 +61,14 @@ export default {
     },
 
     async getworkerData() {
+        console.log("calling worker data")
         const [response, data] = await workerData(this);
-        if(response) return data
+        console.log(response)
+        console.log(data)
+        if(response){
+          console.log("returning data")
+          return data
+        }
     },
 
     async checkAgain() {
@@ -71,10 +77,14 @@ export default {
         
         let phase;
         let step;
+        console.log(data)
         if(data.AVAILABLE) {
            const containerId = await spinupNewContainer();
-           const value = await runPreprocessSetup(containerId, data.STEP.zip_file_id);
-           console.log(value)
+          //  console.log("container id")
+          //  console.log(containerId)
+           const value = await runPreprocessSetup(containerId, data.STEP[0].zip_file_id);
+          //  console.log("printing value")
+          //  console.log(value)
            if(value){
                const fileAccessLink = data.STEP.datasource_id;
                phase = data.STEP.phase;
@@ -86,7 +96,7 @@ export default {
     }
   },
   async mounted() {
-      setInterval(this.checkAgain, 20000)
+      setInterval(this.checkAgain, 50000)
   }
 };
 </script>
