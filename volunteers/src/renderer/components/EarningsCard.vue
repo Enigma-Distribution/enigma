@@ -8,7 +8,7 @@
                 </figure>
             </div>
             <div class="media-content">
-                <p class="title is-4"> ₹ 23</p>
+                <p class="title is-4"> ₹ 0</p>
                 <p class="subtitle is-6">Available to Withdraw</p>
             </div>
         </div>
