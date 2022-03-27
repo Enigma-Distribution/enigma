@@ -13,3 +13,5 @@ WORKDIR /runtime
 RUN mkdir enigpy
 
 COPY packages/enigpy /runtime/enigpy
+
+RUN dos2unix fetch-and-setup.sh

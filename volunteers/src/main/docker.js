@@ -25,8 +25,7 @@ const runPreprocessSetup = function (containerId, zipAccessLink) {
         container.exec({
             AttachStdout: true,
             Tty: true,
-            Env: [`ZIP_ACCESS_LINK=${zipAccessLink}`],
-            Cmd: ["source" ,"./fetch-and-setup.sh"]
+            Cmd: [`ZIP_ACCESS_LINK=${zipAccessLink} source ./fetch-and-setup.sh >> fetch-and-setup-run-log 2>&1`]
         }).then((execCommand) => {
             execCommand.start().then((value) => {
                 resolve(value);

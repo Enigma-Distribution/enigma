@@ -1,7 +1,4 @@
 import os
-
-os.mkdir("~/testenigma")
-
 from distutils.command.upload import upload
 from random import shuffle
 from modules.unzipper import unzip
