@@ -6,6 +6,8 @@ RUN apk update
 
 RUN apk add wget
 
+RUN apk add --upgrade unzip
+
 COPY runtimes/python /runtime
 
 WORKDIR /runtime

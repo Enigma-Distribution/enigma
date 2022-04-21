@@ -3,11 +3,13 @@
 
 if [[ $ZIP_ACCESS_LINK ]]
 then
-    wget $ZIP_ACCESS_LINK -O client.zip
+    wget $ZIP_ACCESS_LINK -O zipClient
 
-    python3 -m zipfile -e client.zip client/
+    mkdir client
 
-    rm client.zip
+    unzip zipClient -d client
+
+    rm zipClient
 
     if [ -e client/setup.sh ]
     then

@@ -22,15 +22,23 @@ const spinupNewContainer = function () {
 const runPreprocessSetup = function (containerId, zipAccessLink) {
     return new Promise((resolve, reject) => {
         const container = docker.getContainer(containerId);
+        console.log("container->",container)
         container.exec({
+            Env: ['ZIP_ACCESS_LINK='+"https://drive.google.com/uc?export=download&id=1hOZI5kx-z0CBkh4Ved3FSQ6P6vBdOizn"],
             AttachStdout: true,
+            AttachStderr: true,
             Tty: true,
-            Cmd: [`ZIP_ACCESS_LINK=${zipAccessLink} source ./fetch-and-setup.sh >> fetch-and-setup-run-log 2>&1`]
+            // Cmd: [`mkdir`, `testihng123`]
+            Cmd: [`source`, `fetch-and-setup.sh`]
         }).then((execCommand) => {
-            execCommand.start().then((value) => {
-                resolve(value);
-            });
+            console.log("Exec Command", execCommand)
+            execCommand.start({ hijack: true, stdin: false },  function(err, stream) {
+                stream.setEncoding('utf8');
+              const container_output=(stream.pipe(process.stdout));
+              console.log("Directory in container is" ,container_output)
+              })
         }).catch((reason) => {
+            console.log("Rejected Value", reason);
             reject(reason);
         })
     })
