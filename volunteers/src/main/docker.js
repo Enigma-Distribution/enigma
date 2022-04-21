@@ -24,12 +24,13 @@ const runPreprocessSetup = function (containerId, zipAccessLink) {
         const container = docker.getContainer(containerId);
         console.log("container->",container)
         container.exec({
-            Env: ['ZIP_ACCESS_LINK='+"https://drive.google.com/uc?export=download&id=1hOZI5kx-z0CBkh4Ved3FSQ6P6vBdOizn"],
-            AttachStdout: true,
-            AttachStderr: true,
-            Tty: true,
+            "AttachStdin": false,
+            "AttachStdout": true,
+            "AttachStderr": true,
+            "Tty": false,
             // Cmd: [`mkdir`, `testihng123`]
-            Cmd: [`source`, `fetch-and-setup.sh`]
+            Cmd: ["bash", "fetch-and-setup.sh", "https://drive.google.com/uc?export=download&id=1hOZI5kx-z0CBkh4Ved3FSQ6P6vBdOizn"],
+            // Env: ["ZIP_ACCESS_LINK='https://drive.google.com/uc?export=download&id=1hOZI5kx-z0CBkh4Ved3FSQ6P6vBdOizn'"],
         }).then((execCommand) => {
             console.log("Exec Command", execCommand)
             execCommand.start({ hijack: true, stdin: false },  function(err, stream) {
