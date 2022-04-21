@@ -4,9 +4,11 @@ cffi==1.15.0
 click==8.0.1
 colorama==0.4.4
 cryptography==36.0.1
+filesplit==3.0.2
 Flask==2.0.1
 Flask-Cors==3.0.10
 Flask-WTF==0.15.1
+gunicorn==20.1.0
 itsdangerous==2.0.1
 Jinja2==3.0.1
 jmespath==0.10.0
