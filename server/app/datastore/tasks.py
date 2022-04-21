@@ -33,7 +33,7 @@ def select_specific_task(task_id, user):
             return cursor.fetchone()
             
 def update_completed_task(task):
-    values = (True, task_id)
+    values = (True, task)
     with db:
         with db.cursor() as cursor:
             cursor.execute(QUERY_UPDATE_COMPLETE_TASK, values)
