@@ -1,6 +1,8 @@
 # This script fetched the zip file containing code from CDN, unzips it, places it to correct location,
 # cleans up unnecessary zip file, and finally, if setup file exists, runs the file.
 
+ZIP_ACCESS_LINK=$1
+
 if [[ $ZIP_ACCESS_LINK ]]
 then
     wget $ZIP_ACCESS_LINK -O zipClient
