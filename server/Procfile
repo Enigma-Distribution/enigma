@@ -1,1 +1,1 @@
-web: gunicorn server/enigma:app
+web: gunicorn enigma:app
