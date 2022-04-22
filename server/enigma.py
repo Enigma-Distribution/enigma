@@ -25,4 +25,5 @@ app.register_blueprint(worker_service)
 from app.uploads.routes import uploads
 app.register_blueprint(uploads)
 
-# app.run()
+if __name__ == "__main__":
+    app.run()
