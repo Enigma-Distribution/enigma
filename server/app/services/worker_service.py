@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, Blueprint
 from app import app
 from app.interfaces import steps as step_service
+from app.interfaces import workers as worker_service
 from app.exceptions import EnigmaException
 from app.middlewares import user_required
 from werkzeug.utils import secure_filename
@@ -59,15 +60,34 @@ def allot_step(current_user):
 # }
 
 @app.route('/worker/submit-result', methods=['POST'])
-@user_required
-def get_result(current_user):
+# @user_required
+# def get_result(current_user):
+def get_result():
     try:
         data = request.form
         step_id = data.get("step_id")
         phase = data.get("phase")
         print(phase)
-        result_file_id = data.get("result_file_id")  
-        # id completed phase is map update step with shuffle phase
+        result_file_id = data.get("result_file_id") 
+
+        # validate result here. If result is not valid i.e there is some error in result sent by worker, handle it (reassign)
+
+        # As result is valid, make a transaction
+        transaction_data = {
+            "transaction_type": data.get("transaction_type", "REGULAR"), 
+            "amount": data.get("amount", 1), 
+            "worker_id": data.get("worker_id", 1), # hardcoded 1 for now 
+            "step_id": data.get("step_id"), 
+            "phase": data.get("phase"), 
+            "result_file_id": data.get("result_file_id"),
+            "efficiency": data.get('efficiency', "NA")
+        }
+
+        worker_service.insert_transaction(transaction_data)
+        # return jsonify({"STATUS": "TRANSACTION SAVED (TESTING. Remove me later)"})
+
+
+        # if completed phase is map update step with shuffle phase
         if phase == "map":
             print("inside map phase")
             task = step_service.update_completed_step("shuffle", result_file_id, step_id)
@@ -77,12 +97,30 @@ def get_result(current_user):
             task = step_service.update_completed_reduce_step(step_id)
             # check if all steps in reduce phase and complete -> then aggregate result
             task_status = step_service.is_task_completed(step_id)
+            print("Received task status")
             if task_status == True:
                 # api call to aggregate results 
                 pass
-
+        
         return jsonify({"STATUS": "OK"})
     except EnigmaException as e:
         return jsonify({"STATUS": "FAIL", "MSG": str(e)})
     except Exception as e:
         return jsonify({"STATUS": "FAIL", "MSG": e}), 501
+
+
+# def create_transaction(worker, step_id, phase, result_file_id):
+#     '''
+#     worker: worker who has completed the step
+#     step_id: the step which is completed
+#     phase: the step's phase which is completed
+#     result_file_id: worker's results (storing it because when step moves to next phase, we update this field) 
+#     '''
+#     try:
+        
+
+#         return jsonify({"STATUS": "OK"})
+#     except EnigmaException as e:
+#         return jsonify({"STATUS": "FAIL", "MSG": str(e)})
+#     except Exception as e:
+#         return jsonify({"STATUS": "FAIL", "MSG": e}), 501
