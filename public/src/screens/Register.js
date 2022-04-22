@@ -15,6 +15,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios'
 import { useHistory } from "react-router-dom";
 import { useDispatch } from 'react-redux';
+import { SERVER_BASE_URL } from '../constants';
 
 function Copyright(props) {
   return (
@@ -59,7 +60,7 @@ export default function Register() {
 // TOKEN: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJVU0VSX0lEIjoiZjFkZjU2ZjYtYzQxOC00YTgxLTg1MDItNjE5Mjg5ZThlYzk3IiwiZXhwIjoxNjQ3Nzg5MzAxfQ.P_eNKNhYq8VLxEhXOke40QqSPI18_4cg7Y2XTyaEg7E"
 // USERNAME: "rugvedworker"
 
-    axios.post('http://127.0.0.1:5000/authenticate/user/new', dataForApi)
+    axios.post(`${SERVER_BASE_URL}/authenticate/user/new`, dataForApi)
         .then(response => {
           console.log(response)
           const { STATUS, MSG, TOKEN } = response.data

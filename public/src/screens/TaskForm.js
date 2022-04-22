@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { create, globSource } from 'ipfs-http-client'
 import Loading from '../components/Loading';
+import { SERVER_BASE_URL } from '../constants';
 
 
 const client = create("https://ipfs.infura.io:5001/api/v0");
@@ -31,7 +32,7 @@ function TaskForm(props) {
     
 
     // Uncomment this and replace AAAAAA in below line with actual API
-    const response = await axios.post('http://127.0.0.1:5000/upload-file', formData, {headers})
+    const response = await axios.post(`${SERVER_BASE_URL}/upload-file`, formData, {headers})
       
     console.log(response)
     const { STATUS, MSG, file_id } = response.data
@@ -139,7 +140,7 @@ function TaskForm(props) {
     formData.append("datasource_size", textFile.size) // Total size of text file 
     // formData.append("datasource_all_cids_only", datasource_all_cids_only)
     
-    axios.post('http://127.0.0.1:5000/newtask', formData, {headers})
+    axios.post(`${SERVER_BASE_URL}/newtask`, formData, {headers})
     .then(response => {
       console.log(response)
       const { STATUS, MSG, TASK } = response.data

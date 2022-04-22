@@ -8,6 +8,7 @@ import { Box } from '@mui/system';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { SERVER_BASE_URL } from '../constants';
 
 function Main(props) {
 
@@ -22,7 +23,7 @@ function Main(props) {
     const headers = {
       token: props.user.TOKEN || localStorage.getItem("TOKEN") 
     }
-    axios.post('http://127.0.0.1:5000/alltasks', dataForApi, {headers})
+    axios.post(`${SERVER_BASE_URL}/alltasks`, dataForApi, {headers})
     .then(response => {
       console.log(response)
       const { STATUS, MSG, DATA } = response.data

@@ -15,6 +15,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
+import { SERVER_BASE_URL } from '../constants';
 
 
 function Copyright(props) {
@@ -52,7 +53,7 @@ export default function Login(props) {
       user_type: "user"
     }
 
-    axios.post('http://127.0.0.1:5000/authenticate/user', dataForApi)
+    axios.post(`${SERVER_BASE_URL}/authenticate/user`, dataForApi)
         .then(response => {
           console.log(response)
           const { STATUS, MSG, TOKEN } = response.data

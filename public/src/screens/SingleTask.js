@@ -6,6 +6,7 @@ import axios from 'axios'
 import CardComponent from '../components/CardComponent';
 import { useDispatch } from 'react-redux';
 import Loading from '../components/Loading';
+import { SERVER_BASE_URL } from '../constants';
 
 function LinearProgressWithLabel(props) {
   return (
@@ -40,7 +41,7 @@ function SingleTask(props) {
     console.log("Insingle task, printing headers")
     console.log(headers)
     // Request 1
-    axios.post(`http://127.0.0.1:5000/task?task_id=${id}`, {}, {headers})
+    axios.post(`${SERVER_BASE_URL}/task?task_id=${id}`, {}, {headers})
     .then(response => {
       const { STATUS, MSG, TASK } = response.data
       console.log(response)
@@ -60,7 +61,7 @@ function SingleTask(props) {
     });
 
     // Parallel request 2
-    axios.post(`http://127.0.0.1:5000/task/get_task_meta_data?task_id=${id}`, {}, {headers})
+    axios.post(`${SERVER_BASE_URL}/task/get_task_meta_data?task_id=${id}`, {}, {headers})
     .then(response => {
       const { STATUS, MSG, STEPS } = response.data
       console.log(response)
