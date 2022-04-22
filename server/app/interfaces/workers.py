@@ -26,6 +26,7 @@ def create_worker(username, email, secret, upi_id):
     except pgerrors.UniqueViolation:
         raise UsernameAlreadyExistsException
 
+
 def get_username_from_email_password(email, secret):
     secret = sha256(secret.encode('utf-8')).hexdigest()
     data = workers_db.select_user_id_from_email_pass(email, secret)

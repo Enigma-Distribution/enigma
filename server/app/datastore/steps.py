@@ -24,25 +24,27 @@ def insert_step(step):
 
 def update_completed_step(step):
     values = (step['phase'], step['datasource_id'], None, step['step_updated_ts'], step['step_id'], )
+    print("values after map-shuffle", values)
     with db:
         with db.cursor() as cursor:
             cursor.execute(QUERY_UPDATE_COMPLETED_STEP, values)
 
 def update_completed_reduce_step(step):
     values = (step['is_completed'], step['step_updated_ts'], step['step_id'], )
+    print("values after reduce",values)
     with db:
         with db.cursor() as cursor:
             cursor.execute(QUERY_UPDATE_COMPLETED_REDUCE_STEP, values)
 
 def get_task_id(step_id):
-    values = (step_id)
+    values = (step_id, )
     with db:
         with db.cursor() as cursor:
             cursor.execute(QUERY_GET_TASK_ID, values)
             return cursor.fetchone()
 
 def get_steps_unfinished_in_reduce_phase(task_id):
-    values = (task_id, 0)
+    values = (task_id, 0, )
     with db:
         with db.cursor() as cursor:
             cursor.execute(QUERY_GET_STEPS_UNFINISHED, values)

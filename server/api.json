@@ -150,9 +150,13 @@
     "method":"POST",
     "body":{},
     "form-data":{
+        "transaction_type": "REGULAR",
+        "amount": 1,
+        "worker_id": "abc-ajns-sakjdasd (put actual worker id)",
         "step_id":"id",
-        "phase":"phase",
-        "result_file_id":"id"
+        "phase":"phase -> map,shuffle,reduce",
+        "result_file_id":"id",
+        "efficiency": "varchar(50) -> needs to be decided. Put dummy for testing"
     },
     "response":{
         "STATUS":"OK",

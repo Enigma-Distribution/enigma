@@ -41,6 +41,10 @@ export default function Register() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     // eslint-disable-next-line no-console
+
+    // if (){
+    //   alert("Fill al the fields")
+    // }
     
     const dataForApi = {
       username: data.get('userName'),
@@ -65,14 +69,15 @@ export default function Register() {
           }
           else if(STATUS == "OK") {
             const { USERNAME, EMAIL } = response.data
-            localStorage.setItem("TOKEN", TOKEN)
-            localStorage.setItem("USER", JSON.stringify({ USERNAME, EMAIL, TOKEN }))
-            // localStorage.setItem("tokenTime", new Date().getMinutes())
-            dispatch({type: "SET_USER", payload: { USERNAME, EMAIL, TOKEN }})
-            setTimeout(() => history.push("/main"), 500)
+            // localStorage.setItem("TOKEN", TOKEN)
+            // localStorage.setItem("USER", JSON.stringify({ USERNAME, EMAIL, TOKEN }))
+            // dispatch({type: "SET_USER", payload: { USERNAME, EMAIL, TOKEN }})
+            // setTimeout(() => history.push("/main"), 1000)
+            history.push("/login")
           }
           
-        });
+        })
+        .catch(err => history.push("/login"));
 
   };
 

@@ -8,11 +8,12 @@ import Loading from '../components/Loading';
 
 const client = create("https://ipfs.infura.io:5001/api/v0");
 
-const headers = {
-  token: localStorage.getItem("TOKEN")
-}
 
-function TaskForm() {
+function TaskForm(props) {
+
+  const headers = {
+    token: props.user.TOKEN || localStorage.getItem("TOKEN")
+  }  
 
   const [taskName, setTaskName] = useState("")
   const [taskDescription, setTaskDescription] = useState("")
@@ -150,6 +151,7 @@ function TaskForm() {
         console.log(TASK)
         // alert(JSON.stringify(TASK))
         history.push("/task/"+TASK.task_id)
+        // history.push('/main')
       }
       
     });

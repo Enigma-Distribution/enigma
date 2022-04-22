@@ -37,15 +37,19 @@ function SingleTask(props) {
     const headers = {
       token: props.user.TOKEN || localStorage.getItem("TOKEN")
     }
+    console.log("Insingle task, printing headers")
+    console.log(headers)
     // Request 1
     axios.post(`http://127.0.0.1:5000/task?task_id=${id}`, {}, {headers})
     .then(response => {
       const { STATUS, MSG, TASK } = response.data
       console.log(response)
       if(STATUS == "FAIL") {
+        console.log("Request 1 to get task failed")
         alert(MSG)
       }
       else if(STATUS == "OK") {
+        console.log("Received task")
         setTask(TASK)
       }
       
@@ -61,9 +65,11 @@ function SingleTask(props) {
       const { STATUS, MSG, STEPS } = response.data
       console.log(response)
       if(STATUS == "FAIL") {
+        console.log("Request 2 to get task failed")
         alert(MSG)
       }
       else if(STATUS == "OK") {
+        console.log("Received steps")
         setSteps(STEPS)
         console.log("STATUS:OK")
       }
