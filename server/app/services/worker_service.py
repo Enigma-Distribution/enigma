@@ -61,9 +61,8 @@ def allot_step(current_user):
 # }
 
 @app.route('/worker/submit-result', methods=['POST'])
-# @user_required
-# def get_result(current_user):
-def get_result():
+@user_required
+def get_result(current_user):
     try:
         data = request.form
         step_id = data.get("step_id")
