@@ -1,0 +1,53 @@
+
+CREATE TABLE Enigma_User (
+    user_id varchar(50) PRIMARY KEY,
+    username varchar(50) UNIQUE,
+    password_hash varchar(255),
+    email varchar(50) UNIQUE,
+    date_added TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Task(
+    task_id varchar(50) PRIMARY KEY,
+    user_id varchar(50) REFERENCES Enigma_User(user_id),
+    task_name varchar(255),
+    task_description varchar(255),
+    task_created_ts TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    task_zip_file_id varchar(255),
+    datasource_size varchar(255),
+	task_status BOOLEAN DEFAULT FALSE
+);
+
+CREATE TABLE Worker(
+    worker_id varchar(50) PRIMARY KEY,
+    username varchar(50),
+    password_hash varchar(255),
+    email varchar(50) UNIQUE,
+    earnings int,
+    upi_id varchar(50)
+);
+
+CREATE TABLE Transaction(
+    transaction_id varchar(50) PRIMARY KEY,
+    transaction_type varchar(50),
+	amount int,
+    worker_id varchar(50) REFERENCES Worker(worker_id),
+	step_id varchar(50) REFERENCES Step(step_id),
+	phase varchar(10),
+	result_file_id varchar(50),
+	efficiency varchar(50),
+    transaction_ts TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Step(
+    step_id varchar(50) PRIMARY KEY,
+    task_id varchar(50) REFERENCES Task(task_id),
+    datasource_id varchar(255),
+    phase varchar(10),
+    step_created_ts TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    step_updated_ts TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    assigned_to varchar(50) REFERENCES Worker(worker_id),
+    is_completed int,
+    result_file_id varchar(255),
+    step_size varchar(255)
+);
