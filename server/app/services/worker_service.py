@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, Blueprint
 from app import app
 from app.interfaces import steps as step_service
 from app.interfaces import workers as worker_service
+from app.interfaces import transactions as transaction_service
 from app.exceptions import EnigmaException
 from app.middlewares import user_required
 from werkzeug.utils import secure_filename
@@ -83,7 +84,7 @@ def get_result():
             "efficiency": data.get('efficiency', "NA")
         }
 
-        worker_service.insert_transaction(transaction_data)
+        transaction_service.insert_transaction(transaction_data)
         # return jsonify({"STATUS": "TRANSACTION SAVED (TESTING. Remove me later)"})
 
 
@@ -107,20 +108,3 @@ def get_result():
         return jsonify({"STATUS": "FAIL", "MSG": str(e)})
     except Exception as e:
         return jsonify({"STATUS": "FAIL", "MSG": e}), 501
-
-
-# def create_transaction(worker, step_id, phase, result_file_id):
-#     '''
-#     worker: worker who has completed the step
-#     step_id: the step which is completed
-#     phase: the step's phase which is completed
-#     result_file_id: worker's results (storing it because when step moves to next phase, we update this field) 
-#     '''
-#     try:
-        
-
-#         return jsonify({"STATUS": "OK"})
-#     except EnigmaException as e:
-#         return jsonify({"STATUS": "FAIL", "MSG": str(e)})
-#     except Exception as e:
-#         return jsonify({"STATUS": "FAIL", "MSG": e}), 501

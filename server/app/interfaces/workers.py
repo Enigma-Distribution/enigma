@@ -26,20 +26,6 @@ def create_worker(username, email, secret, upi_id):
     except pgerrors.UniqueViolation:
         raise UsernameAlreadyExistsException
 
-def insert_transaction(data):
-    
-    transaction = {
-        "transaction_id": str(uuid4()), 
-        "transaction_type": data["transaction_type"], 
-        "amount": data["amount"], 
-        "worker_id": data["worker_id"], 
-        "step_id": data["step_id"], 
-        "phase": data["phase"], 
-        "result_file_id": data["result_file_id"],
-        "efficiency": data["efficiency"]
-    }
-    print("Calling db's transaction insert method") 
-    workers_db.insert_transaction(transaction)
 
 def get_username_from_email_password(email, secret):
     secret = sha256(secret.encode('utf-8')).hexdigest()
