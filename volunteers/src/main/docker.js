@@ -22,24 +22,15 @@ const spinupNewContainer = function () {
 const runPreprocessSetup = function (containerId, zipAccessLink) {
     return new Promise((resolve, reject) => {
         const container = docker.getContainer(containerId);
-        console.log("container->",container)
         container.exec({
-            "AttachStdin": false,
-            "AttachStdout": true,
-            "AttachStderr": true,
-            "Tty": false,
-            // Cmd: [`mkdir`, `testihng123`]
-            Cmd: ["bash", "fetch-and-setup.sh", "https://drive.google.com/uc?export=download&id=1hOZI5kx-z0CBkh4Ved3FSQ6P6vBdOizn"],
-            // Env: ["ZIP_ACCESS_LINK='https://drive.google.com/uc?export=download&id=1hOZI5kx-z0CBkh4Ved3FSQ6P6vBdOizn'"],
+            AttachStdout: true,
+            Tty: true,
+            Cmd: [`bash`, `fetch-and-setup.sh`, `${zipAccessLink}`]
         }).then((execCommand) => {
-            console.log("Exec Command", execCommand)
-            execCommand.start({ hijack: true, stdin: false },  function(err, stream) {
-                stream.setEncoding('utf8');
-              const container_output=(stream.pipe(process.stdout));
-              console.log("Directory in container is" ,container_output)
-              })
+            execCommand.start().then((value) => {
+                resolve(value);
+            });
         }).catch((reason) => {
-            console.log("Rejected Value", reason);
             reject(reason);
         })
     })
@@ -48,9 +39,12 @@ const runPreprocessSetup = function (containerId, zipAccessLink) {
 const fetchAndRun = function (containerId, {fileAccessLink, phase, step}) {
     return new Promise((resolve, reject) => {
         const container = docker.getContainer(containerId);
+        console.log("fetchandrun")
+        console.log("Printing values")
+        console.log(containerId, fileAccessLink, phase, step)
         container.exec({
             Env: [`ENIGMA_FAE="${fileAccessLink}"`, `PHASE=${phase}`, `STEP=${step}`, `SERVER_URL=${baseURL}`],
-            Cmd: ['python3 main.py']
+            Cmd: [`python3 main.py`]
         }).then((exec) => {
             exec.start().then((value) => {
                 resolve(value);
