@@ -1,39 +1,33 @@
-import os
+import sys
 from distutils.command.upload import upload
-from random import shuffle
-from modules.unzipper import unzip
-from modules.utils import run_if_setup_file_exists
+# from modules.unzipper import unzip
+# from modules.utils import run_if_setup_file_exists
 import ipfsUpload
 import requests
-
-
-path_to_zip = os.getenv("PATH_TO_ZIP")
-unzip(path_to_zip)
-run_if_setup_file_exists()
 
 from client.handler import app
 
 hash = ''
 
-if os.getenv("PHASE") == "ENIGMA.MAP":
+if sys.argv[2] == "map":
     map_data = app.run_mapper()
     print('map_data', map_data)
     hash = ipfsUpload(map_data)
 
 
-if os.getenv("PHASE") == "ENIGMA.REDUCE":
+if sys.argv[2] == "reduce":
     reduce_data = app.run_reducer()
     print('reduce_data', reduce_data)
     hash = ipfsUpload(reduce_data)
 
 
-if os.getenv("PHASE") == "ENIGMA.SHUFFLE":
+if sys.argv[2] == "shuffle":
     shuffle_data = app.run_shuffler()
     print('shuffle_data', shuffle_data)
     hash = ipfsUpload(shuffle_data)
 
-phase = os.getenv("PHASE")
-step_id = os.getenv("STEP")
-url = os.getenv("SERVER_URL") + "/worker/submit-result"
+phase = sys.argv[2]
+step_id = sys.argv[3]
+url = "{}/worker/submit-result".format(sys.argv[4])
 params = {"phase" : phase, "step_id": step_id, "result_file_id": hash}
 r = requests.post(url, params=params)
