@@ -1,1 +1,1 @@
-pip install enipy
+pip3 install ipfs-api
