@@ -1,3 +1,4 @@
+from asyncore import file_dispatcher
 import sys
 from distutils.command.upload import upload
 # from modules.unzipper import unzip
@@ -8,6 +9,9 @@ import requests
 from client.handler import app
 
 hash = ''
+
+url = sys.argv[1]
+dataFile = requests.get(url, allow_redirects=True)
 
 if sys.argv[2] == "map":
     map_data = app.run_mapper()
