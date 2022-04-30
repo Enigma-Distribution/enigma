@@ -1,10 +1,7 @@
 from os import getenv
-<<<<<<< HEAD
 import requests
-=======
 import csv
 import json
->>>>>>> fd0fd472b5f388cc0c588a097cc380778468ecf6
 
 
 map_data = ['A', 'paragraph', 'is', 'a', 'series', 'of', 'related', 'sentences', 'developing', 'a', 'central', 'idea,', 'called', 'the', 'topic.', 'Try', 'to', 'think', 'about', 'paragraphs', 'in', 'terms', 'of', 'thematic', 'unity:', 'a', 'paragraph', 'is', 'a', 'sentence', 'or', 'a', 'group', 'of', 'sentences', 'that', 'supports', 'one', 'central,', 'unified', 'idea.', 'Paragraphs', 'add', 'one', 'idea', 'at', 'a', 'time', 'to', 'your', 'broader', 'argument.']
@@ -27,10 +24,8 @@ def read_data_from_csv(file_path):
 def get_map_data():
     # Request to file access end point,
     # Send necessary params by using env.
-<<<<<<< HEAD
     url = getenv("ENIGMA_FAE")
     dataFile = requests.get(url, allow_redirects=True)   
-=======
     file_path = ""
     wordlist = read_data_from_csv(file_path)
     response_list = []
@@ -40,7 +35,6 @@ def get_map_data():
     print(response_list)
 #   ['lgns', 12, 'fg', 12, 'silf', 12, 'as', 12]
     map_data = response_list
->>>>>>> fd0fd472b5f388cc0c588a097cc380778468ecf6
     return map_data
 
 def get_shuffle_data():
