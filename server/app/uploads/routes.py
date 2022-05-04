@@ -1,6 +1,6 @@
 from flask import Blueprint
 from flask import Flask, request, jsonify
-from app import app
+# from app import app
 from app.properties import get_s3_bucket
 from app.exceptions import EnigmaException
 from werkzeug.utils import secure_filename
