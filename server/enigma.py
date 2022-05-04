@@ -3,6 +3,9 @@ from app.properties import get_site_secret_key
 import os
 from flask import Flask
 from flask_cors import CORS
+from flask_apscheduler import APScheduler
+import datetime
+
 app = Flask(__name__)  # , template_folder=template_dir
 app.config['SECRET_KEY'] = get_site_secret_key()
 
@@ -25,5 +28,13 @@ app.register_blueprint(worker_service)
 from app.uploads.routes import uploads
 app.register_blueprint(uploads)
 
+#function executed by scheduled job
+# https://stackoverflow.com/questions/55427781/is-there-a-way-to-run-python-flask-function-every-specific-interval-of-time-and
+def my_job(text):
+    print(text, str(datetime.datetime.now()))
+
 if __name__ == "__main__":
+    scheduler = APScheduler()
+    scheduler.add_job(func=my_job, args=['job run'], trigger='interval', id='job', seconds=5)
+    scheduler.start()
     app.run()
