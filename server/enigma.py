@@ -4,6 +4,7 @@ import os
 from flask import Flask
 from flask_cors import CORS
 from flask_apscheduler import APScheduler
+from app.datastore import steps as steps_db
 import datetime
 
 app = Flask(__name__)  # , template_folder=template_dir
@@ -32,6 +33,15 @@ app.register_blueprint(uploads)
 # https://stackoverflow.com/questions/55427781/is-there-a-way-to-run-python-flask-function-every-specific-interval-of-time-and
 def my_job(text):
     print(text, str(datetime.datetime.now()))
+    # Find all the steps that 
+    # 1) have been asigned to someone AND
+    # 2) It has been more than 4 mins since they were assigned AND
+    # 3) They have not been finished
+
+    # Set their alloted_to field to None and add these to queues.
+
+    steps_db.update_already_assigned_delayed_incomplete_steps()
+
 
 if __name__ == "__main__":
     scheduler = APScheduler()

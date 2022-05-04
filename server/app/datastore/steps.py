@@ -14,6 +14,7 @@ QUERY_FETCH_STEPS = "SELECT * FROM step WHERE task_id = %s"
 
 QUERY_GET_STEP_TO_ALLOT_FROM_QUEUE = "SELECT step_id, task_id, datasource_id, phase FROM step WHERE phase = %s ORDER BY step_updated_ts ASC LIMIT 1 "
 
+
 db = get_pg_connection()
 
 def insert_step(step):
@@ -63,3 +64,7 @@ def get_step_to_allot(step_phase):
         with db.cursor() as cursor:
             cursor.execute(QUERY_GET_STEP_TO_ALLOT_FROM_QUEUE, values)
             return cursor.fetchone()
+
+def update_already_assigned_delayed_incomplete_steps():
+    values = (None,)
+    print('Run update query here')
