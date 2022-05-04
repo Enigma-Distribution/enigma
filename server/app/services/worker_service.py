@@ -109,7 +109,7 @@ def get_result():
 
             
             # check if all steps in reduce phase and complete -> then aggregate result
-            task_status = True #step_service.is_task_completed(step_id)
+            task_status = step_service.is_task_completed(step_id)
             print("Received task status")
             if task_status == True:
                 print("---------- RESULT AGGREGATOR ----------")
@@ -129,7 +129,7 @@ def get_result():
                 list_of_result_dicts = []
                 for cid in steps_result_files_cids:
                     # for testing hardcoding cid (Comment the below 1 line before pushing)
-                    cid = "QmPWfMrZijFSR5B9Q36Wy1nJ33JdGU6eitjnLETLQjLsAL"
+                    # cid = "QmPWfMrZijFSR5B9Q36Wy1nJ33JdGU6eitjnLETLQjLsAL"
                     file_link = "https://ipfs.infura.io/ipfs/" + cid
                     content = read_file_content(file_link)
                     d = json.loads(content)
@@ -155,7 +155,7 @@ def get_result():
                 
                 # 5) Update in database
                 print("Updating result for ",task_id)
-                result_file_id = 'QmWSRT5gUnQg1STmVyEq2u8xavQPVVJz3eZQDsWRkzaV1c'
+                # result_file_id = 'QmWSRT5gUnQg1STmVyEq2u8xavQPVVJz3eZQDsWRkzaV1c'
                 task_service.update_completed_task(task_id, result_file_id)
 
                 # 6) Send user a notification/mail etc    
