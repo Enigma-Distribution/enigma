@@ -1,4 +1,4 @@
-# from app import app
+from app import app
 from app.properties import get_site_secret_key
 import os
 from flask import Flask

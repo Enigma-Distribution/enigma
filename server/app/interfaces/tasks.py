@@ -48,9 +48,9 @@ def get_selected_task(task_id, user):
         #add task completion status in %
     return task
 
-def update_completed_task(task_id):
-    tasks_db.update_completed_task(True, task_id)
-    return task
+def update_completed_task(task_id, result_file_id="NA"):
+    tasks_db.update_completed_task(task_id, result_file_id)
+    # return task
 
 def get_zip_file_id(task_id):
     zip_file_id = tasks_db.get_zip_file_id(task_id)

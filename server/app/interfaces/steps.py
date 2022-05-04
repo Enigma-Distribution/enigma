@@ -29,8 +29,9 @@ def update_completed_step(phase, datasource_id, step_id):
         "step_id": step_id,
         "step_updated_ts": datetime_NY
     }
-    steps_db.update_completed_step(step)
-    return step
+    step = steps_db.update_completed_step(step)
+    task_id = steps_db.get_task_id(step_id)
+    return task_id
 
 def update_completed_reduce_step(step_id):
     tz_NY = pytz.timezone('Asia/Kolkata')   
@@ -40,8 +41,9 @@ def update_completed_reduce_step(step_id):
         "step_id": step_id,
         "step_updated_ts": datetime_NY
     }
-    steps_db.update_completed_reduce_step(step)
-    return
+    step = steps_db.update_completed_reduce_step(step)
+    task_id = steps_db.get_task_id(step_id)
+    return task_id
 
 def is_task_completed(step_id):
     print("Is task completed called with step_id", step_id)
@@ -73,6 +75,20 @@ def get_all_steps(task_id):
     return data
 
 def get_step_to_allot(step_phase):
+    step = steps_db.get_step_to_allot(step_phase)
+    task_id = step[1]
+    zip_file_id = task_service.get_zip_file_id(task_id)
+    step_data = []
+    step_data.append({
+        "step_id": step[0],
+        "task_id": step[1],
+        "datasource_id": step[2],
+        "phase": step[3],
+        "zip_file_id": zip_file_id[0]
+    })
+    return step_data
+
+def get_task_of_specific_step(step_id):
     step = steps_db.get_step_to_allot(step_phase)
     task_id = step[1]
     zip_file_id = task_service.get_zip_file_id(task_id)

@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, Blueprint
-# from app import app
+from app import app
 from app.interfaces import steps as step_service
 from app.exceptions import EnigmaException
 from app.middlewares import user_required

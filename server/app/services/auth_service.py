@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, Blueprint
-# from app import app
+from app import app
 
 from app.interfaces import users as auth_service
 from app.interfaces import workers as worker_auth_service
