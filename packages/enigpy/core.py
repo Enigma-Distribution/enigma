@@ -1,3 +1,14 @@
+import os
+from enigpy.ipfsUpload import uploadToIPFS as ipfsUpload
+import json
+import requests
+
+def process_post_result(ipfs_hash_of_file):
+    url = "{}/worker/submit-result".format(os.getenv("API_URL"))
+    params = {"phase" : os.getenv("PHASE"), "step_id": os.getenv("STEP_ID"), "result_file_id": ipfs_hash_of_file}
+    requests.post(url, params=params)
+
+
 class EnigmaMapper:
     def __init__(self):
         self.return_array_of_tuples = []
@@ -5,24 +16,40 @@ class EnigmaMapper:
     def map(self):
         raise NotImplementedError
 
+    def get_normalise_file_ref(self):
+        string = ""
+        for each in self.return_array_of_tuples:
+            string += str(each[0]) + ", " + str(each[1]) + " ,"
+        string = string[:-2]
+        hash = ipfsUpload(string)
+        return hash
+
     def run(self):
         self.map()
+        process_post_result(self.get_normalise_file_ref())
 
 
 class EnigmaReducer:
     def __init__(self):
         self.return_dict = dict()
+    
+    def get_normalise_file_ref(self):
+        return ipfsUpload(json.dumps(self.return_dict))
 
     def reduce(self):
         raise NotImplementedError
 
     def run(self):
         self.reduce()
+        process_post_result(self.get_normalise_file_ref())
 
 
 class EnigmaShuffler:
     def __init__(self):
         self.return_dict = dict()
+
+    def get_normalise_file_ref(self):
+        return ipfsUpload(json.dumps(self.return_dict))
 
     def create_key(self, key):
         if not key in self.return_dict:
@@ -40,6 +67,7 @@ class EnigmaShuffler:
     
     def run(self):
         self.shuffle()
+        process_post_result(self.get_normalise_file_ref())
 
 
 class EnigmaApp:
