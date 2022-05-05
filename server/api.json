@@ -130,6 +130,9 @@
 {
     "api":"/worker/allot-me",
     "method":"POST",
+    "header":{
+        "token":"token"
+    },
     "body":{},
     "response":{
         "AVAILABLE": true,

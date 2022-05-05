@@ -101,3 +101,10 @@ def get_task_of_specific_step(step_id):
         "zip_file_id": zip_file_id[0]
     })
     return step_data
+
+def assign_step_to_worker(user, step_id):
+    tz_NY = pytz.timezone('Asia/Kolkata')   
+    datetime_NY = datetime.now(tz_NY)
+    step_start_ts = datetime_NY
+    steps_db.assign_step_to_worker_db(user, step_id, step_start_ts)
+    return 

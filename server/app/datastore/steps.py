@@ -6,14 +6,15 @@ QUERY_UPDATE_COMPLETED_STEP = "UPDATE step SET phase = %s, datasource_id = %s, a
 
 QUERY_UPDATE_COMPLETED_REDUCE_STEP = "UPDATE step SET is_completed = %s, step_updated_ts = %s WHERE step_id = %s"
 
+QUERY_UPDATE_STEP_ASSIGNED_TO = "UPDATE step SET assigned_to = %s, step_updated_ts = %s WHERE step_id = %s"
+
 QUERY_GET_TASK_ID = "SELECT task_id FROM step WHERE step_id = %s"
 
 QUERY_GET_STEPS_UNFINISHED = "SELECT step_id FROM step WHERE task_id = %s AND is_completed = %s ORDER BY step_updated_ts ASC"
 
 QUERY_FETCH_STEPS = "SELECT * FROM step WHERE task_id = %s"
 
-QUERY_GET_STEP_TO_ALLOT_FROM_QUEUE = "SELECT step_id, task_id, datasource_id, phase FROM step WHERE phase = %s ORDER BY step_updated_ts ASC LIMIT 1 "
-
+QUERY_GET_STEP_TO_ALLOT_FROM_QUEUE = "SELECT step_id, task_id, datasource_id, phase FROM step WHERE phase = %s AND assigned_to = %s ORDER BY step_updated_ts ASC LIMIT 1 "
 
 db = get_pg_connection()
 
@@ -59,7 +60,7 @@ def select_all_steps_for_task_id(task_id):
             return cursor.fetchall()
 
 def get_step_to_allot(step_phase):
-    values = (step_phase,)
+    values = (step_phase, None)
     with db:
         with db.cursor() as cursor:
             cursor.execute(QUERY_GET_STEP_TO_ALLOT_FROM_QUEUE, values)
@@ -68,3 +69,10 @@ def get_step_to_allot(step_phase):
 def update_already_assigned_delayed_incomplete_steps():
     values = (None,)
     print('Run update query here')
+
+def assign_step_to_worker_db(user, step_id, step_start_ts):
+    values = (user, step_start_ts, step_id, )
+    with db:
+        with db.cursor() as cursor:
+            cursor.execute(QUERY_UPDATE_STEP_ASSIGNED_TO, values)
+            return cursor.fetchone()

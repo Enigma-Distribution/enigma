@@ -16,7 +16,7 @@ phase_identifier = 0
 
 @app.route('/worker/allot-me', methods=['POST'])
 @user_required
-def allot_step(current_user):
+def allot_step(worker_id):
     global phase_identifier
     try:
         counter = 0
@@ -51,6 +51,9 @@ def allot_step(current_user):
         if counter == 3:
             available = False
 
+        if available == True:
+            step_service.assign_step_to_worker(worker_id, step["step_id"])
+
         return jsonify({"STATUS": "OK", "AVAILABLE": available, "STEP": step})
     except EnigmaException as e:
         return jsonify({"STATUS": "FAIL", "MSG": str(e)})
@@ -64,9 +67,9 @@ def allot_step(current_user):
 # }
 
 @app.route('/worker/submit-result', methods=['POST'])
-# @user_required
-# def get_result(current_user):
-def get_result():
+@user_required
+def get_result(worker_id):
+# def get_result():
     try:
         data = request.form
         step_id = data.get("step_id")
@@ -82,7 +85,7 @@ def get_result():
         transaction_data = {
             "transaction_type": data.get("transaction_type", "REGULAR"), 
             "amount": data.get("amount", 1), 
-            "worker_id": data.get("worker_id", 1), # hardcoded 1 for now 
+            "worker_id": data.get("worker_id", 1), # hardcoded 1 for now and for real put worker_id
             "step_id": data.get("step_id"), 
             "phase": data.get("phase"), 
             "result_file_id": data.get("result_file_id"),
