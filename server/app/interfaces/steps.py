@@ -108,3 +108,20 @@ def assign_step_to_worker(user, step_id):
     step_start_ts = datetime_NY
     steps_db.assign_step_to_worker_db(user, step_id, step_start_ts)
     return 
+
+def get_step_by_step_id(step_id):
+    step = steps_db.get_step_by_step_id(step_id)
+    step_data = []
+    step_data.append({
+        "step_id": step[0],
+        "task_id": step[1],
+        "datasource_id": step[2],
+        "phase": step[3],
+        "step_created_ts": step[4],
+        "step_updated_ts": step[5],
+        "assigned_to":  step[6],
+        "is_completed":  step[7],
+        "result_file_id": step[8],
+        "step_size": step[9],
+    })
+    return step_data

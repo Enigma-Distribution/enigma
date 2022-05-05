@@ -10,6 +10,7 @@ from app.utils import read_file_content, put_content_into_file_and_upload
 from werkzeug.utils import secure_filename
 from app.constants import SERVER_ERROR
 import json
+import pytz
 
 app = Blueprint("worker_service", __name__)
 phase_identifier = 0
@@ -77,19 +78,25 @@ def get_result(worker_id):
         print(phase)
         result_file_id = data.get("result_file_id") 
 
+        step_data = step_service.get_step_by_step_id(step_id)
+        step_ts_after_allotment = step_data['step_updated_ts']
+        tz_NY = pytz.timezone('Asia/Kolkata')
+        ts_after_completion_of_step = datetime.now(tz_NY)
+        efficiency = ((ts_after_completion_of_step - step_ts_after_allotment).total_seconds())/60
+
+        amount = 1
         
-
         # validate result here. If result is not valid i.e there is some error in result sent by worker, handle it (reassign)
-
+        
         # As result is valid, make a transaction
         transaction_data = {
             "transaction_type": data.get("transaction_type", "REGULAR"), 
-            "amount": data.get("amount", 1), 
-            "worker_id": data.get("worker_id", 1), # hardcoded 1 for now and for real put worker_id
-            "step_id": data.get("step_id"), 
-            "phase": data.get("phase"), 
+            "amount": amount,
+            "worker_id": worker_id,
+            "step_id": step_id, 
+            "phase": phase,
             "result_file_id": data.get("result_file_id"),
-            "efficiency": data.get('efficiency', "NA")
+            "efficiency": efficiency
         }
 
         try:
