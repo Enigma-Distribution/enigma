@@ -10,6 +10,8 @@ RUN apk add bash
 
 RUN apk add --upgrade unzip
 
+RUN apk add python3
+
 COPY runtimes/python /runtime
 
 WORKDIR /runtime
