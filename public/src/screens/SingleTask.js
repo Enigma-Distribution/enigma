@@ -100,7 +100,11 @@ function SingleTask(props) {
       }}>{task.task_description}</h3>
 
       <br></br>
-      <h2>Task Status: {task.task_status}</h2>      
+      <h2>Task Status: {task.task_status ? <span style={{color:"green"}}>Completed</span> : "Not Completed"}</h2>   
+      {task.result_file_id && <div>
+        Result File: {"  "}  
+        <a href={`https://ipfs.infura.io/ipfs/${task.result_file_id}`}>{`https://ipfs.infura.io/ipfs/${task.result_file_id}`}</a>
+      </div>}   
 
       <br></br>
       <h2>Progress</h2>
@@ -114,8 +118,11 @@ function SingleTask(props) {
       <br></br><br></br>
       <h2>Sub Tasks</h2>
       {steps.map((s) => {
-        return (
-          <div id={s.step_id} style={{ margin:"20px" }}>
+      let completed_step_green_border = { margin:"20px", borderWidth:"2px", borderStyle:"solid", borderColor:"green" }
+      let normal_border = { margin:"20px", borderWidth:"2px"}  
+      return (
+          <div id={s.step_id} style={s.is_completed == 1 ? completed_step_green_border : normal_border}>
+
             <Card>
               <CardContent>
                 <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>

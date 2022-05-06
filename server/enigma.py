@@ -3,6 +3,11 @@ from app.properties import get_site_secret_key
 import os
 from flask import Flask
 from flask_cors import CORS
+from flask_apscheduler import APScheduler
+from app.datastore import steps as steps_db
+import datetime
+import pytz
+
 app = Flask(__name__)  # , template_folder=template_dir
 app.config['SECRET_KEY'] = get_site_secret_key()
 
@@ -25,5 +30,24 @@ app.register_blueprint(worker_service)
 from app.uploads.routes import uploads
 app.register_blueprint(uploads)
 
+#function executed by scheduled job
+# https://stackoverflow.com/questions/55427781/is-there-a-way-to-run-python-flask-function-every-specific-interval-of-time-and
+def my_job(text):
+    print(text, str(datetime.datetime.now()))
+    # Find all the steps that 
+    # 1) have been asigned to someone AND
+    # 2) It has been more than 4 mins since they were assigned AND
+    # 3) They have not been finished
+
+    # Set their alloted_to field to None and add these to queues.
+    tz_NY = pytz.timezone('Asia/Kolkata')   
+    current_ts = datetime.now(tz_NY)
+    threshold = 1
+    steps_db.update_already_assigned_delayed_incomplete_steps(current_ts, threshold)
+
+
 if __name__ == "__main__":
+    scheduler = APScheduler()
+    scheduler.add_job(func=my_job, args=['job run'], trigger='interval', id='job', seconds=5)
+    scheduler.start()
     app.run()

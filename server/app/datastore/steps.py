@@ -6,13 +6,19 @@ QUERY_UPDATE_COMPLETED_STEP = "UPDATE step SET phase = %s, datasource_id = %s, a
 
 QUERY_UPDATE_COMPLETED_REDUCE_STEP = "UPDATE step SET is_completed = %s, step_updated_ts = %s WHERE step_id = %s"
 
+QUERY_UPDATE_STEP_ASSIGNED_TO = "UPDATE step SET assigned_to = %s, step_updated_ts = %s WHERE step_id = %s"
+
 QUERY_GET_TASK_ID = "SELECT task_id FROM step WHERE step_id = %s"
+
+QUERY_GET_STEP_BY_STEPID = "SELECT * FROM step WHERE step_id = %s"
 
 QUERY_GET_STEPS_UNFINISHED = "SELECT step_id FROM step WHERE task_id = %s AND is_completed = %s ORDER BY step_updated_ts ASC"
 
 QUERY_FETCH_STEPS = "SELECT * FROM step WHERE task_id = %s"
 
-QUERY_GET_STEP_TO_ALLOT_FROM_QUEUE = "SELECT step_id, task_id, datasource_id, phase FROM step WHERE phase = %s ORDER BY step_updated_ts ASC LIMIT 1 "
+QUERY_GET_STEP_TO_ALLOT_FROM_QUEUE = "SELECT step_id, task_id, datasource_id, phase FROM step WHERE phase = %s AND assigned_to = %s ORDER BY step_updated_ts ASC LIMIT 1 "
+
+QUERY_GET_STEPS_WITH_ALLOTMENT_GREATER_THAN_THRESHOLD = "UPDATE step SET assigned_to = %s WHERE step_id IN (SELECT step_id FROM step WHERE (extract(epoch from %s - step_updated_ts) / 60) > %s)"
 
 db = get_pg_connection()
 
@@ -58,8 +64,29 @@ def select_all_steps_for_task_id(task_id):
             return cursor.fetchall()
 
 def get_step_to_allot(step_phase):
-    values = (step_phase,)
+    values = (step_phase, None)
     with db:
         with db.cursor() as cursor:
             cursor.execute(QUERY_GET_STEP_TO_ALLOT_FROM_QUEUE, values)
+            return cursor.fetchone()
+
+def update_already_assigned_delayed_incomplete_steps(current_ts, threshold):
+    values = (None, current_ts, threshold)
+    with db:
+        with db.cursor() as cursor:
+            cursor.execute(QUERY_GET_AND_UPDATE_STEPS_WITH_ALLOTMENT_GREATER_THAN_THRESHOLD, values)
+            return cursor.fetchone()
+
+def assign_step_to_worker_db(user, step_id, step_start_ts):
+    values = (user, step_start_ts, step_id, )
+    with db:
+        with db.cursor() as cursor:
+            cursor.execute(QUERY_UPDATE_STEP_ASSIGNED_TO, values)
+            return cursor.fetchone()
+
+def get_step_by_step_id(step_id):
+    values = (step_id,)
+    with db:
+        with db.cursor() as cursor:
+            cursor.execute(QUERY_GET_STEP_BY_STEPID, values)
             return cursor.fetchone()
