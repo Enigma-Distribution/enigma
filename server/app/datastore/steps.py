@@ -64,7 +64,7 @@ def select_all_steps_for_task_id(task_id):
             return cursor.fetchall()
 
 def get_step_to_allot(step_phase):
-    values = (step_phase)
+    values = (step_phase, )
     with db:
         with db.cursor() as cursor:
             cursor.execute(QUERY_GET_STEP_TO_ALLOT_FROM_QUEUE, values)
