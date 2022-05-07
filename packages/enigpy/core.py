@@ -2,10 +2,18 @@ import os
 from enigpy.ipfsUpload import uploadToIPFS as ipfsUpload
 import json
 import requests
+import json
+
+def json_data():
+    with open('/runtime/data.json') as json_file:
+        data = json.load(json_file)
+        return data
+
 
 def process_post_result(ipfs_hash_of_file):
-    url = "{}/worker/submit-result".format(os.getenv("API_URL"))
-    params = {"phase" : os.getenv("PHASE"), "step_id": os.getenv("STEP_ID"), "result_file_id": ipfs_hash_of_file}
+    data = json_data()
+    url = "{}/worker/submit-result".format(data['API_URL'])
+    params = {"phase" : data['PHASE'], "step_id": data['STEP_ID'], "result_file_id": ipfs_hash_of_file}
     requests.post(url, params=params)
 
 
