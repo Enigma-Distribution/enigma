@@ -55,9 +55,10 @@ def allot_step(worker_id):
         available = True
         if counter == 3:
             available = False
-
+        print("step before assignment")
+        print(step)
         if available == True:
-            step_service.assign_step_to_worker(worker_id, step["step_id"])
+            step_service.assign_step_to_worker(worker_id, step[0]["step_id"])
 
         return jsonify({"STATUS": "OK", "AVAILABLE": available, "STEP": step})
     except EnigmaException as e:
