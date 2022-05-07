@@ -18,7 +18,7 @@ QUERY_FETCH_STEPS = "SELECT * FROM step WHERE task_id = %s"
 
 QUERY_GET_STEP_TO_ALLOT_FROM_QUEUE = "SELECT step_id, task_id, datasource_id, phase FROM step WHERE phase = %s AND assigned_to IS NULL ORDER BY step_updated_ts ASC LIMIT 1 "
 
-QUERY_GET_STEPS_WITH_ALLOTMENT_GREATER_THAN_THRESHOLD = "UPDATE step SET assigned_to = %s WHERE step_id IN (SELECT step_id FROM step WHERE (extract(epoch from %s - step_updated_ts) / 60) > %s)"
+QUERY_GET_AND_UPDATE_STEPS_WITH_ALLOTMENT_GREATER_THAN_THRESHOLD = "UPDATE step SET assigned_to = %s WHERE step_id IN (SELECT step_id FROM step WHERE (extract(epoch from %s - step_updated_ts) / 60) > %s)"
 
 db = get_pg_connection()
 
@@ -82,7 +82,6 @@ def assign_step_to_worker_db(user, step_id, step_start_ts):
     with db:
         with db.cursor() as cursor:
             cursor.execute(QUERY_UPDATE_STEP_ASSIGNED_TO, values)
-            return cursor.fetchone()
 
 def get_step_by_step_id(step_id):
     values = (step_id,)

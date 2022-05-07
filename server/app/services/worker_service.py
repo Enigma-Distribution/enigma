@@ -57,6 +57,7 @@ def allot_step(worker_id):
             available = False
         print("step before assignment")
         print(step)
+        print(step[0]["step_id"])
         if available == True:
             step_service.assign_step_to_worker(worker_id, step[0]["step_id"])
 
