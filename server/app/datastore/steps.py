@@ -16,7 +16,7 @@ QUERY_GET_STEPS_UNFINISHED = "SELECT step_id FROM step WHERE task_id = %s AND is
 
 QUERY_FETCH_STEPS = "SELECT * FROM step WHERE task_id = %s"
 
-QUERY_GET_STEP_TO_ALLOT_FROM_QUEUE = "SELECT step_id, task_id, datasource_id, phase FROM step WHERE phase = %s AND assigned_to = %s ORDER BY step_updated_ts ASC LIMIT 1 "
+QUERY_GET_STEP_TO_ALLOT_FROM_QUEUE = "SELECT step_id, task_id, datasource_id, phase FROM step WHERE phase = %s AND assigned_to IS NULL ORDER BY step_updated_ts ASC LIMIT 1 "
 
 QUERY_GET_STEPS_WITH_ALLOTMENT_GREATER_THAN_THRESHOLD = "UPDATE step SET assigned_to = %s WHERE step_id IN (SELECT step_id FROM step WHERE (extract(epoch from %s - step_updated_ts) / 60) > %s)"
 
@@ -64,7 +64,7 @@ def select_all_steps_for_task_id(task_id):
             return cursor.fetchall()
 
 def get_step_to_allot(step_phase):
-    values = (step_phase, None)
+    values = (step_phase)
     with db:
         with db.cursor() as cursor:
             cursor.execute(QUERY_GET_STEP_TO_ALLOT_FROM_QUEUE, values)
