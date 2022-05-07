@@ -26,6 +26,7 @@ class EnigmaMapper:
 
     def run(self):
         self.map()
+        print("request to mapper")
         process_post_result(self.get_normalise_file_ref())
 
 
@@ -41,6 +42,7 @@ class EnigmaReducer:
 
     def run(self):
         self.reduce()
+        print("request to reducer")
         process_post_result(self.get_normalise_file_ref())
 
 
@@ -67,6 +69,7 @@ class EnigmaShuffler:
     
     def run(self):
         self.shuffle()
+        print("request to shuffler")
         process_post_result(self.get_normalise_file_ref())
 
 
