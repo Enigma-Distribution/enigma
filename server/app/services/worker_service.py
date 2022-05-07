@@ -21,9 +21,11 @@ def allot_step(worker_id):
     global phase_identifier
     try:
         counter = 0
+        print(phase_identifier)
         while counter<3:
             if phase_identifier == 0:
                 # allot map phase step
+                print("map")
                 step = step_service.get_step_to_allot("map")
                 if step == None:
                     phase_identifier+=1
@@ -32,6 +34,7 @@ def allot_step(worker_id):
 
             if phase_identifier == 1:
                 # allot shuffle phase step
+                print("shuffle")
                 step = step_service.get_step_to_allot("shuffle")
                 if step == None:
                     phase_identifier+=1
@@ -40,6 +43,7 @@ def allot_step(worker_id):
 
             if phase_identifier == 2:
                 # allot reduce phase step
+                print("reduce")
                 step = step_service.get_step_to_allot("reduce")             
                 if step:
                     break
