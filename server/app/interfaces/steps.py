@@ -76,6 +76,8 @@ def get_all_steps(task_id):
 
 def get_step_to_allot(step_phase):
     step = steps_db.get_step_to_allot(step_phase)
+    if step == None:
+        return None
     task_id = step[1]
     zip_file_id = task_service.get_zip_file_id(task_id)
     step_data = []
