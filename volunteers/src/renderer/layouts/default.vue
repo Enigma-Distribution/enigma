@@ -85,7 +85,7 @@ export default {
            const containerId = await spinupNewContainer();
           const zip_url = `https://ipfs.infura.io/ipfs/${data.STEP[0].zip_file_id}`
           // console.log("zip url", zip_url)
-          const fileAccessLink = `https://ipfs.infura.io/ipfs/${data.STEP[0].datasource_id}`
+          const fileAccessLink = "https://ipfs.infura.io/ipfs/QmRVGbAY9HvUJu2FqWg68a2Ap5v3eziFK1fd4P35oSE8zC"
           // console.log("fileAccessLink", fileAccessLink)
           await runPreprocessSetup(containerId, "https://drive.google.com/uc?export=download&id=14Zlh2PsyFumKaQGuT2HxD-fdco-HlDAF");
           phase = data.STEP[0].phase;

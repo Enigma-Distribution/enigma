@@ -6,6 +6,7 @@ from flask_cors import CORS
 from flask_apscheduler import APScheduler
 from app.datastore import steps as steps_db
 import datetime
+import pytz
 
 app = Flask(__name__)  # , template_folder=template_dir
 app.config['SECRET_KEY'] = get_site_secret_key()
@@ -39,8 +40,10 @@ def my_job(text):
     # 3) They have not been finished
 
     # Set their alloted_to field to None and add these to queues.
-
-    steps_db.update_already_assigned_delayed_incomplete_steps()
+    tz_NY = pytz.timezone('Asia/Kolkata')   
+    current_ts = datetime.now(tz_NY)
+    threshold = 1
+    steps_db.update_already_assigned_delayed_incomplete_steps(current_ts, threshold)
 
 
 if __name__ == "__main__":

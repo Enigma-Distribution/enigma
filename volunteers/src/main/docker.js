@@ -43,8 +43,9 @@ const fetchAndRun = function (containerId, {fileAccessLink, phase, step}) {
         console.log("Printing values")
         console.log(containerId, fileAccessLink, phase, step)
         container.exec({
-            // Env: [`ENIGMA_FAE="${fileAccessLink}"`, `PHASE=${phase}`, `STEP=${step}`, `SERVER_URL=${baseURL}`],
-            Cmd: [`python3 main.py`, `${fileAccessLink}`, `${phase}`, `${step}`, `${baseURL}`]
+            AttachStdout: true,
+            Tty: true,
+            Cmd: [`python3`, `main.py`, `${fileAccessLink}`, `${phase}`, `${step}`, `${baseURL}`]
         }).then((exec) => {
             exec.start().then((value) => {
                 resolve(value);

@@ -10,6 +10,7 @@ from app.utils import read_file_content, put_content_into_file_and_upload
 from werkzeug.utils import secure_filename
 from app.constants import SERVER_ERROR
 import json
+import pytz
 
 app = Blueprint("worker_service", __name__)
 phase_identifier = 0
@@ -20,9 +21,11 @@ def allot_step(worker_id):
     global phase_identifier
     try:
         counter = 0
+        print(phase_identifier)
         while counter<3:
             if phase_identifier == 0:
                 # allot map phase step
+                print("map")
                 step = step_service.get_step_to_allot("map")
                 if step == None:
                     phase_identifier+=1
@@ -31,6 +34,7 @@ def allot_step(worker_id):
 
             if phase_identifier == 1:
                 # allot shuffle phase step
+                print("shuffle")
                 step = step_service.get_step_to_allot("shuffle")
                 if step == None:
                     phase_identifier+=1
@@ -39,6 +43,7 @@ def allot_step(worker_id):
 
             if phase_identifier == 2:
                 # allot reduce phase step
+                print("reduce")
                 step = step_service.get_step_to_allot("reduce")             
                 if step:
                     break
@@ -50,9 +55,11 @@ def allot_step(worker_id):
         available = True
         if counter == 3:
             available = False
-
+        print("step before assignment")
+        print(step)
+        print(step[0]["step_id"])
         if available == True:
-            step_service.assign_step_to_worker(worker_id, step["step_id"])
+            step_service.assign_step_to_worker(worker_id, step[0]["step_id"])
 
         return jsonify({"STATUS": "OK", "AVAILABLE": available, "STEP": step})
     except EnigmaException as e:
@@ -77,19 +84,25 @@ def get_result(worker_id):
         print(phase)
         result_file_id = data.get("result_file_id") 
 
+        step_data = step_service.get_step_by_step_id(step_id)
+        step_ts_after_allotment = step_data['step_updated_ts']
+        tz_NY = pytz.timezone('Asia/Kolkata')
+        ts_after_completion_of_step = datetime.now(tz_NY)
+        efficiency = ((ts_after_completion_of_step - step_ts_after_allotment).total_seconds())/60
+
+        amount = 1
         
-
         # validate result here. If result is not valid i.e there is some error in result sent by worker, handle it (reassign)
-
+        
         # As result is valid, make a transaction
         transaction_data = {
             "transaction_type": data.get("transaction_type", "REGULAR"), 
-            "amount": data.get("amount", 1), 
-            "worker_id": data.get("worker_id", 1), # hardcoded 1 for now and for real put worker_id
-            "step_id": data.get("step_id"), 
-            "phase": data.get("phase"), 
+            "amount": amount,
+            "worker_id": worker_id,
+            "step_id": step_id, 
+            "phase": phase,
             "result_file_id": data.get("result_file_id"),
-            "efficiency": data.get('efficiency', "NA")
+            "efficiency": efficiency
         }
 
         try:
