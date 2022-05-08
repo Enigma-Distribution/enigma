@@ -5,7 +5,7 @@ from flask import Flask
 from flask_cors import CORS
 from flask_apscheduler import APScheduler
 from app.datastore import steps as steps_db
-import datetime
+from datetime import datetime
 import pytz
 
 app = Flask(__name__)  # , template_folder=template_dir
@@ -33,7 +33,7 @@ app.register_blueprint(uploads)
 #function executed by scheduled job
 # https://stackoverflow.com/questions/55427781/is-there-a-way-to-run-python-flask-function-every-specific-interval-of-time-and
 def my_job(text):
-    print(text, str(datetime.datetime.now()))
+    print(text, str(datetime.now()))
     # Find all the steps that 
     # 1) have been asigned to someone AND
     # 2) It has been more than 4 mins since they were assigned AND
@@ -48,6 +48,6 @@ def my_job(text):
 
 if __name__ == "__main__":
     scheduler = APScheduler()
-    scheduler.add_job(func=my_job, args=['job run'], trigger='interval', id='job', seconds=5)
+    scheduler.add_job(func=my_job, args=['job run'], trigger='interval', id='job', seconds=50)
     scheduler.start()
     app.run()

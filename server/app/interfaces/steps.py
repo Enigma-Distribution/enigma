@@ -37,6 +37,7 @@ def update_completed_reduce_step(step_id):
     tz_NY = pytz.timezone('Asia/Kolkata')   
     datetime_NY = datetime.now(tz_NY)
     step = {
+        "phase": "COMPLETED",
         "is_completed": 1,
         "step_id": step_id,
         "step_updated_ts": datetime_NY
@@ -116,6 +117,7 @@ def assign_step_to_worker(user, step_id):
 
 def get_step_by_step_id(step_id):
     step = steps_db.get_step_by_step_id(step_id)
+    print("Returned to interface with single step:",step)
     step_data = []
     step_data.append({
         "step_id": step[0],
@@ -129,4 +131,4 @@ def get_step_by_step_id(step_id):
         "result_file_id": step[8],
         "step_size": step[9],
     })
-    return step_data
+    return step_data[0]
