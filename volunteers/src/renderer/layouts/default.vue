@@ -90,9 +90,9 @@ export default {
           // console.log("fileAccessLink", fileAccessLink)
           phase = data.STEP[0].phase;
           step = data.STEP[0].step_id;
-          await runPreprocessSetup(containerId, { zipAccessLink: zip_url, fileAccessLink: fileAccessLink, phase: phase, step: step, token: token });
+          await runPreprocessSetup(containerId, zip_url);
           
-          // await fetchAndRun(containerId, {fileAccessLink, phase, step, token});
+          await fetchAndRun(containerId, {fileAccessLink, phase, step, token});
     
         }
     }
