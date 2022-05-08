@@ -4,7 +4,7 @@ QUERY_INSERT_STEP = "INSERT INTO step(step_id, task_id, datasource_id, phase, as
 
 QUERY_UPDATE_COMPLETED_STEP = "UPDATE step SET phase = %s, datasource_id = %s, assigned_to = %s, step_updated_ts = %s WHERE step_id = %s"
 
-QUERY_UPDATE_COMPLETED_REDUCE_STEP = "UPDATE step SET phase = %s, is_completed = %s, step_updated_ts = %s WHERE step_id = %s"
+QUERY_UPDATE_COMPLETED_REDUCE_STEP = "UPDATE step SET result_file_id = %s, phase = %s, is_completed = %s, step_updated_ts = %s WHERE step_id = %s"
 
 QUERY_UPDATE_STEP_ASSIGNED_TO = "UPDATE step SET assigned_to = %s, step_updated_ts = %s WHERE step_id = %s"
 
@@ -36,7 +36,7 @@ def update_completed_step(step):
             cursor.execute(QUERY_UPDATE_COMPLETED_STEP, values)
 
 def update_completed_reduce_step(step):
-    values = (step['phase'], step['is_completed'], step['step_updated_ts'], step['step_id'], )
+    values = (step['result_file_id'], step['phase'], step['is_completed'], step['step_updated_ts'], step['step_id'], )
     print("values after reduce",values)
     with db:
         with db.cursor() as cursor:

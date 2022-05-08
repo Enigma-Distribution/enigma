@@ -47,7 +47,7 @@ def my_job(text):
 
 
 if __name__ == "__main__":
-    scheduler = APScheduler()
-    scheduler.add_job(func=my_job, args=['job run'], trigger='interval', id='job', seconds=50)
-    scheduler.start()
+    # scheduler = APScheduler()
+    # scheduler.add_job(func=my_job, args=['job run'], trigger='interval', id='job', seconds=50)
+    # scheduler.start()
     app.run()

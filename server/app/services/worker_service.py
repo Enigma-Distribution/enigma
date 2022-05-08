@@ -80,11 +80,27 @@ def get_result(worker_id):
     print("worker_id",worker_id)
     # return jsonify({"STATUS": "TEST","worker_id":worker_id})
     try:
-        data = request.form
-        step_id = data.get("step_id")
+        if request.get_json():
+            print("request.form is none")
+            data =  request.get_json()
+            transaction_type = data["transaction_type"]
+            step_id = data["step_id"]
+            result_file_id = data["result_file_id"] 
+        else:
+            print("request.form is NOT none")
+            data =  request.form
+            transaction_type = data.get("transaction_type", "REGULAR")
+            step_id = data.get("step_id")
+            result_file_id = data.get("result_file_id") 
+
+        print("incoming request data")
+        print(data)
+        # step_id = data.get("step_id")
+        # return jsonify({"STATUS": "TEST", "step_id": step_id})
+        
         # phase = data.get("phase") # Not needed coz we take step from step_data below
         # print(phase)
-        result_file_id = data.get("result_file_id") 
+        # result_file_id = data.get("result_file_id") 
 
         step_data = step_service.get_step_by_step_id(step_id)
         print("step_data",step_data)
@@ -95,19 +111,18 @@ def get_result(worker_id):
         efficiency = ((ts_after_completion_of_step - step_ts_after_allotment).total_seconds())/60
 
         amount = 1
-
         
         
         # validate result here. If result is not valid i.e there is some error in result sent by worker, handle it (reassign)
         
         # As result is valid, make a transaction
         transaction_data = {
-            "transaction_type": data.get("transaction_type", "REGULAR"), 
+            "transaction_type": transaction_type, #data.get("transaction_type", "REGULAR"), 
             "amount": amount,
             "worker_id": worker_id,
             "step_id": step_id, 
             "phase": phase,
-            "result_file_id": data.get("result_file_id"),
+            "result_file_id": result_file_id, #data.get("result_file_id"),
             "efficiency": efficiency
         }
 
@@ -130,7 +145,7 @@ def get_result(worker_id):
         elif phase == "reduce":
             print("inside reduce phase")
             print("---------> step_id",step_id)
-            task_id = step_service.update_completed_reduce_step(step_id)[0]
+            task_id = step_service.update_completed_reduce_step("COMPLETED", result_file_id, step_id)[0]
             print("---------> task_id")
             print(task_id)
 

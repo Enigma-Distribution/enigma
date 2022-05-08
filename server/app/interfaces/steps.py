@@ -33,14 +33,15 @@ def update_completed_step(phase, datasource_id, step_id):
     task_id = steps_db.get_task_id(step_id)
     return task_id
 
-def update_completed_reduce_step(step_id):
+def update_completed_reduce_step(phase, result_file_id, step_id):
     tz_NY = pytz.timezone('Asia/Kolkata')   
     datetime_NY = datetime.now(tz_NY)
     step = {
-        "phase": "COMPLETED",
+        "phase": phase,
         "is_completed": 1,
         "step_id": step_id,
-        "step_updated_ts": datetime_NY
+        "step_updated_ts": datetime_NY,
+        "result_file_id": result_file_id
     }
     step = steps_db.update_completed_reduce_step(step)
     task_id = steps_db.get_task_id(step_id)
