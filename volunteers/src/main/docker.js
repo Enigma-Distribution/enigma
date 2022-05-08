@@ -19,13 +19,13 @@ const spinupNewContainer = function () {
     })
 }
 
-const runPreprocessSetup = function (containerId, zipAccessLink) {
+const runPreprocessSetup = function (containerId, {zipAccessLink, fileAccessLink, phase, step, token}) {
     return new Promise((resolve, reject) => {
         const container = docker.getContainer(containerId);
         container.exec({
             AttachStdout: true,
             Tty: true,
-            Cmd: [`bash`, `fetch-and-setup.sh`, `${zipAccessLink}`]
+            Cmd: [`bash`, `fetch-and-setup.sh`, `${zipAccessLink}`,`${fileAccessLink}`, `${phase}`, `${step}`, `${baseURL}`, `${token}`, `>`, `log`]
         }).then((execCommand) => {
             execCommand.start().then((value) => {
                 resolve(value);
@@ -36,25 +36,27 @@ const runPreprocessSetup = function (containerId, zipAccessLink) {
     })
 }
 
-const fetchAndRun = function (containerId, {fileAccessLink, phase, step}) {
-    return new Promise((resolve, reject) => {
-        const container = docker.getContainer(containerId);
-        console.log("fetchandrun")
-        console.log("Printing values")
-        console.log(containerId, fileAccessLink, phase, step)
-        container.exec({
-            AttachStdout: true,
-            Tty: true,
-            Cmd: [`python3`, `main.py`, `${fileAccessLink}`, `${phase}`, `${step}`, `${baseURL}`]
-        }).then((exec) => {
-            exec.start().then((value) => {
-                resolve(value);
-            });
-        }).catch((reason) => {
-            reject(reason);
-        })
-    })
-}
+// const fetchAndRun = function (containerId, {fileAccessLink, phase, step, token}) {
+//     return new Promise((resolve, reject) => {
+//         const container = docker.getContainer(containerId);
+//         console.log("fetchandrun")
+//         console.log("Printing values")
+//         console.log(fileAccessLink, phase, step, baseURL, token)
+//         console.log(`python3 main.py ${fileAccessLink} ${phase} ${step} ${baseURL} ${token}`)
+//         container.exec({
+//             // AttachStdout: true,
+//             // Tty: true,
+//             // Env: [`ENIGMA_FAE=${fileAccessLink}`, `PHASE=${phase}`, `STEP_ID=${step}`, `API_URL=${baseURL}`, `AUTH_TOKEN=${token}`],
+//             Cmd: [`python3`, `main.py`, `ENIGMA_FAE=${fileAccessLink}`, `PHASE=${phase}`, `STEP_ID=${step}`, `API_URL=${baseURL}`, `AUTH_TOKEN=${token}`]
+//         }).then((exec) => {
+//             exec.start().then((value) => {
+//                 resolve(value);
+//             });
+//         }).catch((reason) => {
+//             reject(reason);
+//         })
+//     })
+// }
 
 const getAllTasks = function(){
     return new Promise((resolve, reject)=> {
