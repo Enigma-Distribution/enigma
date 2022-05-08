@@ -58,7 +58,7 @@ def allot_step(worker_id):
             available = False
         print("step before assignment")
         print(step)
-        print(step[0]["step_id"])
+        
         if available == True:
             step_service.assign_step_to_worker(worker_id, step[0]["step_id"])
 
@@ -95,15 +95,16 @@ def get_result(worker_id):
 
         print("incoming request data")
         print(data)
-        # step_id = data.get("step_id")
-        # return jsonify({"STATUS": "TEST", "step_id": step_id})
-        
-        # phase = data.get("phase") # Not needed coz we take step from step_data below
-        # print(phase)
-        # result_file_id = data.get("result_file_id") 
 
         step_data = step_service.get_step_by_step_id(step_id)
         print("step_data",step_data)
+
+        if step_data == None:
+            return jsonify({"STATUS": "FAIL", "MSG": "No such step exist. Step_id: " + step_id})
+        
+        if step_data["assigned_to"] != worker_id:
+            return jsonify({"STATUS": "FAIL", "MSG": "CURRENTLY, THE STEP " + step_id  + " IS NOT ALLOTED TO YOU"})
+
         phase = step_data["phase"]
         step_ts_after_allotment = step_data['step_updated_ts']
         tz_NY = pytz.timezone('Asia/Kolkata')
