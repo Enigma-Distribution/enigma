@@ -33,13 +33,15 @@ def update_completed_step(phase, datasource_id, step_id):
     task_id = steps_db.get_task_id(step_id)
     return task_id
 
-def update_completed_reduce_step(step_id):
+def update_completed_reduce_step(phase, result_file_id, step_id):
     tz_NY = pytz.timezone('Asia/Kolkata')   
     datetime_NY = datetime.now(tz_NY)
     step = {
+        "phase": phase,
         "is_completed": 1,
         "step_id": step_id,
-        "step_updated_ts": datetime_NY
+        "step_updated_ts": datetime_NY,
+        "result_file_id": result_file_id
     }
     step = steps_db.update_completed_reduce_step(step)
     task_id = steps_db.get_task_id(step_id)
@@ -76,6 +78,11 @@ def get_all_steps(task_id):
 
 def get_step_to_allot(step_phase):
     step = steps_db.get_step_to_allot(step_phase)
+    print("step in interface")
+    print(step_phase)
+    print(step)
+    if step == None:
+        return None
     task_id = step[1]
     zip_file_id = task_service.get_zip_file_id(task_id)
     step_data = []
@@ -111,6 +118,7 @@ def assign_step_to_worker(user, step_id):
 
 def get_step_by_step_id(step_id):
     step = steps_db.get_step_by_step_id(step_id)
+    print("Returned to interface with single step:",step)
     step_data = []
     step_data.append({
         "step_id": step[0],
@@ -124,4 +132,4 @@ def get_step_by_step_id(step_id):
         "result_file_id": step[8],
         "step_size": step[9],
     })
-    return step_data
+    return step_data[0]

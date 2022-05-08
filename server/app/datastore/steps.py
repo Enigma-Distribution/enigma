@@ -4,7 +4,7 @@ QUERY_INSERT_STEP = "INSERT INTO step(step_id, task_id, datasource_id, phase, as
 
 QUERY_UPDATE_COMPLETED_STEP = "UPDATE step SET phase = %s, datasource_id = %s, assigned_to = %s, step_updated_ts = %s WHERE step_id = %s"
 
-QUERY_UPDATE_COMPLETED_REDUCE_STEP = "UPDATE step SET is_completed = %s, step_updated_ts = %s WHERE step_id = %s"
+QUERY_UPDATE_COMPLETED_REDUCE_STEP = "UPDATE step SET result_file_id = %s, phase = %s, is_completed = %s, step_updated_ts = %s WHERE step_id = %s"
 
 QUERY_UPDATE_STEP_ASSIGNED_TO = "UPDATE step SET assigned_to = %s, step_updated_ts = %s WHERE step_id = %s"
 
@@ -16,9 +16,9 @@ QUERY_GET_STEPS_UNFINISHED = "SELECT step_id FROM step WHERE task_id = %s AND is
 
 QUERY_FETCH_STEPS = "SELECT * FROM step WHERE task_id = %s"
 
-QUERY_GET_STEP_TO_ALLOT_FROM_QUEUE = "SELECT step_id, task_id, datasource_id, phase FROM step WHERE phase = %s AND assigned_to = %s ORDER BY step_updated_ts ASC LIMIT 1 "
+QUERY_GET_STEP_TO_ALLOT_FROM_QUEUE = "SELECT step_id, task_id, datasource_id, phase FROM step WHERE phase = %s AND assigned_to IS NULL ORDER BY step_updated_ts ASC LIMIT 1 "
 
-QUERY_GET_STEPS_WITH_ALLOTMENT_GREATER_THAN_THRESHOLD = "UPDATE step SET assigned_to = %s WHERE step_id IN (SELECT step_id FROM step WHERE (extract(epoch from %s - step_updated_ts) / 60) > %s)"
+QUERY_GET_AND_UPDATE_STEPS_WITH_ALLOTMENT_GREATER_THAN_THRESHOLD = "UPDATE step SET assigned_to = %s WHERE step_id IN (SELECT step_id FROM step WHERE (extract(epoch from %s - step_updated_ts) / 60) > %s)"
 
 db = get_pg_connection()
 
@@ -36,7 +36,7 @@ def update_completed_step(step):
             cursor.execute(QUERY_UPDATE_COMPLETED_STEP, values)
 
 def update_completed_reduce_step(step):
-    values = (step['is_completed'], step['step_updated_ts'], step['step_id'], )
+    values = (step['result_file_id'], step['phase'], step['is_completed'], step['step_updated_ts'], step['step_id'], )
     print("values after reduce",values)
     with db:
         with db.cursor() as cursor:
@@ -64,29 +64,32 @@ def select_all_steps_for_task_id(task_id):
             return cursor.fetchall()
 
 def get_step_to_allot(step_phase):
-    values = (step_phase, None)
+    values = (step_phase, )
     with db:
         with db.cursor() as cursor:
             cursor.execute(QUERY_GET_STEP_TO_ALLOT_FROM_QUEUE, values)
-            return cursor.fetchone()
+            result = cursor.fetchone()
+            return result
 
 def update_already_assigned_delayed_incomplete_steps(current_ts, threshold):
     values = (None, current_ts, threshold)
     with db:
         with db.cursor() as cursor:
             cursor.execute(QUERY_GET_AND_UPDATE_STEPS_WITH_ALLOTMENT_GREATER_THAN_THRESHOLD, values)
-            return cursor.fetchone()
+            result = cursor.fetchone()
+            return result
 
 def assign_step_to_worker_db(user, step_id, step_start_ts):
     values = (user, step_start_ts, step_id, )
     with db:
         with db.cursor() as cursor:
             cursor.execute(QUERY_UPDATE_STEP_ASSIGNED_TO, values)
-            return cursor.fetchone()
 
 def get_step_by_step_id(step_id):
+    print("Fetching step with step_id",step_id)
     values = (step_id,)
     with db:
         with db.cursor() as cursor:
             cursor.execute(QUERY_GET_STEP_BY_STEPID, values)
-            return cursor.fetchone()
+            result = cursor.fetchone()
+            return result
