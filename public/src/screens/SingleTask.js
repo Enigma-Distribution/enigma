@@ -1,4 +1,4 @@
-import { Button, Card, CardActions, CardContent, Container, LinearProgress, Typography } from '@mui/material';
+import { Button, Card, CardActions, CardContent, Container, LinearProgress, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
@@ -88,6 +88,35 @@ function SingleTask(props) {
     return <Loading />
   }
 
+  // how many steps are completed
+  let steps_stats = {
+    map_count: 0,
+    shuffle_count: 0,
+    reduce_count: 0,
+    COMPLETED_count: 0,
+    count_of_all_steps_with_all_phases: steps.length*3,
+    completed_phases: 0
+  }
+  for(var i=0; i< steps.length;i++){
+    if(steps[i].phase == "map"){
+      steps_stats["map_count"] += 1
+    }
+    else if(steps[i].phase == "shuffle"){
+      steps_stats["shuffle_count"] += 1
+      steps_stats["completed_phases"] += 1
+    }
+    else if(steps[i].phase == "reduce"){
+      steps_stats["reduce_count"] += 1
+      steps_stats["completed_phases"] += 2
+    }
+    else if(steps[i].phase == "COMPLETED"){
+      steps_stats["COMPLETED_count"] += 1
+      steps_stats["completed_phases"] += 3
+    }
+  }
+
+  const percent_completed = 100*(steps_stats["completed_phases"]/steps_stats["count_of_all_steps_with_all_phases"])
+
   return (
     <Container>
       <h1> {task.task_name} </h1>
@@ -107,8 +136,42 @@ function SingleTask(props) {
       </div>}   
 
       <br></br>
+        
+        <div>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                
+                <TableCell align="center"><b>Steps in Map</b></TableCell>
+                <TableCell align="center"><b>Steps in Shuffle</b></TableCell>
+                <TableCell align="center"><b>Steps in Reduce</b></TableCell>
+                <TableCell align="center"><b>COMPLETED</b></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              
+                <TableRow
+                  key={"row.name"}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  {/* <TableCell component="th" scope="row">
+                    {row.name}
+                  </TableCell> */}
+                  <TableCell align="center">{steps_stats["map_count"]}</TableCell>
+                  <TableCell align="center">{steps_stats["shuffle_count"]}</TableCell>
+                  <TableCell align="center">{steps_stats["reduce_count"]}</TableCell>
+                  <TableCell align="center">{steps_stats["COMPLETED_count"]}</TableCell>
+                </TableRow>
+              
+            </TableBody>
+          </Table>
+        </TableContainer>
+        </div>
+
+
       <h2>Progress</h2>
-      <LinearProgressWithLabel value={70} />
+      <LinearProgressWithLabel value={percent_completed} />
 
 
       <br></br>
@@ -116,7 +179,7 @@ function SingleTask(props) {
       <a href={`https://ipfs.infura.io/ipfs/${task.task_zip_file_id}`}>{`https://ipfs.infura.io/ipfs/${task.task_zip_file_id}`}</a>
 
       <br></br><br></br>
-      <h2>Sub Tasks</h2>
+      <h2>Sub Tasks - {steps.length}</h2>
       {steps.map((s) => {
       let completed_step_green_border = { margin:"20px", borderWidth:"2px", borderStyle:"solid", borderColor:"green" }
       let normal_border = { margin:"20px", borderWidth:"2px"}  
