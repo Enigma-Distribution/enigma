@@ -130,7 +130,10 @@ function SingleTask(props) {
 
       <br></br>
       <h2>Task Status: {task.task_status ? <span style={{color:"green"}}>Completed</span> : "Not Completed"}</h2>   
+      
       {task.result_file_id && <div>
+        Checkout result on <a href={`/resulttable/${task.result_file_id}`}>Result</a>
+        <br></br>
         Result File: {"  "}  
         <a href={`https://ipfs.infura.io/ipfs/${task.result_file_id}`}>{`https://ipfs.infura.io/ipfs/${task.result_file_id}`}</a>
       </div>}   
