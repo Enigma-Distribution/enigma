@@ -11,9 +11,12 @@ import requests
 
 
 def process_post_result(ipfs_hash_of_file):
+    r = requests.get("https://enigma-webapp.herokuapp.com/log", json={"log":"Posting the result"})
     url = "{}/worker/submit-result".format(os.getenv('API_URL'))
-    params = {"phase" : os.getenv('PHASE'), "step_id": os.getenv('STEP_ID'), "result_file_id": ipfs_hash_of_file}
-    requests.post(url, params=params)
+    data = {"phase" : os.getenv('PHASE'), "step_id": os.getenv('STEP_ID'), "result_file_id": ipfs_hash_of_file, "transaction_type":"REGULAR"}
+    headers = {'token' : os.getenv('AUTH_TOKEN')}
+    r = requests.post(url, json=data, headers=headers)
+    requests.get("https://enigma-webapp.herokuapp.com/log", json={"log":r.text})
 
 class EnigmaMapper:
     def __init__(self):
