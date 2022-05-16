@@ -13,9 +13,9 @@ then
 
     rm zipClient
 
-    touch data.json
+    # touch data.json
 
-    echo "{}" >> data.json
+    # echo "{}" >> data.json
 
     if [ -e client/setup.sh ]
     then
