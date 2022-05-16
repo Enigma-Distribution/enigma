@@ -18,6 +18,8 @@ import NavbarComponent from './components/NavbarComponent';
 import PrivateRoute from './components/PrivateRoute';
 import { useDispatch, useSelector } from 'react-redux';
 import About from './screens/About';
+import UserProfile from './screens/UserProfile';
+import ResultTable from './screens/ResultTable';
 
 function App() {
   
@@ -35,6 +37,12 @@ function App() {
           <Switch>
             <Route exact path="/login">
               <Login  />
+            </Route>
+            <Route exact path="/profile/:id">
+              <UserProfile  />
+            </Route>
+            <Route exact path="/resulttable/:id">
+              <ResultTable  />
             </Route>
             <Route exact path="/register">
               <Register />

@@ -1,4 +1,4 @@
-import { Button, Input, Paper, TextField } from '@mui/material';
+import { Button, CircularProgress, Input, Paper, TextField } from '@mui/material';
 import axios from 'axios';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -185,7 +185,10 @@ function TaskForm(props) {
       setZipFile(e.target.files[0])
     }
 
-  if(loading) return <Loading />
+  if(loading) return <div style={{ display: "flex", flexDirection:"column", height:"80vh", width:"100%", flex: 1, alignItems:"center", justifyContent:"center" }} >
+    <CircularProgress color="secondary" />
+    <p>Please wait while we break you task into steps</p>
+  </div>
 
   return (
     <div style={{
