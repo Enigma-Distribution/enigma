@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { spinupNewContainer, runPreprocessSetup, fetchAndRun, getAllTasks } from '../../main/docker'
+import { spinupNewContainer, runPreprocessSetup, getAllTasks } from '../../main/docker'
 import workerData from '../functions/workerData'
 
 export default {
@@ -63,7 +63,7 @@ export default {
     async getworkerData() {
       const allTasks = await getAllTasks();
       const totalTasks = allTasks?.length;
-      if(totalTasks && totalTasks > 1) return;
+      if(totalTasks && totalTasks > 5) return;
         console.log("calling worker data")
         const [response, data] = await workerData(this);
         console.log(response)
@@ -85,15 +85,13 @@ export default {
           const containerId = await spinupNewContainer();
           const token = this.$store.state.token
           const zip_url = `https://ipfs.infura.io/ipfs/${data.STEP[0].zip_file_id}`
-          // console.log("zip url", zip_url)
-          const fileAccessLink = `https://ipfs.infura.io/ipfs/QmRVGbAY9HvUJu2FqWg68a2Ap5v3eziFK1fd4P35oSE8zC`
+          console.log("zip url", zip_url)
+          const fileAccessLink = `https://ipfs.infura.io/ipfs/${data.STEP[0].datasource_id}`
           // console.log("fileAccessLink", fileAccessLink)
           phase = data.STEP[0].phase;
           step = data.STEP[0].step_id;
-          await runPreprocessSetup(containerId, zip_url);
-          
-          await fetchAndRun(containerId, {fileAccessLink, phase, step, token});
-    
+          let res = await runPreprocessSetup(containerId, zip_url, fileAccessLink, phase, step, token);
+          console.log(res)
         }
     }
   },
