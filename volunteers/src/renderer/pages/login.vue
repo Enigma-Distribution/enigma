@@ -14,12 +14,12 @@
         </div>
         </div>
 
-        <div class="field">
+        <!-- <div class="field">
         <label class="label">User Type</label>
         <div class="control">
             <input class="input" type="text" placeholder="Type" v-model="UserType">
         </div>
-        </div>
+        </div> -->
 
         <div class="field">
         <div class="control">
@@ -42,7 +42,7 @@ export default {
      return {
         Email : "",
         Password : "",
-        UserType: ""
+        UserType: "worker"
      }
     },
 

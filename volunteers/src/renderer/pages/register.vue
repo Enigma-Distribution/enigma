@@ -64,12 +64,12 @@
           </span>
         </button>
       </div>
-      <div class="dropdown-menu" id="dropdown-menu" role="menu">
+      <!-- <div class="dropdown-menu" id="dropdown-menu" role="menu">
         <div class="dropdown-content">
           <button class="dropdown-item" @click="UserType = 'worker'; dropdownActivate()"> Worker </button>
           <button class="dropdown-item" @click="UserType = 'user'; dropdownActivate()"> User </button>
         </div>
-      </div>
+      </div> -->
     </div>
     <div class="field">
       <div class="control">
@@ -94,6 +94,7 @@ export default {
       Email: "",
       Password: "",
       isActive: false,
+      UserType: "worker",
       Upi_id: ""
     };
   },
