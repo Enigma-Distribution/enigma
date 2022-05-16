@@ -1,5 +1,6 @@
-import { container } from 'webpack';
 import baseURL from '../renderer/functions/baseURL';
+
+const exec = require('child_process').exec
 
 const Docker = require('dockerode');
 
@@ -19,42 +20,27 @@ const spinupNewContainer = function () {
     })
 }
 
-const runPreprocessSetup = function (containerId, {zipAccessLink}) {
+const runPreprocessSetup = function (containerId, zipAccessLink, fileAccessLink, phase, step, token) {
     return new Promise((resolve, reject) => {
-        const container = docker.getContainer(containerId);
-        container.exec({
-            AttachStdout: true,
-            Tty: true,
-            Cmd: [`bash`, `fetch-and-setup.sh`, `${zipAccessLink}`]
-        }).then((execCommand) => {
-            execCommand.start().then((value) => {
-                resolve(value);
-            });
-        }).catch((reason) => {
-            reject(reason);
+        const command = `docker exec  ${containerId} bash fetch-and-setup.sh ${zipAccessLink}`
+        const command1 = `docker exec  ${containerId} python3 main.py ${fileAccessLink} ${phase} ${step} ${baseURL} ${token}`
+        console.log(command)
+        console.log(command1)
+        exec(command, (err, stdout, stderr) => {
+            if(err) {
+                reject(err.stack)
+                return;
+            }
+            exec(command1, (err, stdout, stderr) => {
+                if(err) {
+                    console.log("ERROR 1", err.stack)
+                    return;
+                }
+                console.log("LOG 1", stdout + stderr);
+            })
+            resolve("LOG 0", stdout + stderr);
         })
-    })
-}
-
-const fetchAndRun = function (containerId, {fileAccessLink, phase, step, token}) {
-    return new Promise((resolve, reject) => {
-        const container = docker.getContainer(containerId);
-        console.log("fetchandrun")
-        console.log("Printing values")
-        console.log(fileAccessLink, phase, step, baseURL, token)
-        console.log(`python3 main.py ${fileAccessLink} ${phase} ${step} ${baseURL} ${token}`)
-        container.exec({
-            // AttachStdout: true,
-            // Tty: true,
-            // Env: [`ENIGMA_FAE=${fileAccessLink}`, `PHASE=${phase}`, `STEP_ID=${step}`, `API_URL=${baseURL}`, `AUTH_TOKEN=${token}`],
-            Cmd: [`python3`, `main.py`, `${fileAccessLink}`, `${phase}`, `${step}`, `${baseURL}`, `${token}`]
-        }).then((exec) => {
-            exec.start().then((value) => {
-                resolve(value);
-            });
-        }).catch((reason) => {
-            reject(reason);
-        })
+        
     })
 }
 
@@ -83,6 +69,5 @@ const getAllTasks = function(){
 export {
     spinupNewContainer,
     runPreprocessSetup,
-    fetchAndRun,
     getAllTasks
 }
