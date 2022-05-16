@@ -20,7 +20,7 @@ def uploadToIPFS(content):
     print(res)
 
     # remove file from local server
-    os.remove(file_name)
+    # os.remove(file_name)
 
     return res["Hash"]
 
