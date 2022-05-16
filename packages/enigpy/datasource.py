@@ -39,7 +39,7 @@ def get_map_data():
 def get_shuffle_data():
     wordlist = read_data_from_file_shuffle()
     response_list = []
-    for i in range(0,len(wordlist),2):
+    for i in range(0,len(wordlist)-1,2):
         temp = (wordlist[i], wordlist[i+1])
         response_list.append(temp)
     shuffle_data =  response_list
