@@ -59,6 +59,12 @@ owned by people and acts as a bridge between developers and users.
 
 
 -----------------------------------
+###             Live Demo
+`Client`: <a href="https://the-enigma.netlify.app/">https://the-enigma.netlify.app/<a/> <br>
+`Backend` : <a href="https://enigma-webapp.herokuapp.com/">https://enigma-webapp.herokuapp.com/<a/>  <br>
+
+
+-----------------------------------
 ###             💻 Tech stack
 `Frontend` : ReactJS <br>
 `Backend` : Flask <br>
