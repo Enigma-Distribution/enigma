@@ -5,7 +5,7 @@
 <h2 align = 'center'> Enigma.
 </h2>
 
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[![](https://img.shields.io/badge/Made_with-Flask-blue?style=for-the-badge&logo=Flask)](https://flask.palletsprojects.com/en/1.1.x/) 
+&emsp;&emsp;[![](https://img.shields.io/badge/Made_with-Flask-blue?style=for-the-badge&logo=Flask)](https://flask.palletsprojects.com/en/1.1.x/) 
 &emsp;
 [![](https://img.shields.io/badge/Made_with-PostgreSQL-blue?style=for-the-badge&logo=PostgreSQL)](https://www.postgresql.org/docs/current/)
 &emsp;
