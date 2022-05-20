@@ -50,35 +50,36 @@ function SingleTask(props) {
         alert(MSG)
       }
       else if(STATUS == "OK") {
-        console.log("Received task")
+        console.log("Received task", TASK)
         setTask(TASK)
       }
+
+      // Request 2
+      axios.post(`${SERVER_BASE_URL}/task/get_task_meta_data?task_id=${id}`, {}, {headers})
+      .then(response => {
+        const { STATUS, MSG, STEPS } = response.data
+        console.log(response)
+        if(STATUS == "FAIL") {
+          console.log("Request 2 to get task failed")
+          alert(MSG)
+        }
+        else if(STATUS == "OK") {
+          console.log("Received steps")
+          setSteps(STEPS)
+          console.log("STATUS:OK")
+        }
+        
+      }).catch((e) => {
+        console.log(e)
+        dispatch({ type: "SET_USER", payload: null });
+        localStorage.removeItem("USER")
+      });
+
       
     }).catch((e) => {
       console.log(e)
       // dispatch({ type: "SET_USER", payload: null });
       // localStorage.removeItem("USER")
-    });
-
-    // Parallel request 2
-    axios.post(`${SERVER_BASE_URL}/task/get_task_meta_data?task_id=${id}`, {}, {headers})
-    .then(response => {
-      const { STATUS, MSG, STEPS } = response.data
-      console.log(response)
-      if(STATUS == "FAIL") {
-        console.log("Request 2 to get task failed")
-        alert(MSG)
-      }
-      else if(STATUS == "OK") {
-        console.log("Received steps")
-        setSteps(STEPS)
-        console.log("STATUS:OK")
-      }
-      
-    }).catch((e) => {
-      console.log(e)
-      dispatch({ type: "SET_USER", payload: null });
-      localStorage.removeItem("USER")
     });
 
 
@@ -131,7 +132,7 @@ function SingleTask(props) {
       <br></br>
       <h2>Task Status: {task.task_status ? <span style={{color:"green"}}>Completed</span> : "Not Completed"}</h2>   
       
-      {task.result_file_id && <div>
+      {task.result_file_id && task.task_status && <div>
         Checkout result on <a href={`/resulttable/${task.result_file_id}`}>Result</a>
         <br></br>
         Result File: {"  "}  

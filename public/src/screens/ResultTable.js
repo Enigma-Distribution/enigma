@@ -68,7 +68,11 @@ export default function ResultTable() {
   return (
 
     <Container>
-        {/* {JSON.stringify(data)} */}
+        <div style={{ padding:"30px", textAlign:"center", width:"100%" }}>
+        Result File: {"  "}  
+        <a href={`https://ipfs.infura.io/ipfs/${cid}`}>{`https://ipfs.infura.io/ipfs/${cid}`}</a>
+      
+        </div>
         <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
         <TableHead>

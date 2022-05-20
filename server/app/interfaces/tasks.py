@@ -34,6 +34,7 @@ def get_all_tasks(user):
 
 def get_selected_task(task_id, user):
     task_details = tasks_db.select_specific_task(task_id, user)
+    
     if not task_details:
         raise TaskNotFoundException
     task = {
@@ -44,8 +45,11 @@ def get_selected_task(task_id, user):
             "task_zip_file_id": task_details[4],
             "datasource_size": task_details[5],
             "task_status": task_details[6],
+            "result_file_id": task_details[7]
         }
         #add task completion status in %
+    print("Request for specific task completed. The task is")
+    print(task)
     return task
 
 def update_completed_task(task_id, result_file_id="NA"):

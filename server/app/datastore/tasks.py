@@ -4,7 +4,7 @@ QUERY_INSERT_TASK = "INSERT INTO task(task_id, user_id, task_name, task_descript
 
 QUERY_GET_ALL_TASKS = "SELECT task_id, task_name, task_description, task_created_ts, task_zip_file_id, datasource_size, task_status FROM task WHERE user_id = %s ORDER BY task_created_ts DESC"
 
-QUERY_GET_SPECIFIC_TASK = "SELECT task_id, task_name, task_description, task_created_ts, task_zip_file_id, datasource_size, task_status FROM task WHERE task_id = %s AND user_id = %s"
+QUERY_GET_SPECIFIC_TASK = "SELECT task_id, task_name, task_description, task_created_ts, task_zip_file_id, datasource_size, task_status, result_file_id FROM task WHERE task_id = %s AND user_id = %s"
 
 QUERY_UPDATE_COMPLETE_TASK = "UPDATE task SET task_status = %s, result_file_id=%s  WHERE task_id = %s"
 
