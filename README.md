@@ -21,24 +21,9 @@ owned by people and acts as a bridge between developers and users.
 
 -----------------------------------
 
-### Preview - Website
-
-<p align="center">
-<img src ="https://github.com/Enigma-Distribution/enigma/blob/main/assets/Website%20Preview.png" width = 500px>
-</p>
-
------------------------------------
-
-### Preview - Software
-<p align="center">
-<img src ="https://github.com/Enigma-Distribution/enigma/blob/main/assets/Software%20Preview.png" width = 500px>
-</p>
-
------------------------------------
-
 ### System Design
 <p align="center">
-<img src ="https://github.com/Enigma-Distribution/enigma/blob/main/assets/System%20Architecture.jpg" width = 500px>
+<img src ="https://github.com/Enigma-Distribution/enigma/blob/main/assets/System%20Architecture.jpg" width = 500px height=350px >
 </p>
 
 
@@ -64,6 +49,8 @@ owned by people and acts as a bridge between developers and users.
 `Backend` : <a href="https://enigma-webapp.herokuapp.com/">https://enigma-webapp.herokuapp.com/<a/>  <br>
 `Project Report` : <a href="https://drive.google.com/file/d/1PcTjHCZh7Xdz9qJso1hr1aObMaBaqHFx/view?usp=sharing">Report Link <a/>  <br>
 `Video Explanation` : <a href="https://drive.google.com/file/d/1RZ7CUoNWS8H8RtCi0hYofyGcT1v6P9WE/view?usp=sharing">Video Link <a/>  <br>
+
+
 -----------------------------------
 ###             💻 Tech stack
 `Frontend` : ReactJS <br>
