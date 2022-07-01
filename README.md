@@ -24,21 +24,21 @@ owned by people and acts as a bridge between developers and users.
 ### Preview - Website
 
 <p align="center">
-<img src ="https://drive.google.com/file/d/1qeeaCZIv43OfPrVbDpUrMWnpogZPMYKb/" width = 500px>
+<img src ="https://github.com/Enigma-Distribution/enigma/blob/main/assets/Website%20Preview.png" width = 500px>
 </p>
 
 -----------------------------------
 
 ### Preview - Software
 <p align="center">
-<img src ="https://drive.google.com/file/d/1TvYHvXm9tPB4-L0Lgki28c0aORuOvRuy/view?usp=sharing" width = 500px>
+<img src ="https://github.com/Enigma-Distribution/enigma/blob/main/assets/Software%20Preview.png" width = 500px>
 </p>
 
 -----------------------------------
 
 ### System Design
 <p align="center">
-<img src ="https://drive.google.com/file/d/1WCHOInnbVJD0HV6H0kLvstxt_D0tkbft/view?usp=sharing" width = 500px>
+<img src ="https://github.com/Enigma-Distribution/enigma/blob/main/assets/System%20Architecture.jpg" width = 500px>
 </p>
 
 
@@ -46,7 +46,7 @@ owned by people and acts as a bridge between developers and users.
 
 ### Low Level Server Design
 <p align="center">
-<img src ="https://drive.google.com/file/d/14-BHy9AXQTh-hhhzn9DrboNwVbzNBJ_J/view?usp=sharing" width = 500px>
+<img src ="https://github.com/Enigma-Distribution/enigma/blob/main/assets/Low%20Level%20Server%20Design.jpg" width = 500px>
 </p>
 
 
@@ -54,7 +54,7 @@ owned by people and acts as a bridge between developers and users.
 
 ### Queuing System
 <p align="center">
-<img src ="https://drive.google.com/file/d/1tEzRuBvpbpjdEhHt0AMQGBu0QxzegVCO/view?usp=sharing" width = 500px>
+<img src ="https://github.com/Enigma-Distribution/enigma/blob/main/assets/Queuing%20System.jpg" width = 500px>
 </p>
 
 
