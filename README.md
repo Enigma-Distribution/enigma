@@ -24,21 +24,21 @@ owned by people and acts as a bridge between developers and users.
 ### Preview - Website
 
 <p align="center">
-<img src ="./assets/Homepage.png" width = 500px>
+<img src ="https://drive.google.com/file/d/1qeeaCZIv43OfPrVbDpUrMWnpogZPMYKb/" width = 500px>
 </p>
 
 -----------------------------------
 
 ### Preview - Software
 <p align="center">
-<img src ="./assets/Lightmode.png" width = 500px>
+<img src ="https://drive.google.com/file/d/1TvYHvXm9tPB4-L0Lgki28c0aORuOvRuy/view?usp=sharing" width = 500px>
 </p>
 
 -----------------------------------
 
 ### System Design
 <p align="center">
-<img src ="./assets/Question.png" width = 500px>
+<img src ="https://drive.google.com/file/d/1WCHOInnbVJD0HV6H0kLvstxt_D0tkbft/view?usp=sharing" width = 500px>
 </p>
 
 
@@ -46,7 +46,7 @@ owned by people and acts as a bridge between developers and users.
 
 ### Low Level Server Design
 <p align="center">
-<img src ="./assets/Lightmode.png" width = 500px>
+<img src ="https://drive.google.com/file/d/14-BHy9AXQTh-hhhzn9DrboNwVbzNBJ_J/view?usp=sharing" width = 500px>
 </p>
 
 
@@ -54,7 +54,7 @@ owned by people and acts as a bridge between developers and users.
 
 ### Queuing System
 <p align="center">
-<img src ="./assets/Lightmode.png" width = 500px>
+<img src ="https://drive.google.com/file/d/1tEzRuBvpbpjdEhHt0AMQGBu0QxzegVCO/view?usp=sharing" width = 500px>
 </p>
 
 
@@ -62,7 +62,7 @@ owned by people and acts as a bridge between developers and users.
 ###             Live Demo
 `Client`: <a href="https://the-enigma.netlify.app/">https://the-enigma.netlify.app/<a/> <br>
 `Backend` : <a href="https://enigma-webapp.herokuapp.com/">https://enigma-webapp.herokuapp.com/<a/>  <br>
-
+`Project Report` : <a href="https://drive.google.com/file/d/1PcTjHCZh7Xdz9qJso1hr1aObMaBaqHFx/view?usp=sharing">Report Link <a/>  <br>
 
 -----------------------------------
 ###             💻 Tech stack
